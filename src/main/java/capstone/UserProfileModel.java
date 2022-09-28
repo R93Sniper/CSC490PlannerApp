@@ -10,46 +10,78 @@ package capstone;
  * @author jesus
  */
 public class UserProfileModel {
-    
+
     private static UserProfileModel instance = null;
-    
-    private String fullName;
-    private String userName;
-    private String password;
-    
-    public static UserProfileModel getInstance(){
-        if(instance == null)
+
+    private String fullName="";
+    private String userName="";
+    private String password="";
+    private String email="";
+    private String phoneNum="";
+    private String address="";
+    private String gender="";
+    private String height="";
+
+    public static UserProfileModel getInstance() {
+        if (instance == null) {
             instance = new UserProfileModel();
-        
+        }
+
         return instance;
     }
-    
-    public String getFullName(){
+
+    public String getFullName() {
         return fullName;
     }
-    public String getUserName(){
+    public String getUserName() {
         return userName;
     }
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
-    
-    public void setFullName(String name){
+    public String getEmail() {
+        return email;
+    }
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public String getGender() {
+        return gender;
+    }
+    public String getHeight() {
+        return height;
+    }
+
+    public void setFullName(String name) {
         fullName = name;
     }
-    public void setUserName(String name){
+    public void setUserName(String name) {
         userName = name;
     }
-    public void setPassword(String pw){
+    public void setPassword(String pw) {
         password = pw;
     }
-    
-    public void resetModel(){
+    public void setEmail(String e) {
+        email = e;
+    }
+    public void setPhoneNum(String num) {
+        phoneNum = num;
+    }
+    public void setAddress(String adr) {
+        address = adr;
+    }
+    public void setGender(String g) {
+        gender = g;
+    }
+    public void setHeight(String h) {
+        height = h;
+    }
+
+    public void resetModel() {
         instance = null;
     }
-    
-    
-  
-    
-    
+
 }

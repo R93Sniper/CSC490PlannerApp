@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -42,15 +43,16 @@ public class UserProfileController {
     @FXML
     private TextField textHeight;
 
+    private UserProfileModel instance;
+    private ResultSet result;
+    
     public UserProfileController() {
     }
 
     @FXML
     public void initialize() {
         System.out.println("initial UserProfile here");
-      
         userDB = UserProfileDataConnector.getInstance();
-        
         loadProfile();
     }
     
@@ -58,15 +60,15 @@ public class UserProfileController {
     @FXML
     private void loadProfile() {
         //returns resultset matching the given username
-        UserProfileModel instance = UserProfileModel.getInstance();
-        ResultSet result = userDB.getResult(instance.getUserName());
+        instance = UserProfileModel.getInstance();
+        result = userDB.getResult(instance.getUserName());
 
         int id;
         String tempUserName = "";
         String tempPW = "";
         String tempFullName = "";
         String tempEmail = "";
-        String temPhoneNum= "";
+        String tempPhoneNum= "";
         String tempAddress = "";
         String tempGender = "";
         String tempHeight= "";
@@ -78,7 +80,7 @@ public class UserProfileController {
                 tempPW = result.getString("Password");
                 tempFullName = result.getString("FullName");
                 tempEmail = result.getString("Email");
-                temPhoneNum= result.getString("PhoneNumber");
+                tempPhoneNum= result.getString("PhoneNumber");
                 tempAddress = result.getString("Address");
                 tempGender = result.getString("Gender");
                 tempHeight= result.getString("Height");
@@ -88,21 +90,57 @@ public class UserProfileController {
         } catch (SQLException ex) {
             Logger.getLogger(UserProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        instance.setUserName(tempUserName);
+        instance.setPassword(tempPW);
+        instance.setFullName(tempFullName);
+        instance.setAddress(tempAddress);
+        instance.setEmail(tempEmail);
+        instance.setPhoneNum(tempPhoneNum);
+        instance.setGender(tempGender);
+        instance.setHeight(tempHeight);
+        
         labelUserName.setText(tempUserName);
         labelPassword.setText(tempPW);
         textFullName.setText(tempFullName);
         textEmail.setText(tempEmail);
-        textPhoneNumber.setText(temPhoneNum);
+        textPhoneNumber.setText(tempPhoneNum);
         textAddress.setText(tempAddress);
         textGender.setText(tempGender);
         textHeight.setText(tempHeight);
-
 
     }
 
     @FXML
     private void switchToLogin() throws IOException {
         App.setRoot("login");
+    }
+    
+    @FXML
+    private void saveBtnPressed(){
+        
+        if(textEmail.getText() != null &&!textEmail.getText().equals(instance.getEmail()) ){    
+            userDB.updateColumn(instance.getUserName(), textEmail.getText(), DBColumn.EMAIL);
+            System.out.println("email updated in the DB");
+            instance.setEmail(textEmail.getText());
+        }
+        if(textFullName.getText() != null && !textFullName.getText().equals(instance.getFullName()) ){           
+            userDB.updateColumn(instance.getUserName(), textFullName.getText(), DBColumn.FULLNAME);
+            System.out.println("FullName updated in the DB");
+            instance.setFullName(textFullName.getText());
+        }
+        if(textPhoneNumber.getText()!= null && !textPhoneNumber.getText().equals(instance.getPhoneNum()) ){
+            userDB.updateColumn(instance.getUserName(), textPhoneNumber.getText(), DBColumn.PHONENUMBER);
+            System.out.println("phone number updated in the DB");
+            instance.setPhoneNum(textPhoneNumber.getText());
+        }
+        if(textAddress.getText()!= null && !textAddress.getText().equals(instance.getAddress()) ){      
+            userDB.updateColumn(instance.getUserName(), textAddress.getText(), DBColumn.ADDRESS);
+            System.out.println("address updated in the DB");
+            instance.setAddress(textAddress.getText());
+            
+        }
+        
     }
     
 }
