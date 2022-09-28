@@ -100,8 +100,8 @@ public class UserProfileDataConnector {
            
        } 
     
-     public Boolean userFound(String userName){
-           
+    //method used to validate entered username and password
+     public Boolean isValidUser(String userName, String pw){        
             System.out.println("query data:" + userName);
             ResultSet result=null;
             boolean found = false;
@@ -109,8 +109,29 @@ public class UserProfileDataConnector {
                String tableName="Accounts";
                Statement stmt = conn.createStatement();
                result = stmt.executeQuery("select * from "+ tableName 
-                       + " where UserName=\'"+ userName+ "\'");
-               //found = result.first();
+                       + " where UserName=\'"+ userName+ "\'"
+                       + " AND Password=\'"+ pw + "\'");
+               
+               if(result.next())
+                   found = true;
+         
+           }catch(SQLException ex){
+               ex.printStackTrace();
+           }
+           
+           return found;
+       } 
+     
+     //method to check if the userName already exists in DB
+     public Boolean userFound(String userName){        
+            System.out.println("query data:" + userName);
+            ResultSet result=null;
+            boolean found = false;
+           try{
+               String tableName="Accounts";
+               Statement stmt = conn.createStatement();
+               result = stmt.executeQuery("select * from "+ tableName 
+                       + " where UserName=\'"+ userName+ "\'");        
                if(result.next())
                    found = true;
          

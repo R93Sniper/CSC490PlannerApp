@@ -17,35 +17,44 @@ import javafx.scene.control.TextField;
  *
  * @author jesus
  */
-public class CreateAccountController{
+public class CreateAccountController {
 
-   UserProfileDataConnector userDB = null;
-    
-   @FXML
-   private TextField textUserName;
-   @FXML
-   private TextField textPassword;
-   @FXML
-   private TextField textFullName;
-    
-    
-    
+    UserProfileDataConnector userDB = null;
+
+    @FXML
+    private TextField textUserName;
+    @FXML
+    private TextField textPassword;
+    @FXML
+    private TextField textFullName;
+
     /**
      * Initializes the controller class.
      */
     public void initialize() {
-    userDB = UserProfileDataConnector.getInstance();
-    // TODO
-    }    
-    
-    @FXML
-    public void createAccount()throws IOException{
-    System.out.println("vars: "+ textUserName.getText()+" : " 
-            +" : "+textPassword.getText()
-            +" : "+ textFullName.getText());
-        
-    userDB.insertAccountToDB(textUserName.getText(), textPassword.getText() , textFullName.getText());
-   
+        userDB = UserProfileDataConnector.getInstance();
+        // TODO
     }
-    
+
+    @FXML
+    public void createAccount() throws IOException {
+        //First need to check if userName already Exists in DB
+        //if new userName then add to DB 
+        //switch to loginScreen
+
+        System.out.println("vars: " + textUserName.getText() + " : "
+                + " : " + textPassword.getText()
+                + " : " + textFullName.getText());
+
+        if (!userDB.userFound(textUserName.getText())) {
+            userDB.insertAccountToDB(textUserName.getText(), textPassword.getText(), textFullName.getText());
+            App.setRoot("login");
+        } else {
+            textUserName.setText("User Name Already Taken");
+            textPassword.setText("");
+            
+        }
+
+    }
+
 }

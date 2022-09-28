@@ -54,7 +54,7 @@ public class Login {
         UserProfileDataConnector instance = UserProfileDataConnector.getInstance();
         System.out.println("userName: "+loginUsername.getText());
         //boolean validLogin = false;
-        if(instance.userFound(loginUsername.getText())){
+        if(instance.isValidUser(loginUsername.getText(), loginPassword.getText())){
             UserProfileModel theModel = UserProfileModel.getInstance();
             theModel.setUserName(loginUsername.getText());
             App.setRoot("userProfile");

@@ -10,13 +10,6 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.UserProfileController">
-   <top>
-      <Label text="User Profile" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Label>
-   </top>
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -53,6 +46,21 @@
       </HBox>
    </center>
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="359.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </left>
+   <top>
+      <HBox prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#switchToLogin" prefHeight="39.0" prefWidth="110.0" text="Back to Login" />
+            <Label contentDisplay="CENTER" prefHeight="60.0" prefWidth="193.0" text="User Profile" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets left="100.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
