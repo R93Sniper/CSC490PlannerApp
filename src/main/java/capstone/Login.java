@@ -43,6 +43,11 @@ public class Login {
     }
     
     
+    @FXML
+    private void switchToCreateAccount() throws IOException {
+        App.setRoot("createAccount");
+    }
+    
     
     
 }
