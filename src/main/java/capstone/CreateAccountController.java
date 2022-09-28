@@ -40,7 +40,7 @@ public class CreateAccountController{
     
     @FXML
     public void createAccount()throws IOException{
-  System.out.println("do... hello world.."+ textUserName.getText()+" : " 
+    System.out.println("vars: "+ textUserName.getText()+" : " 
             +" : "+textPassword.getText()
             +" : "+ textFullName.getText());
         
