@@ -30,6 +30,16 @@ public class UserProfileController {
     private Label labelUserName;
     @FXML
     private TextField textFullName;
+    @FXML
+    private TextField textEmail;
+    @FXML
+    private TextField textPhoneNumber;
+    @FXML
+    private TextField textAddress;
+    @FXML
+    private TextField textGender;
+    @FXML
+    private TextField textHeight;
 
     public UserProfileController() {
     }
@@ -42,22 +52,35 @@ public class UserProfileController {
         
         loadProfile();
     }
-
+    
+    //loadProfile for userName in the model
     @FXML
     private void loadProfile() {
         //returns resultset matching the given username
-        ResultSet result = userDB.getResult("kyz34");
+        UserProfileModel instance = UserProfileModel.getInstance();
+        ResultSet result = userDB.getResult(instance.getUserName());
 
         int id;
         String tempUserName = "";
         String tempPW = "";
         String tempFullName = "";
+        String tempEmail = "";
+        String temPhoneNum= "";
+        String tempAddress = "";
+        String tempGender = "";
+        String tempHeight= "";
+      
         try {
             while (result.next()) {
                 id = result.getInt("ID");
                 tempUserName = result.getString("UserName");
                 tempPW = result.getString("Password");
                 tempFullName = result.getString("FullName");
+                tempEmail = result.getString("Email");
+                temPhoneNum= result.getString("PhoneNumber");
+                tempAddress = result.getString("Address");
+                tempGender = result.getString("Gender");
+                tempHeight= result.getString("Height");
 
                 //System.out.printf("%d %s \n", id, name);
             }
@@ -67,6 +90,12 @@ public class UserProfileController {
         labelUserName.setText(tempUserName);
         labelPassword.setText(tempPW);
         textFullName.setText(tempFullName);
+        textEmail.setText(tempEmail);
+        textPhoneNumber.setText(temPhoneNum);
+        textAddress.setText(tempAddress);
+        textGender.setText(tempGender);
+        textHeight.setText(tempHeight);
+
 
     }
 

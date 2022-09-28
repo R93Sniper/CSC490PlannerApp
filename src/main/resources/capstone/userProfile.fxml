@@ -37,11 +37,11 @@
                   <TextField fx:id="textFullName" layoutX="10.0" layoutY="208.0" prefHeight="33.0" prefWidth="219.0" />
                   <Label fx:id="labelUserName" layoutX="10.0" layoutY="10.0" prefHeight="33.0" prefWidth="221.0" text="username" />
                   <Label fx:id="labelPassword" layoutX="10.0" layoutY="43.0" prefHeight="33.0" prefWidth="221.0" text="xxxxx" />
-                  <TextField prefHeight="33.0" prefWidth="219.0" />
-                  <TextField layoutX="10.0" layoutY="109.0" prefHeight="33.0" prefWidth="219.0" />
-                  <TextField layoutX="10.0" layoutY="142.0" prefHeight="33.0" prefWidth="219.0" />
-                  <TextField layoutX="10.0" layoutY="175.0" prefHeight="33.0" prefWidth="219.0" />
-                  <TextField layoutX="10.0" layoutY="208.0" prefHeight="33.0" prefWidth="219.0" />
+                  <TextField fx:id="textEmail" prefHeight="33.0" prefWidth="219.0" />
+                  <TextField fx:id="textPhoneNumber" layoutX="10.0" layoutY="109.0" prefHeight="33.0" prefWidth="219.0" />
+                  <TextField fx:id="textAddress" layoutX="10.0" layoutY="142.0" prefHeight="33.0" prefWidth="219.0" />
+                  <TextField fx:id="textGender" layoutX="10.0" layoutY="175.0" prefHeight="33.0" prefWidth="219.0" />
+                  <TextField fx:id="textHeight" layoutX="10.0" layoutY="208.0" prefHeight="33.0" prefWidth="219.0" />
                   <Button alignment="CENTER" mnemonicParsing="false" prefHeight="34.0" prefWidth="77.0" text="Save">
                      <VBox.margin>
                         <Insets bottom="10.0" left="150.0" top="10.0" />

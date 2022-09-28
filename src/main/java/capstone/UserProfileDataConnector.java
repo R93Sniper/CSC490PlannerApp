@@ -99,6 +99,27 @@ public class UserProfileDataConnector {
            return result;
            
        } 
+    
+     public Boolean userFound(String userName){
+           
+            System.out.println("query data:" + userName);
+            ResultSet result=null;
+            boolean found = false;
+           try{
+               String tableName="Accounts";
+               Statement stmt = conn.createStatement();
+               result = stmt.executeQuery("select * from "+ tableName 
+                       + " where UserName=\'"+ userName+ "\'");
+               //found = result.first();
+               if(result.next())
+                   found = true;
+         
+           }catch(SQLException ex){
+               ex.printStackTrace();
+           }
+           
+           return found;
+       } 
   
     
     

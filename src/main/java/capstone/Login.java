@@ -49,5 +49,23 @@ public class Login {
     }
     
     
+    @FXML
+    private void onLoginPressed() throws IOException {
+        //validate Login first...
+        UserProfileDataConnector instance = UserProfileDataConnector.getInstance();
+        System.out.println("userName: "+loginUsername.getText());
+        //boolean validLogin = false;
+        if(instance.userFound(loginUsername.getText())){
+            UserProfileModel theModel = UserProfileModel.getInstance();
+            theModel.setUserName(loginUsername.getText());
+            App.setRoot("userProfile");
+        }else{
+            loginUsername.setText("INVALID USER");    
+        }
+        
+        
+    }
+    
+    
     
 }
