@@ -5,6 +5,7 @@
  */
 package capstone;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -99,4 +100,9 @@ public class UserProfileController {
 
     }
 
+    @FXML
+    private void switchToLogin() throws IOException {
+        App.setRoot("login");
+    }
+    
 }
