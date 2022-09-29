@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
  * 
  * Driver Class object for login screen
  * @author Wahab Quazi
- *         -----------
+ *         Nick Andrle
  */
 public class Login {
     
@@ -33,12 +33,13 @@ public class Login {
     //Do we maybe want to switch this to return an int?
     //0 for valid, 1 for wrong username, 2 for wrong password? - Wahab
         
+    //TODO: GET THIS WORKING WITH DATABASE
     return false;
     }
     
     @FXML
-    private void forgotPassword(){
-        //App.setRoot("forgotPW");
+    private void forgotPassword() throws IOException{
+        App.setRoot("forgotPW");
     }
     
     
