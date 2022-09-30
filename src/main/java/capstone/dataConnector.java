@@ -9,25 +9,21 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
 /**
  * Data Connector object
  *
- * This acts as an intermediate between the database and the code
- * All major functions that called against the database backend go here
- * This should be a pure retrieval based object, no logic
- * Logic should be handled in the classes where needed
+ * This acts as an intermediate between the database and the code All major
+ * functions that called against the database backend go here This should be a
+ * pure retrieval based object, no logic Logic should be handled in the classes
+ * where needed
  *
- * @author Wahab Quazi, Simranjit
- *         -----------
- *         -----------
+ * @author Wahab Quazi, Simranjit ----------- -----------
  */
 public class dataConnector {
 
-    private Connection conn;
- 
-     /**
+    public Connection conn;
+
+    /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
     public void getConnectionDB() {
@@ -46,25 +42,26 @@ public class dataConnector {
         } catch (SQLException ex) {
             ;
         }
-        
+
         return conn;
     }
+
     /**
      * newUserSignup: when new user sign up
      *
      * @param userName
      * @param userPassword
      */
-    public  void newUserSignup(String userName, String userPassword) {
+    public void newUserSignup(String userName, String userPassword) {
         //call the getConnectionDB method
         getConnectionDB();
         try {
             String sql = "INSERT INTO User(userName,userPassword) VALUES"
                     + "(?, ?)";
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, userPassword);
-            int row = preparedStatement.executeUpdate();
+            PreparedStatement = conn.prepareStatement(sql);
+            PreparedStatement.setString(1, userName);
+            PreparedStatement.setString(2, userPassword);
+            int row = PreparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted");
             }
@@ -80,19 +77,19 @@ public class dataConnector {
             String sql = "INSERT INTO User(userName,userPassword,fullName,address, phoneNumber,dob,"
                     + "gender,height,weight,bodytype) VALUES"
                     + "(?, ?,?,?,?,?,?,?,?,?)";
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, userPassword);
-            preparedStatement.setString(3, fullName);
-            preparedStatement.setString(4, address);
-            preparedStatement.setString(5, phoneNumber);
-            preparedStatement.setString(6, dob);
-            preparedStatement.setString(7, gender);
-            preparedStatement.setInt(8, height);
-            preparedStatement.setFloat(9, weight);
-            preparedStatement.setString(10, bodytype);
-            
-            int row = preparedStatement.executeUpdate();
+            PreparedStatement = conn.prepareStatement(sql);
+            PreparedStatement.setString(1, userName);
+            PreparedStatement.setString(2, userPassword);
+            PreparedStatement.setString(3, fullName);
+            PreparedStatement.setString(4, address);
+            PreparedStatement.setString(5, phoneNumber);
+            PreparedStatement.setString(6, dob);
+            PreparedStatement.setString(7, gender);
+            PreparedStatement.setInt(8, height);
+            PreparedStatement.setFloat(9, weight);
+            PreparedStatement.setString(10, bodytype);
+
+            int row = PreparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted");
             }
