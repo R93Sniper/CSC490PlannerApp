@@ -39,15 +39,28 @@ public class dataConnector {
      */
     public void getConnectionDB() {
         try {
-            String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
+            String databaseURL = "jdbc:ucanaccess://.//UserAccounts.accdb";
             conn = DriverManager.getConnection(databaseURL);
         } catch (SQLException ex) {
             ;
         }
     }
 
+    public Connection getConnectionDBoutside() {
+        try {
+            String databaseURL = "jdbc:ucanaccess://.//UserAccounts.accdb";
+            conn = DriverManager.getConnection(databaseURL);
+        } catch (SQLException ex) {
+            ;
+        }
+        
+        return conn;
+    }
     /**
      * newUserSignup: when new user sign up
+     *
+     * @param userName
+     * @param userPassword     
      */
     public void newUserSignup(String userName, String userPassword) {
         //call the getConnectionDB method
@@ -102,6 +115,10 @@ public class dataConnector {
 
     /**
      * existingUserLogin: existing user login
+     *
+     * @param userName
+     * @param userPassword
+     * @return
      */
     public boolean existingUserLogin(String userName, String userPassword) {
         getConnectionDB();
@@ -120,6 +137,10 @@ public class dataConnector {
 
     /**
      * verifiedUserInstance: verified if user login info is correct
+   *
+     * @param uName
+     * @param uPswd
+     * @return
      */
     public String verifiedUserInstance(String uName, String uPswd) {
         getConnectionDB();
