@@ -25,18 +25,30 @@ import java.util.logging.Logger;
  */
 public class dataConnector {
 
+    private Connection conn;
+ 
      /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
     public void getConnectionDB() {
         try {
-            String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
+            String databaseURL = "jdbc:ucanaccess://.//UserAccounts.accdb";
             conn = DriverManager.getConnection(databaseURL);
         } catch (SQLException ex) {
             ;
         }
     }
 
+    public Connection getConnectionDBoutside() {
+        try {
+            String databaseURL = "jdbc:ucanaccess://.//UserAccounts.accdb";
+            conn = DriverManager.getConnection(databaseURL);
+        } catch (SQLException ex) {
+            ;
+        }
+        
+        return conn;
+    }
     /**
      * newUserSignup: when new user sign up
      *
