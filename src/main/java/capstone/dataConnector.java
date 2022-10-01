@@ -29,8 +29,8 @@ public class dataConnector {
     public PreparedStatement preparedStatement;
      
     //ProgressCard DB
-    PreparedStatement preparedStatement1;
-    Connection conn1 = null;
+    public PreparedStatement preparedStatement1;
+    public Connection conn1 = null;
 
      
      //CODE FOR PlannerDB
@@ -210,7 +210,7 @@ public class dataConnector {
      * getConnectionDB: retrieve data from the database using a JDBC connector
      * for Progress Card.
      */
-    public static void getConnectionPCDB() {
+    public void getConnectionPCDB() {
         try {
             String databaseURL = "jdbc:ucanaccess://.//ProgressCard.accdb";
             conn1 = DriverManager.getConnection(databaseURL);
@@ -222,7 +222,7 @@ public class dataConnector {
      /**
      * userProgressCard: inserting user info into their progress card.
      */
-    public static void userProgressCard(String userName, String dateOfCard, String weight, String diet, String bodyFat) {
+    public void userProgressCard(String userName, String dateOfCard, String weight, String diet, String bodyFat) {
         getConnectionPCDB();
 
         try {
@@ -246,7 +246,7 @@ public class dataConnector {
      /**
      * updateDateOfCard: if registered user want to update their date of card entry.
      */
-    public static void updateDateOfCard(String uName, String dateOfCard) {
+    public void updateDateOfCard(String uName, String dateOfCard) {
         getConnectionPCDB();
         try {
             String sql = "UPDATE Progresscard SET dateOfCard=? WHERE userName=?";
@@ -264,7 +264,7 @@ public class dataConnector {
     /**
      * updateWeight: if registered user want to update their date of card entry.
      */
-  public static void updateWeight(String uName, String weight) {
+  public void updateWeight(String uName, String weight) {
         getConnectionPCDB();
         try {
             String sql = "UPDATE Progresscard SET weight=? WHERE userName=?";
@@ -282,7 +282,7 @@ public class dataConnector {
     /**
      * updateWeight: if registered user want to update their date of card entry.
      */
-    public static void updateBodyFat(String uName, String bodyFat) {
+    public void updateBodyFat(String uName, String bodyFat) {
         getConnectionPCDB();
         try {
             String sql = "UPDATE Progresscard SET bodyFat=? WHERE userName=?";
