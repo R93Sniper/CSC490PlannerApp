@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ *this is a zombie class, no longer used. It has been replaced by dataConnector class
  * @author jesus
  */
 public class UserProfileDataConnector {
@@ -154,7 +154,7 @@ public class UserProfileDataConnector {
         String column = "";    
         if(col == DBColumn.EMAIL)
             column = "Email";
-        if(col == DBColumn.FULLNAME)
+        if(col == DBColumn.FIRSTNAME)
             column = "FullName";
         if(col == DBColumn.ADDRESS)
             column = "Address";
@@ -177,12 +177,3 @@ public class UserProfileDataConnector {
 
 }
 
-enum DBColumn{
-    FULLNAME,
-    EMAIL,
-    PHONENUMBER,
-    ADDRESS,
-    GENDER,
-    HEIGHT
-
-}

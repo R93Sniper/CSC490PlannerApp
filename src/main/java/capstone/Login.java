@@ -52,6 +52,7 @@ public class Login {
     @FXML
     private void onLoginPressed() throws IOException {
         //validate Login first...
+        /*
         UserProfileDataConnector instance = UserProfileDataConnector.getInstance();
         System.out.println("userName: "+loginUsername.getText());
         //boolean validLogin = false;
@@ -62,7 +63,11 @@ public class Login {
         }else{
             loginUsername.setText("INVALID USER");    
         }
-        
+        */
+        dataConnector instance= dataConnector.getInstance();
+        UserProfileModel theModel = UserProfileModel.getInstance();
+        theModel.setUserName(loginUsername.getText());
+         App.setRoot("userProfile");
         
     }
     

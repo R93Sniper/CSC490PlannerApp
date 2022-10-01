@@ -28,12 +28,38 @@ public class dataConnector {
      /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
-    public void getConnectionDB() {
+    
+    public Connection conn;
+    private static dataConnector instance = null;
+    
+    private final String connectionStr = "jdbc:sqlserver://fitnessappserver.database.windows.net:1433;"
+            +"database=FitnessAppDB;"
+            + "user=alvaj29@fitnessappserver;"
+            + "password=Seniorproject1;"
+            + "trustServerCertificate=false;"
+            + "hostNameInCertificate=*.database.windows.net;"
+            + "loginTimeout=30;";
+    
+    
+    private dataConnector(){
+        getConnectionDB();
+    }
+    
+    public static dataConnector getInstance(){
+        if(instance == null)
+            instance = new dataConnector();
+        
+        return instance;
+    }
+    
+    
+    
+    private void getConnectionDB() {
         try {
-            String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
-            conn = DriverManager.getConnection(databaseURL);
+            //String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
+            conn = DriverManager.getConnection(connectionStr);
         } catch (SQLException ex) {
-            ;
+            ex.printStackTrace();
         }
     }
 
@@ -45,11 +71,11 @@ public class dataConnector {
      */
     public void newUserSignup(String userName, String userPassword) {
         //call the getConnectionDB method
-        getConnectionDB();
+        //getConnectionDB();
         try {
             String sql = "INSERT INTO User(userName,userPassword) VALUES"
                     + "(?, ?)";
-            preparedStatement = conn.prepareStatement(sql);
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, userPassword);
             int row = preparedStatement.executeUpdate();
@@ -66,12 +92,12 @@ public class dataConnector {
     public void newUserProfileSignup(String userName, String userPassword, String secQ1, String secQ2, String secQ3,
             String secAns1, String secAns2, String secAns3, String fullName, String height, String dob, String gender, String bodytype) {
         //call the getConnectionDB method
-        getConnectionDB();
+        //getConnectionDB();
         try {
             String sql = "INSERT INTO User(userName,userPassword,secQ1,secQ2,secQ3,secAns1,secAns2,secAns3, "
                     + "fullName, height, dob, gender, bodytype) VALUES"
                     + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            preparedStatement = conn.prepareStatement(sql);
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, userPassword);
             preparedStatement.setString(3, secQ1);
@@ -193,7 +219,7 @@ public class dataConnector {
         if (checkSecurityAnswers(uName, secAns1, secAns2, secAns3) == true) {
             try {
                 String sql = "UPDATE User SET userPassword=? WHERE userName=?";
-                preparedStatement = conn.prepareStatement(sql);
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setString(1, uPswd);
                 preparedStatement.setString(2, uName);
                 int row = preparedStatement.executeUpdate();
@@ -206,3 +232,66 @@ public class dataConnector {
             System.out.println("Error!!");
         }
     }
+    
+    
+     public ResultSet getResult(String userName, String tableName) {
+
+        System.out.println("query data:");
+        ResultSet result = null;
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where User_Name=\'" + userName + "\'");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+
+    }
+     
+     public boolean updateColumn(String tableName, String userName, String newStr, DBColumn col) {
+        String column = "";    
+        if(col == DBColumn.EMAIL)
+            column = "Email";
+        if(col == DBColumn.FIRSTNAME)
+            column = "First_Name";
+        if(col == DBColumn.LASTNAME)
+            column = "Last_Name";
+        if(col == DBColumn.ADDRESS)
+            column = "Address";
+        if(col == DBColumn.PHONENUMBER)
+            column = "PhoneNumber";
+        if(col == DBColumn.GENDER)
+            column = "Gender";
+        
+        if(col == DBColumn.HEIGHT)
+            column = "Height";
+  
+        try {
+            String sql = "UPDATE "+ tableName
+                    + " SET "+column+" = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
+           
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserProfileDataConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
+     
+ } 
+
+    enum DBColumn{
+    FIRSTNAME,
+    LASTNAME,
+    EMAIL,
+    PHONENUMBER,
+    ADDRESS,
+    GENDER,
+    HEIGHT
+
+}
+    
