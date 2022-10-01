@@ -41,6 +41,7 @@ public class SecondaryController {
                         //System.out.println("\nWeight is this: " + weight);
                         // Now to make weight making sure it's lbs or kg
                         if(weight > 0 && kgtb.isSelected()){
+                            // KG SELECTION
                             if(hf1.getText() != null){
                                 
                                 int height = Integer.parseInt(hf1.getText());
@@ -75,7 +76,8 @@ public class SecondaryController {
                         }
                         // THIS IS STILL MENS CALCULATIONS JUST USING LBS RATHER THAN KG. 
                         else if(weight > 0 && lbtb.isSelected()){
-                            double nweight = weight / .454; // THIS IS THE CONVERTED WEIGHT
+                            // LBS SELECTION
+                            double nweight = weight / 2.205; // THIS IS THE CONVERTED WEIGHT
                             if(hf1.getText() != null){
                                 int height = Integer.parseInt(hf1.getText());
                                 System.out.println("\nHeight is: " + height);
@@ -158,7 +160,7 @@ public class SecondaryController {
                         }
                         // THIS IS STILL MENS CALCULATIONS JUST USING LBS RATHER THAN KG. 
                         else if(weight > 0 && lbtb.isSelected()){
-                            double nweight = weight / .454; // THIS IS THE CONVERTED WEIGHT
+                            double nweight = weight / 2.205; // THIS IS THE CONVERTED WEIGHT
                             if(hf1.getText() != null){
                                 int height = Integer.parseInt(hf1.getText());
                                 System.out.println("\nHeight is: " + height);
@@ -199,5 +201,22 @@ public class SecondaryController {
             System.out.println("\nPlease choose a gender");
             
         }
+    }
+    @FXML 
+    private void reCalculateButton(){
+        //Reset everything
+        mb1.setSelected(false);
+        fb1.setSelected(false);
+        kgtb.setSelected(false);
+        lbtb.setSelected(false);
+        itb.setSelected(false);
+        cmtb.setSelected(false);
+        
+        tf1.clear();
+        af1.clear();
+        hf1.clear();
+        tr1.setText("");
+        System.out.println("ToggleButtons have been reset");
+        
     }
 }
