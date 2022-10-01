@@ -24,6 +24,9 @@ import java.util.logging.Logger;
  *         -----------
  */
 public class dataConnector {
+     
+    public Connection conn;
+    public PreparedStatement preparedStatement;
 
      /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
@@ -206,3 +209,4 @@ public class dataConnector {
             System.out.println("Error!!");
         }
     }
+}
