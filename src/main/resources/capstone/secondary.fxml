@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecondaryController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="747.0" prefWidth="635.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecondaryController">
     <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conversions" />
+      <BorderPane prefHeight="332.0" prefWidth="414.0">
+         <top>
+            <VBox prefHeight="485.0" prefWidth="610.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Calorie Converter" />
+                  <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                    <buttons>
+                        <ToggleButton fx:id="fb1" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Female" />
+                        <ToggleButton fx:id="mb1" mnemonicParsing="false" text="Male" />
+                    </buttons>
+                  </ButtonBar>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your age" />
+                  <TextField fx:id="af1" promptText="Enter your age">
+                     <VBox.margin>
+                        <Insets right="200.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter weight" />
+                  <TextField fx:id="tf1" prefHeight="25.0" prefWidth="281.0" promptText="your weight, enter here">
+                     <VBox.margin>
+                        <Insets right="150.0" />
+                     </VBox.margin></TextField>
+                  <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                     <buttons>
+                        <ToggleButton fx:id="kgtb" mnemonicParsing="false" text="KG" />
+                        <ToggleButton fx:id="lbtb" mnemonicParsing="false" text="LB" />
+                     </buttons>
+                  </ButtonBar>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter height" />
+                  <TextField fx:id="hf1" promptText="cm or inches">
+                     <VBox.margin>
+                        <Insets right="90.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                    <buttons>
+                        <ToggleButton fx:id="cmtb" mnemonicParsing="false" text="CM" />
+                        <ToggleButton fx:id="itb" mnemonicParsing="false" text="Inches" />
+                    </buttons>
+                  </ButtonBar>
+                  <Button fx:id="cb1" mnemonicParsing="false" onAction="#calculateCaloriesButton" onMouseClicked="#calculateCaloriesButton" text="Calculate" VBox.vgrow="NEVER" />
+                  <Text fx:id="tr1" strokeType="OUTSIDE" strokeWidth="0.0" text="There is text here" wrappingWidth="339.0" />
+                  <Button mnemonicParsing="false" onAction="#reCalculateButton" text="Reset" />
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </top>
+      </BorderPane>
         <Label text="Secondary View" />
-        <Button fx:id="secondaryButton" text="Switch to Primary View" onAction="#switchToPrimary" />
+        <Button fx:id="secondaryButton" onAction="#switchToPrimary" text="Switch to Primary View" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
