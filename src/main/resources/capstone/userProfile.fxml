@@ -44,12 +44,14 @@
       </HBox>
    </center>
    <left>
-      <VBox prefHeight="359.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="359.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#switchToHome" prefHeight="27.0" prefWidth="75.0" text="Home" />
+         </children></VBox>
    </left>
    <top>
       <HBox prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#switchToLogin" prefHeight="39.0" prefWidth="110.0" text="Logout" />
             <Label contentDisplay="CENTER" prefHeight="60.0" prefWidth="193.0" text="User Profile" textAlignment="CENTER">
                <HBox.margin>
                   <Insets left="100.0" />

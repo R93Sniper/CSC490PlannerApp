@@ -119,8 +119,8 @@ public class UserProfileController {
     }
 
     @FXML
-    private void switchToLogin() throws IOException {
-        App.setRoot("login");
+    private void switchToHome() throws IOException {
+        App.setRoot("home");
     }
     
     @FXML

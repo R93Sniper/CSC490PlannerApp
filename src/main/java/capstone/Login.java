@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
  */
 public class Login {
     
+    dataConnector instance = dataConnector.getInstance();
+    
     @FXML
     private TextField loginUsername;
     @FXML
@@ -39,7 +41,15 @@ public class Login {
     
     @FXML
     private void forgotPassword() throws IOException{
-        App.setRoot("forgotPW");
+      
+        if(instance.existingUser(loginUsername.getText())){
+            UserProfileModel theModel = UserProfileModel.getInstance();
+            theModel.setUserName(loginUsername.getText());
+            App.setRoot("forgotPW");
+        }else{
+            loginUsername.setText("enter valid username first");
+        }
+        
     }
     
     
@@ -52,22 +62,19 @@ public class Login {
     @FXML
     private void onLoginPressed() throws IOException {
         //validate Login first...
-        /*
-        UserProfileDataConnector instance = UserProfileDataConnector.getInstance();
+        
+       // dataConnector instance = dataConnector.getInstance();
         System.out.println("userName: "+loginUsername.getText());
         //boolean validLogin = false;
-        if(instance.isValidUser(loginUsername.getText(), loginPassword.getText())){
+        if(instance.verifiedUserInstance(loginUsername.getText(), loginPassword.getText())){
             UserProfileModel theModel = UserProfileModel.getInstance();
             theModel.setUserName(loginUsername.getText());
-            App.setRoot("userProfile");
+            App.setRoot("home");
         }else{
-            loginUsername.setText("INVALID USER");    
+            loginUsername.setText("Invalid Username or Password");
+            loginPassword.setText("");
         }
-        */
-        dataConnector instance= dataConnector.getInstance();
-        UserProfileModel theModel = UserProfileModel.getInstance();
-        theModel.setUserName(loginUsername.getText());
-         App.setRoot("userProfile");
+        
         
     }
     

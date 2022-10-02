@@ -19,20 +19,19 @@ import javafx.scene.control.TextField;
  */
 public class CreateAccountController {
 
-    UserProfileDataConnector userDB = null;
-
+    dataConnector userDB = null;
     @FXML
     private TextField textUserName;
     @FXML
     private TextField textPassword;
     @FXML
-    private TextField textFullName;
+    private TextField textPassword2;
 
     /**
      * Initializes the controller class.
      */
     public void initialize() {
-        userDB = UserProfileDataConnector.getInstance();
+        userDB = dataConnector.getInstance();
         // TODO
     }
 
@@ -43,16 +42,21 @@ public class CreateAccountController {
         //switch to loginScreen
 
         System.out.println("vars: " + textUserName.getText() + " : "
-                + " : " + textPassword.getText()
-                + " : " + textFullName.getText());
+                + " : " + textPassword.getText());
 
-        if (!userDB.userFound(textUserName.getText())) {
-            userDB.insertAccountToDB(textUserName.getText(), textPassword.getText(), textFullName.getText());
-            App.setRoot("login");
+        boolean passwordMatch = textPassword.getText().equals(textPassword2.getText());
+
+        if (!userDB.existingUser(textUserName.getText())) 
+        {
+            if (passwordMatch) {
+                userDB.newUserSignup(textUserName.getText(), textPassword.getText());
+                App.setRoot("login");
+            } else {
+                textPassword.setText("Passwords Do Not Match");
+                textPassword2.setText("");
+            }
         } else {
             textUserName.setText("User Name Already Taken");
-            textPassword.setText("");
-            
         }
 
     }

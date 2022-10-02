@@ -12,7 +12,7 @@
       <TextField fx:id="loginPassword" layoutX="225.0" layoutY="157.0" />
       <Text layoutX="157.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="RIGHT" />
       <Text layoutX="159.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" textAlignment="RIGHT" />
-      <Button fx:id="forgotButton" layoutX="248.0" layoutY="250.0" mnemonicParsing="false" text="Forgot Password" />
+      <Button fx:id="forgotButton" layoutX="248.0" layoutY="250.0" mnemonicParsing="false" onAction="#forgotPassword" text="Forgot Password" />
       <Button layoutX="249.0" layoutY="297.0" mnemonicParsing="false" onAction="#switchToCreateAccount" text="Create Account " />
    </children>
 </AnchorPane>
