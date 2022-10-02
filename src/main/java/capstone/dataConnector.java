@@ -36,6 +36,7 @@ public class dataConnector {
             +"database=FitnessAppDB;"
             + "user=alvaj29@fitnessappserver;"
             + "password=Seniorproject1;"
+            + "encrypt=true;"
             + "trustServerCertificate=false;"
             + "hostNameInCertificate=*.database.windows.net;"
             + "loginTimeout=30;";
@@ -72,15 +73,16 @@ public class dataConnector {
     public void newUserSignup(String userName, String userPassword) {
         //call the getConnectionDB method
         //getConnectionDB();
+         String tableName = "User_Profile";
         try {
-            String sql = "INSERT INTO User(userName,userPassword) VALUES"
+            String sql = "INSERT INTO "+tableName+"(User_Name, User_Password) VALUES"
                     + "(?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, userPassword);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
-                System.out.println("Row inserted");
+                System.out.println("Row inserted into DB");
             }
         } catch (SQLException e) {
         }
@@ -127,19 +129,22 @@ public class dataConnector {
      * @param userPassword
      * @return
      */
-    public boolean existingUserLogin(String userName, String userPassword) {
-        getConnectionDB();
+    public boolean existingUser(String userName) {
+        //getConnectionDB();
+        String tableName = "User_Profile";
         String uName = null, uPswd = null;
         try {
             Statement stmt = conn.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT * FROM User WHERE userName = '" + userName + "'");
+            ResultSet result = stmt.executeQuery("SELECT * FROM "+tableName+ " WHERE User_Name = \'" + userName + "\'");
+            
             while (result.next()) {
-                uName = result.getString("userName");
-                uPswd = result.getString("userPassword");
+                uName = result.getString("User_Name");
+                //uPswd = result.getString("User_Password");
             }
         } catch (SQLException except) {
+            except.printStackTrace();
         }
-        return (userName.equals(uName) && userPassword.equals(uPswd));
+        return userName.equals(uName) ;
     }
 
     /**
@@ -149,23 +154,25 @@ public class dataConnector {
      * @param uPswd
      * @return
      */
-    public String verifiedUserInstance(String uName, String uPswd) {
-        getConnectionDB();
+    public boolean verifiedUserInstance(String uName, String uPswd) {
+        
+        String tableName = "User_Profile";
         try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT userName, userPassword FROM User");
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM " + tableName
+                    + " where User_Name=\'" + uName + "\'"
+                    + " AND User_Password=\'" + uPswd + "\'");
             while (resultSet.next()) {
-                String name = resultSet.getString("userName");
-                String password = resultSet.getString("userPassword");
-                if (existingUserLogin(uName, uPswd) == true) {
-                    return "Login Successfully";
-                } else {
-                    return "INFORMATION PROVIDED IS INCORRECT.";
-                }
+                String name = resultSet.getString("User_Name");
+                String password = resultSet.getString("User_Password");
+                if (uName.equals(name) && uPswd.equals(password)) {
+                    return true;
+                } 
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return "";
+        return false;
     }
 
     /**
@@ -281,6 +288,27 @@ public class dataConnector {
 
         return false;
     }
+     
+     
+     public String getSecq(int id){
+        String tableName = "Security_Questions";
+        ResultSet result = null;
+        String returnStr = "";
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where SecQ_id= " + id );
+            while (result.next()) {
+                returnStr = result.getString("SecQ_desc");
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+     
+         return returnStr;
+     }
+     
      
  } 
 
