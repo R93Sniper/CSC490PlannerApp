@@ -8,10 +8,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.forgotPassword">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.forgotPassword">
    <children>
       <Text layoutX="181.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the answers to your Security Questions:" />
-      <Button fx:id="cancelButton" layoutX="351.0" layoutY="275.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="cancelButton" layoutX="351.0" layoutY="275.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
       <Button fx:id="validateQuestions" layoutX="213.0" layoutY="275.0" mnemonicParsing="false" text="Next" />
       <HBox layoutX="125.0" layoutY="125.0" prefHeight="150.0" prefWidth="350.0">
          <children>
