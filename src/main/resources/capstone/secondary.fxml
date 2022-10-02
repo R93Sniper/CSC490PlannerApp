@@ -59,6 +59,7 @@
          </top>
       </BorderPane>
         <Label text="Secondary View" />
+      <Button mnemonicParsing="false" text="Button" />
         <Button fx:id="secondaryButton" onAction="#switchToPrimary" text="Switch to Primary View" />
     </children>
     <padding>
