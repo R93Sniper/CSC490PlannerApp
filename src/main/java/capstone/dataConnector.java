@@ -12,10 +12,10 @@ import java.util.logging.Logger;
 /**
  * Data Connector object
  *
- * This acts as an intermediate between the database and the code.
- * All major functions that called against the database backend go here.
- *This should be a pure retrieval based object, no logic.
- *Logic should be handled in the classes where needed.
+ * This acts as an intermediate between the database and the code
+ * All major functions that called against the database backend go here
+ * This should be a pure retrieval based object, no logic
+ * Logic should be handled in the classes where needed
  *
  * @author Wahab Quazi, Simranjit ----------- -----------
  */
@@ -31,7 +31,9 @@ public class dataConnector {
      
      //CODE FOR PlannerDB
 
-     /**
+    public Connection conn;
+
+    /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
     public void getConnectionDB() {
@@ -87,7 +89,7 @@ public class dataConnector {
         try {
             String sql = "INSERT INTO User(userName,userPassword,fullName,address, phoneNumber,dob,"
                     + "gender,height,weight,bodytype) VALUES"
-                    + "(?,?,?,?,?,?,?,?,?,?)";
+                    + "(?, ?,?,?,?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, userPassword);
