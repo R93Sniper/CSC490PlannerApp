@@ -1,9 +1,16 @@
 package capstone;
 
 import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 public class PrimaryController {
+
+    @FXML
+    private Button primaryButton;
+    @FXML
+    private Button switchToLogfin;
 
     @FXML
     private void switchToSecondary() throws IOException {
@@ -11,7 +18,7 @@ public class PrimaryController {
     }
     
     @FXML
-    private void switchToLogin() throws IOException {
+    private void switchToLogin(ActionEvent event) throws IOException {
         App.setRoot("login");
     }
     
@@ -26,3 +33,4 @@ public class PrimaryController {
     }
     
 }
+

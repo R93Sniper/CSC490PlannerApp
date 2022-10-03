@@ -9,8 +9,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
 /**
  * Data Connector object
  *
@@ -19,9 +17,7 @@ import java.util.logging.Logger;
  * This should be a pure retrieval based object, no logic
  * Logic should be handled in the classes where needed
  *
- * @author Wahab Quazi, Simranjit
- *         -----------
- *         -----------
+ * @author Wahab Quazi, Simranjit ----------- -----------
  */
 public class dataConnector {
     //PlannerDB
@@ -34,20 +30,37 @@ public class dataConnector {
 
      
      //CODE FOR PlannerDB
-     /**
+
+    public Connection conn;
+
+    /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
     public void getConnectionDB() {
         try {
-            String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
+            String databaseURL = "jdbc:ucanaccess://.//UserAccounts.accdb";
             conn = DriverManager.getConnection(databaseURL);
         } catch (SQLException ex) {
             ;
         }
     }
 
+    public Connection getConnectionDBoutside() {
+        try {
+            String databaseURL = "jdbc:ucanaccess://.//UserAccounts.accdb";
+            conn = DriverManager.getConnection(databaseURL);
+        } catch (SQLException ex) {
+            ;
+        }
+
+        return conn;
+    }
+
     /**
      * newUserSignup: when new user sign up
+     *
+     * @param userName
+     * @param userPassword     
      */
     public void newUserSignup(String userName, String userPassword) {
         //call the getConnectionDB method
@@ -55,10 +68,10 @@ public class dataConnector {
         try {
             String sql = "INSERT INTO User(userName,userPassword) VALUES"
                     + "(?, ?)";
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, userPassword);
-            int row = preparedStatement.executeUpdate();
+            PreparedStatement = conn.prepareStatement(sql);
+            PreparedStatement.setString(1, userName);
+            PreparedStatement.setString(2, userPassword);
+            int row = PreparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted");
             }
@@ -74,24 +87,21 @@ public class dataConnector {
         //call the getConnectionDB method
         getConnectionDB();
         try {
-            String sql = "INSERT INTO User(userName,userPassword,secQ1,secQ2,secQ3,secAns1,secAns2,secAns3, "
-                    + "fullName, height, dob, gender, bodytype) VALUES"
-                    + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO User(userName,userPassword,fullName,address, phoneNumber,dob,"
+                    + "gender,height,weight,bodytype) VALUES"
+                    + "(?, ?,?,?,?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, userPassword);
-            preparedStatement.setString(3, secQ1);
-            preparedStatement.setString(4, secQ2);
-            preparedStatement.setString(5, secQ3);
-            preparedStatement.setString(6, secAns1);
-            preparedStatement.setString(7, secAns2);
-            preparedStatement.setString(8, secAns3);
-            preparedStatement.setString(9, fullName);
-            preparedStatement.setString(10, height);
-            preparedStatement.setString(11, dob);
-            preparedStatement.setString(12, gender);
-            preparedStatement.setString(13, bodytype);
-
+            preparedStatement.setString(3, fullName);
+            preparedStatement.setString(4, address);
+            preparedStatement.setString(5, phoneNumber);
+            preparedStatement.setString(6, dob);
+            preparedStatement.setString(7, gender);
+            preparedStatement.setInt(8, height);
+            preparedStatement.setFloat(9, weight);
+            preparedStatement.setString(10, bodytype);
+            
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted");
@@ -102,6 +112,10 @@ public class dataConnector {
 
     /**
      * existingUserLogin: existing user login
+     *
+     * @param userName
+     * @param userPassword
+     * @return
      */
     public boolean existingUserLogin(String userName, String userPassword) {
         getConnectionDB();
@@ -120,6 +134,10 @@ public class dataConnector {
 
     /**
      * verifiedUserInstance: verified if user login info is correct
+     *
+     * @param uName
+     * @param uPswd
+     * @return
      */
     public String verifiedUserInstance(String uName, String uPswd) {
         getConnectionDB();

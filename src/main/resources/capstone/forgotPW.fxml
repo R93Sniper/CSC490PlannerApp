@@ -8,15 +8,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.forgotPassword">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.forgotPassword">
    <children>
-      <Text layoutX="181.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the answers to your Security Questions:" />
+      <Text layoutX="181.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the answers to your Security Questions:" />
       <Button fx:id="cancelButton" layoutX="351.0" layoutY="275.0" mnemonicParsing="false" text="Cancel" />
-      <Button fx:id="validateQuestions" layoutX="213.0" layoutY="275.0" mnemonicParsing="false" text="Next" />
+      <Button fx:id="validateQuestions" layoutX="213.0" layoutY="275.0" mnemonicParsing="false" onAction="#validateQuestions" text="Next" />
       <HBox layoutX="125.0" layoutY="125.0" prefHeight="150.0" prefWidth="350.0">
          <children>
             <VBox prefHeight="100.0" prefWidth="104.0">
                <children>
+                  <Text fx:id="secQues11" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
                   <Text fx:id="secQues1" strokeType="OUTSIDE" strokeWidth="0.0" text="SecurityQuestion1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
@@ -35,6 +41,8 @@
             <VBox prefHeight="200.0" prefWidth="100.0" />
             <VBox prefHeight="150.0" prefWidth="150.0">
                <children>
+                  <TextField fx:id="userName" layoutX="10.0" layoutY="92.0" promptText="Answer" />
+                  <Text layoutX="10.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <TextField fx:id="secAns1" promptText="Answer" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" />
                   <TextField fx:id="secAns2" promptText="Answer" />

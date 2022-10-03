@@ -5,14 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.Login">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.Login">
    <children>
-      <Button fx:id="loginButton" layoutX="274.0" layoutY="200.0" mnemonicParsing="false" onAction="#onLoginPressed" text="Log In" />
+      <Button fx:id="loginButton" layoutX="274.0" layoutY="200.0" mnemonicParsing="false" onAction="#validateLogin" text="Log In" />
       <TextField fx:id="loginUsername" layoutX="225.0" layoutY="115.0" />
       <TextField fx:id="loginPassword" layoutX="225.0" layoutY="157.0" />
       <Text layoutX="157.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="RIGHT" />
       <Text layoutX="159.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" textAlignment="RIGHT" />
-      <Button fx:id="forgotButton" layoutX="248.0" layoutY="250.0" mnemonicParsing="false" text="Forgot Password" />
-      <Button layoutX="249.0" layoutY="297.0" mnemonicParsing="false" onAction="#switchToCreateAccount" text="Create Account " />
+      <Button fx:id="forgotButton" layoutX="248.0" layoutY="250.0" mnemonicParsing="false" onAction="#forgotPassword" text="Forgot Password" />
    </children>
 </AnchorPane>
