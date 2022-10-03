@@ -37,7 +37,7 @@ public class HomeController implements Initializable {
     }
     @FXML
     private void onCalcWater() throws IOException {
-    
+        App.setRoot("secondary");
     }
     
     

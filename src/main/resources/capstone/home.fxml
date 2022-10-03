@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.HomeController">
    <top>
       <Label text="My Fitness App" BorderPane.alignment="CENTER">
@@ -19,7 +18,7 @@
       <VBox prefHeight="334.0" prefWidth="126.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#onViewProfile" prefHeight="35.0" prefWidth="126.0" text="View Profile" />
-            <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="126.0" text="Calc Water intake" />
+            <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#onCalcWater" prefHeight="35.0" prefWidth="126.0" text="Calc Water intake" />
          </children>
       </VBox>
    </right>
