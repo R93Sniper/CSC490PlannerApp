@@ -39,10 +39,6 @@ public class CreateAccountController {
     public void createAccount() throws IOException {
         //First need to check if userName already Exists in DB
         //if new userName then add to DB 
-        //switch to loginScreen
-
-        System.out.println("vars: " + textUserName.getText() + " : "
-                + " : " + textPassword.getText());
 
         boolean passwordMatch = textPassword.getText().equals(textPassword2.getText());
 
@@ -50,7 +46,7 @@ public class CreateAccountController {
         {
             if (passwordMatch) {
                 userDB.newUserSignup(textUserName.getText(), textPassword.getText());
-                App.setRoot("login");
+                App.setRoot("securityQuestionSelection");
             } else {
                 textPassword.setText("Passwords Do Not Match");
                 textPassword2.setText("");

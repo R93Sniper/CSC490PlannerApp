@@ -9,52 +9,45 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
 /**
  * Data Connector object
  *
- * This acts as an intermediate between the database and the code
- * All major functions that called against the database backend go here
- * This should be a pure retrieval based object, no logic
- * Logic should be handled in the classes where needed
+ * This acts as an intermediate between the database and the code All major
+ * functions that called against the database backend go here This should be a
+ * pure retrieval based object, no logic Logic should be handled in the classes
+ * where needed
  *
- * @author Wahab Quazi, Simranjit
- *         -----------
- *         -----------
+ * @author Wahab Quazi, Simranjit ----------- -----------
  */
 public class dataConnector {
 
-     /**
+    /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
-    
     public Connection conn;
     private static dataConnector instance = null;
-    
+
     private final String connectionStr = "jdbc:sqlserver://fitnessappserver.database.windows.net:1433;"
-            +"database=FitnessAppDB;"
+            + "database=FitnessAppDB;"
             + "user=alvaj29@fitnessappserver;"
             + "password=Seniorproject1;"
             + "encrypt=true;"
             + "trustServerCertificate=false;"
             + "hostNameInCertificate=*.database.windows.net;"
             + "loginTimeout=30;";
-    
-    
-    private dataConnector(){
+
+    private dataConnector() {
         getConnectionDB();
     }
-    
-    public static dataConnector getInstance(){
-        if(instance == null)
+
+    public static dataConnector getInstance() {
+        if (instance == null) {
             instance = new dataConnector();
-        
+        }
+
         return instance;
     }
-    
-    
-    
+
     private void getConnectionDB() {
         try {
             //String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
@@ -73,9 +66,9 @@ public class dataConnector {
     public void newUserSignup(String userName, String userPassword) {
         //call the getConnectionDB method
         //getConnectionDB();
-         String tableName = "User_Profile";
+        String tableName = "User_Profile";
         try {
-            String sql = "INSERT INTO "+tableName+"(User_Name, User_Password) VALUES"
+            String sql = "INSERT INTO " + tableName + "(User_Name, User_Password) VALUES"
                     + "(?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
@@ -89,7 +82,8 @@ public class dataConnector {
     }
 
     /**
-     * newUserProfileSignup - setting up new user profile information and storing their data.
+     * newUserProfileSignup - setting up new user profile information and
+     * storing their data.
      */
     public void newUserProfileSignup(String userName, String userPassword, String secQ1, String secQ2, String secQ3,
             String secAns1, String secAns2, String secAns3, String fullName, String height, String dob, String gender, String bodytype) {
@@ -135,8 +129,8 @@ public class dataConnector {
         String uName = null, uPswd = null;
         try {
             Statement stmt = conn.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT * FROM "+tableName+ " WHERE User_Name = \'" + userName + "\'");
-            
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\'");
+
             while (result.next()) {
                 uName = result.getString("User_Name");
                 //uPswd = result.getString("User_Password");
@@ -144,7 +138,7 @@ public class dataConnector {
         } catch (SQLException except) {
             except.printStackTrace();
         }
-        return userName.equals(uName) ;
+        return userName.equals(uName);
     }
 
     /**
@@ -155,7 +149,7 @@ public class dataConnector {
      * @return
      */
     public boolean verifiedUserInstance(String uName, String uPswd) {
-        
+
         String tableName = "User_Profile";
         try {
             Statement stmt = conn.createStatement();
@@ -167,7 +161,7 @@ public class dataConnector {
                 String password = resultSet.getString("User_Password");
                 if (uName.equals(name) && uPswd.equals(password)) {
                     return true;
-                } 
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,13 +170,14 @@ public class dataConnector {
     }
 
     /**
-     * checkSecurityAnswers - check if the user entered answers and answers stored in 
-     * the database match
+     * checkSecurityAnswers - check if the user entered answers and answers
+     * stored in the database match
+     *
      * @param userName
      * @param secAns1
      * @param secAns2
      * @param secAns3
-     * @return 
+     * @return
      */
     public boolean checkSecurityAnswers(String userName, String secAns1, String secAns2,
             String secAns3) {
@@ -209,8 +204,8 @@ public class dataConnector {
 
     /**
      * forgetPassword: if user forget their password store the updated password
-     * in the back-end database but before that check if the user answered all security questions
-     * correctly.
+     * in the back-end database but before that check if the user answered all
+     * security questions correctly.
      *
      * @param uName
      * @param uPswd
@@ -239,9 +234,8 @@ public class dataConnector {
             System.out.println("Error!!");
         }
     }
-    
-    
-     public ResultSet getResult(String userName, String tableName) {
+
+    public ResultSet getResult(String userName, String tableName) {
 
         System.out.println("query data:");
         ResultSet result = null;
@@ -256,25 +250,10 @@ public class dataConnector {
         return result;
 
     }
-     
-     public boolean updateColumn(String tableName, String userName, String newStr, DBColumn col) {
-        String column = "";    
-        if(col == DBColumn.EMAIL)
-            column = "Email";
-        if(col == DBColumn.FIRSTNAME)
-            column = "First_Name";
-        if(col == DBColumn.LASTNAME)
-            column = "Last_Name";
-        if(col == DBColumn.ADDRESS)
-            column = "Address";
-        if(col == DBColumn.PHONENUMBER)
-            column = "PhoneNumber";
-        if(col == DBColumn.GENDER)
-            column = "Gender";
-        
-        if(col == DBColumn.HEIGHT)
-            column = "Height";
-  
+
+    public boolean updateColumn(String tableName, String userName, String newStr, DBColumn col) {
+
+        String column = col.toString();
         try {
             String sql = "UPDATE "+ tableName
                     + " SET "+column+" = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
@@ -283,21 +262,20 @@ public class dataConnector {
             stmt.executeUpdate(sql);
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(UserProfileDataConnector.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return false;
     }
-     
-     
-     public String getSecq(int id){
+
+    public String getSecq(int id) {
         String tableName = "Security_Questions";
         ResultSet result = null;
         String returnStr = "";
         try {
             Statement stmt = conn.createStatement();
             result = stmt.executeQuery("select * from " + tableName
-                    + " where SecQ_id= " + id );
+                    + " where SecQ_id= " + id);
             while (result.next()) {
                 returnStr = result.getString("SecQ_desc");
             }
@@ -305,21 +283,56 @@ public class dataConnector {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-     
-         return returnStr;
-     }
-     
-     
- } 
+
+        return returnStr;
+    }
+    
+    public ResultSet getAllSecQs() {
+
+        ResultSet result = null;
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + "Security_Questions");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+
+    }
+    
+    public boolean updateUserSecQID(String userName, int qId, DBColumn col) {
+
+        String column = col.toString();
+        try {
+            String sql = "UPDATE " + "User_Profile"
+                    + " SET " + column + " = " + qId + " WHERE User_Name=\'" + userName + "\'";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
+
+} 
 
     enum DBColumn{
-    FIRSTNAME,
-    LASTNAME,
-    EMAIL,
-    PHONENUMBER,
-    ADDRESS,
-    GENDER,
-    HEIGHT
+    First_Name,
+    Last_Name,
+    Email,
+    PhoneNumber,
+    Address,
+    Gender,
+    Height,
+    SecurityQ1_id,
+    SecurityQ2_id,
+    SecurityQ3_id,
+    SecurityA1,
+    SecurityA2,
+    SecurityA3,
 
 }
-    
