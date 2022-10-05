@@ -1,11 +1,13 @@
 package capstone;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -257,6 +259,23 @@ public class dataConnector {
         try {
             String sql = "UPDATE "+ tableName
                     + " SET "+column+" = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
+           
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
+    
+    public boolean updateUserBirthDate(LocalDate dob, String userName){
+     System.out.println("dob= "+ dob);
+        
+        try {
+            String sql = "UPDATE User_Profile"
+                    + " SET Date_Of_Birth = \'" + dob.toString() + "\' WHERE User_Name=\'" + userName + "\'";
            
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);

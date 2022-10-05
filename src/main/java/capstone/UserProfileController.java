@@ -6,13 +6,17 @@
 package capstone;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+//import java.util.Date;
 
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -44,6 +48,9 @@ public class UserProfileController {
     private TextField textGender;
     @FXML
     private TextField textHeight;
+    
+    @FXML 
+    private DatePicker birthDate;
 
     private UserProfileModel instanceUser;
     private ResultSet result;
@@ -156,7 +163,20 @@ public class UserProfileController {
             instanceUser.setHeight(textHeight.getText());
            
          }
-
+         
+         //userDoB.getValue().
+         //int day = birthDate.getValue().getDayOfMonth();
+         //int month = birthDate.getValue().getMonthValue();
+         //int year = birthDate.getValue().getYear();
+        // System.out.println("day= "+day +" , month= "+month +" , year= "+year);
+         LocalDate date = LocalDate.now();
+         LocalDate d = birthDate.getValue();
+         dataConnector.getInstance().updateUserBirthDate( d, labelUserName.getText());
+         
+         //userDoB.getValue().
+         //System.out.println();
+         
+        // usrBirthDate.getV
         
     }
     
