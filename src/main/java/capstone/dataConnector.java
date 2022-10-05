@@ -28,11 +28,7 @@ public class dataConnector {
     public Connection conn;
     public PreparedStatement preparedStatement;
      
-    //ProgressCard DB
-    public PreparedStatement preparedStatement1;
-    public Connection conn1 = null;
 
-     
      //CODE FOR PlannerDB
      /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
@@ -206,38 +202,24 @@ public class dataConnector {
         }
         return flag;
     }
-     
-     //CODE FOR ProgressCard DB
-     /**
-     * getConnectionDB: retrieve data from the database using a JDBC connector
-     * for Progress Card.
-     */
-    public void getConnectionPCDB() {
-        try {
-            String databaseURL = "jdbc:ucanaccess://.//ProgressCard.accdb";
-            conn1 = DriverManager.getConnection(databaseURL);
-        } catch (SQLException ex) {
-            ;
-        }
-    }
   
      /**
      * userProgressCard: inserting user info into their progress card.
      */
     public void userProgressCard(String userName, String dateOfCard, String weight, String diet, String bodyFat) {
-        getConnectionPCDB();
+        getConnectionDB();
 
         try {
             String sql = "INSERT INTO Progresscard(userName,dateOfCard,weight,diet,bodyFat) VALUES"
                     + "(?,?,?,?,?)";
             // preparedStatement = conn.prepareStatement(sql);
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, userName);
-            preparedStatement1.setString(2, dateOfCard);
-            preparedStatement1.setString(3, weight);
-            preparedStatement1.setString(4, diet);
-            preparedStatement1.setString(5, bodyFat);
-            int row = preparedStatement1.executeUpdate();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, dateOfCard);
+            preparedStatement.setString(3, weight);
+            preparedStatement.setString(4, diet);
+            preparedStatement.setString(5, bodyFat);
+            int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted");
             }
@@ -249,13 +231,13 @@ public class dataConnector {
      * updateDateOfCard: if registered user want to update their date of card entry.
      */
     public void updateDateOfCard(String uName, String dateOfCard) {
-        getConnectionPCDB();
+        getConnectionDB();
         try {
             String sql = "UPDATE Progresscard SET dateOfCard=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, dateOfCard);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, dateOfCard);
+            preparedStatement.setString(2, uName);
+            int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row updated");
             }
@@ -267,13 +249,13 @@ public class dataConnector {
      * updateWeight: if registered user want to update their date of card entry.
      */
   public void updateWeight(String uName, String weight) {
-        getConnectionPCDB();
+        getConnectionDB();
         try {
             String sql = "UPDATE Progresscard SET weight=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, weight);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, weight);
+            preparedStatement.setString(2, uName);
+            int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row updated");
             }
@@ -285,13 +267,13 @@ public class dataConnector {
      * updateWeight: if registered user want to update their date of card entry.
      */
     public void updateBodyFat(String uName, String bodyFat) {
-        getConnectionPCDB();
+        getConnectionDB();
         try {
             String sql = "UPDATE Progresscard SET bodyFat=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, bodyFat);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, bodyFat);
+            preparedStatement.setString(2, uName);
+            int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row updated");
             }
