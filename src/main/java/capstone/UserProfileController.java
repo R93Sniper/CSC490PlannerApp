@@ -165,4 +165,10 @@ public class UserProfileController {
         App.setRoot("securityQuestionSelection");
     }
     
+    @FXML
+    private void changePassword() throws IOException {
+        App.setRoot("forgotPW");
+    }
+    
+    
 }

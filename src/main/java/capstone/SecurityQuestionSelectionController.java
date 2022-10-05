@@ -69,7 +69,7 @@ public class SecurityQuestionSelectionController implements Initializable {
                 .addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue ov, Number value, Number new_value) { 
-                        selectedQIds.set(0, new_value.intValue());
+                        selectedQIds.set(0, questionListIds.get(new_value.intValue()) );
                     }
                 });
         choiceBoxQ2.setItems(FXCollections.observableArrayList(questionList));
@@ -77,7 +77,7 @@ public class SecurityQuestionSelectionController implements Initializable {
                 .addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue ov, Number value, Number new_value) {
-                        selectedQIds.set(1, new_value.intValue());
+                        selectedQIds.set(1, questionListIds.get(new_value.intValue()));
                     }
                 });
         choiceBoxQ3.setItems(FXCollections.observableArrayList(questionList));
@@ -85,7 +85,7 @@ public class SecurityQuestionSelectionController implements Initializable {
                 .addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue ov, Number value, Number new_value) {
-                        selectedQIds.set(2, new_value.intValue());
+                        selectedQIds.set(2, questionListIds.get(new_value.intValue()));
                     }
                 });
     }
@@ -109,10 +109,15 @@ public class SecurityQuestionSelectionController implements Initializable {
     private void onOkayPressed() throws IOException {
         
         String userName = UserProfileModel.getInstance().getUserName();
+        System.out.println("username from SecQsSelection = "+ userName);
         boolean allQuestionsChosen = true;
         for(int i=0; i<selectedQIds.size(); i++){
             if(selectedQIds.get(i) < 0)
+            {
                 allQuestionsChosen = false;
+            }
+            System.out.println("id value= "+selectedQIds.get(i));
+               
         }
        
         if ( allQuestionsChosen && !textAnswerQ1.getText().equals("") && !textAnswerQ2.getText().equals("") && !textAnswerQ3.getText().equals("")) {

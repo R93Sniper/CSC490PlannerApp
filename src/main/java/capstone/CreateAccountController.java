@@ -46,6 +46,7 @@ public class CreateAccountController {
         {
             if (passwordMatch) {
                 userDB.newUserSignup(textUserName.getText(), textPassword.getText());
+                UserProfileModel.getInstance().setUserName(textUserName.getText());
                 App.setRoot("securityQuestionSelection");
             } else {
                 textPassword.setText("Passwords Do Not Match");

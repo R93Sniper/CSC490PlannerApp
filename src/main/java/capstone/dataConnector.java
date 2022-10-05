@@ -24,7 +24,7 @@ public class dataConnector {
     /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
-    public Connection conn;
+    private Connection conn;
     private static dataConnector instance = null;
 
     private final String connectionStr = "jdbc:sqlserver://fitnessappserver.database.windows.net:1433;"
@@ -321,6 +321,8 @@ public class dataConnector {
 } 
 
     enum DBColumn{
+    User_Name,
+    User_Password,
     First_Name,
     Last_Name,
     Email,

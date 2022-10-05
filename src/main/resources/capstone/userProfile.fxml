@@ -40,11 +40,6 @@
                   </Button>
                </children>
             </VBox>
-            <Button mnemonicParsing="false" onAction="#onUpdateSecQuestions" prefHeight="30.0" prefWidth="108.0" text="Update SecQs">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </Button>
          </children>
       </HBox>
    </center>
@@ -55,17 +50,26 @@
          </children></VBox>
    </left>
    <top>
-      <HBox prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label contentDisplay="CENTER" prefHeight="60.0" prefWidth="193.0" text="User Profile" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets left="100.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="35.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
+      <Label contentDisplay="CENTER" prefHeight="60.0" prefWidth="193.0" text="User Profile" textAlignment="CENTER" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
    </top>
+   <right>
+      <VBox prefHeight="340.0" prefWidth="173.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onUpdateSecQuestions" prefHeight="19.0" prefWidth="113.0" text="Update SecQs">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onUpdateSecQuestions" prefHeight="19.0" prefWidth="113.0" text="Change Password">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </right>
 </BorderPane>

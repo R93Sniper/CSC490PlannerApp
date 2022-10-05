@@ -23,6 +23,8 @@ public class UserProfileModel {
     private String address="";
     private String gender="";
     private String height="";
+ 
+    
 
     public static UserProfileModel getInstance() {
         if (instance == null) {
@@ -61,7 +63,7 @@ public class UserProfileModel {
     public String getHeight() {
         return height;
     }
-
+    
     public void setFullName(String name) {
         fullName = name;
     }

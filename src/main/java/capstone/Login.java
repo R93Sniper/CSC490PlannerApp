@@ -1,6 +1,11 @@
 package capstone;
 
 import java.io.IOException;
+import static java.sql.JDBCType.NULL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -43,7 +48,7 @@ public class Login {
     private void forgotPassword() throws IOException{
       
         if(instance.existingUser(loginUsername.getText())){
-            UserProfileModel theModel = UserProfileModel.getInstance();
+            UserProfileModel theModel = UserProfileModel.getInstance();   
             theModel.setUserName(loginUsername.getText());
             App.setRoot("forgotPW");
         }else{
@@ -61,11 +66,8 @@ public class Login {
     
     @FXML
     private void onLoginPressed() throws IOException {
-        //validate Login first...
         
-       // dataConnector instance = dataConnector.getInstance();
-        System.out.println("userName: "+loginUsername.getText());
-        //boolean validLogin = false;
+        
         if(instance.verifiedUserInstance(loginUsername.getText(), loginPassword.getText())){
             UserProfileModel theModel = UserProfileModel.getInstance();
             theModel.setUserName(loginUsername.getText());
