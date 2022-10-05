@@ -1,6 +1,7 @@
 package capstone;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -129,10 +130,11 @@ public class forgotPassword {
     }
     
     @FXML
-    private void saveNewPassword() throws IOException {
+    private void saveNewPassword() throws IOException, NoSuchAlgorithmException {
     
+        String str = theDB.returnHashPassword(textNewPassword.getText());
         //check if its a valid password, then save it in the DB
-        theDB.updateColumn("User_Profile", theModel.getUserName(), textNewPassword.getText(), DBColumn.User_Password);
+        theDB.updateColumn("User_Profile", theModel.getUserName(), str, DBColumn.User_Password);
         App.setRoot("login");
     }
 

@@ -1,6 +1,7 @@
 package capstone;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import static java.sql.JDBCType.NULL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,10 +66,9 @@ public class Login {
     
     
     @FXML
-    private void onLoginPressed() throws IOException {
-        
-        
-        if(instance.verifiedUserInstance(loginUsername.getText(), loginPassword.getText())){
+    private void onLoginPressed() throws IOException, NoSuchAlgorithmException {
+        String str = instance.returnHashPassword(loginPassword.getText());
+        if(instance.verifiedUserInstance(loginUsername.getText(),str)){
             UserProfileModel theModel = UserProfileModel.getInstance();
             theModel.setUserName(loginUsername.getText());
             App.setRoot("home");
