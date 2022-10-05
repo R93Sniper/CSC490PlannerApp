@@ -183,12 +183,12 @@ public class dataConnector {
      * @param secAns2
      * @param secAns3
      */
-    public void forgetPassword(String uName, String uPswd,
+    public boolean forgetPassword(String uName, String uPswd,
             String secAns1, String secAns2, String secAns3) {
         getConnectionDB();
-
+        boolean flag = true;
         // check if the user entered right answers
-        if (checkSecurityAnswers(uName, secAns1, secAns2, secAns3) == true) {
+        if (existingUser(uName, secAns1, secAns2, secAns3) == flag) {
             try {
                 String sql = "UPDATE User SET userPassword=? WHERE userName=?";
                 preparedStatement = conn.prepareStatement(sql);
@@ -197,12 +197,14 @@ public class dataConnector {
                 int row = preparedStatement.executeUpdate();
                 if (row > 0) {
                     System.out.println("Row updated");
+                    flag = true;
                 }
             } catch (SQLException e) {
             }
         } else {
-            System.out.println("Error!!");
+            flag = false;
         }
+        return flag;
     }
      
      //CODE FOR ProgressCard DB
