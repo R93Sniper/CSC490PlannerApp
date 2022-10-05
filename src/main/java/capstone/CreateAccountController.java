@@ -7,6 +7,7 @@ package capstone;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,7 +37,7 @@ public class CreateAccountController {
     }
 
     @FXML
-    public void createAccount() throws IOException {
+    public void createAccount() throws IOException, NoSuchAlgorithmException {
         //First need to check if userName already Exists in DB
         //if new userName then add to DB 
 

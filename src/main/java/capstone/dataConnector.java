@@ -72,12 +72,9 @@ public class dataConnector {
     public void newUserSignup(String userName, String userPassword) throws NoSuchAlgorithmException {
         //call the getConnectionDB method
         //getConnectionDB();
-<<<<<<< HEAD
+
         String tableName = "User_Profile";
-=======
         String hashedPass = returnHashPassword(userPassword);
-         String tableName = "User_Profile";
->>>>>>> origin/HashedPasswrds
         try {
             String sql = "INSERT INTO " + tableName + "(User_Name, User_Password) VALUES"
                     + "(?, ?)";
@@ -313,7 +310,6 @@ public class dataConnector {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-<<<<<<< HEAD
 
         return returnStr;
     }
@@ -348,13 +344,7 @@ public class dataConnector {
 
         return false;
     }
-
-} 
-=======
-     
-         return returnStr;
-     }
-     
+      
      /**
       * takes the user password and hashes it using SHA-256 bit hashing, a one way hash function for 
       * security
@@ -378,9 +368,7 @@ public class dataConnector {
          return hashPassword;
      }
      
-     
  } 
->>>>>>> origin/HashedPasswrds
 
     enum DBColumn{
     User_Name,
