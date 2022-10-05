@@ -14,6 +14,9 @@ public class UserProfileModel {
     private static UserProfileModel instance = null;
 
     private String fullName="";
+    private String firstName="";
+    private String lastName="";
+
     private String userName="";
     private String password="";
     private String email="";
@@ -21,6 +24,7 @@ public class UserProfileModel {
     private String address="";
     private String gender="";
     private String height="";
+
 
     public static UserProfileModel getInstance() {
         if (instance == null) {
@@ -33,6 +37,13 @@ public class UserProfileModel {
     public String getFullName() {
         return fullName;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }public String getLastName() {
+        return lastName;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -55,9 +66,17 @@ public class UserProfileModel {
         return height;
     }
 
+    
     public void setFullName(String name) {
         fullName = name;
     }
+    public void setFirstName(String name) {
+        firstName = name;
+    }
+    public void setLastName(String name) {
+        lastName = name;
+    }
+
     public void setUserName(String name) {
         userName = name;
     }

@@ -1,15 +1,21 @@
 package capstone;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -22,12 +28,15 @@ import javafx.scene.text.Text;
  */
 public class forgotPassword {
 
+    dataConnector theDB = dataConnector.getInstance();
+    UserProfileModel theModel = UserProfileModel.getInstance();
+
     @FXML
-    private Text secQues1;
+    private Label secQues1;
     @FXML
-    private Text secQues2;
+    private Label secQues2;
     @FXML
-    private Text secQues3;
+    private Label secQues3;
     @FXML
     private TextField secAns1;
     @FXML
@@ -35,112 +44,101 @@ public class forgotPassword {
     @FXML
     private TextField secAns3;
     @FXML
-    private Button cancelButton;
+    private Button btnOk;
     @FXML
-    private Button validateQuestions;
+    private Button btnOk2;
     @FXML
-    private TextField userName;
-
-    /**
-     * Validate Security Questions
-     *
-     * Checks the 3 security questions against the database
-     *
-     * @return True if all 3 questions match False if any question is incorrect
-     */
+    private TextField textNewPassword;
     @FXML
-    private boolean validateQuestions() throws SQLException {
+    private Label labelErrorMsg;
+    @FXML
+    private Label labelEnterPW;
+    
+    String [] answerArray = new String[3];
 
-        String usernameEntered = userName.getText();
+    @FXML
+    public void initialize() {
+        loadScene();
 
-        String userAns1 = secAns1.getText();
-        String userAns2 = secAns2.getText();
-        String userAns3 = secAns3.getText();
-
-        String secAnswer1 = "";
-        String secAnswer2 = "";
-        String secAnswer3 = "";
-
-        Connection c = connectToDatabase();
-
-        String tableName = "Accounts";
-        String sql = "select * from " + tableName + " WHERE UserName = ?";
-
-        PreparedStatement psmt = c.prepareStatement(sql);
-        psmt.setString(1, usernameEntered);
-
-        ResultSet r = psmt.executeQuery();
-
-        while (r.next()) {
-            secAnswer1 = r.getString("secAns1");
-            secAnswer2 = r.getString("secAns2");
-            secAnswer3 = r.getString("secAns3");
-        }
-        System.out.println(usernameEntered);
-        if (validateUsername(usernameEntered)) {
-
-            if (userAns1.equals(secAnswer1) && userAns2.equals(secAnswer2) && userAns3.equals(secAnswer3)) {
-                System.out.println("true");
-            } 
-            
-        } else {
-                Alert a = new Alert(AlertType.ERROR);
-                a.setTitle("Error");
-                a.setHeaderText("The User Name you entered is incorrect \n please try again");
-                a.showAndWait();
+    }
+    
+    @FXML
+    public void loadScene(){
+       // UserProfileModel theModel = UserProfileModel.getInstance();
+        ResultSet result = theDB.getResult(theModel.getUserName(), "User_Profile");
+        int id1 = -1;
+        int id2 = -1;
+        int id3 = -1;
+     
+        try {
+            while (result.next()) {
+                id1 = result.getInt("SecurityQ1_id");
+                id2 = result.getInt("SecurityQ2_id");
+                id3 = result.getInt("SecurityQ3_id");
+                answerArray[0] = result.getString("SecurityA1");
+                answerArray[1]= result.getString("SecurityA2");
+                answerArray[2] = result.getString("SecurityA3");
+                
             }
-        //TODO: CONNECT TO DATABASE AND VALIDATE
-        return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(forgotPassword.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println("Q1 = "+id1+" , Q2 = "+id2+" , Q3 = "+ id3);
+        String str1 = theDB.getSecq(id1);
+        String str2 = theDB.getSecq(id2);
+        String str3 = theDB.getSecq(id3);
+        
+        System.out.println("questions= "+str1+" , "+str2+" , "+str3+" , ");
+                
+
+        if (id1 != -1) {
+            secQues1.setText(theDB.getSecq(id1));
+        }
+        if (id2 != -1) {
+            secQues2.setText(theDB.getSecq(id2));
+        }
+        if (id3 != -1) {
+            secQues3.setText(theDB.getSecq(id3));
+        }
+
+        
     }
 
-    /**
-     * method that will return true or false if the user name is not in the
-     * database, accepts the username as a parameter
-     *
-     * @param str
-     * @return
-     */
-    public boolean validateUsername(String str) throws SQLException {
-
-        Connection c = connectToDatabase();
-
-        String tableName = "Accounts";
-        String sql = "select UserName from " + tableName + " WHERE UserName = ?";
-
-        PreparedStatement psmt = c.prepareStatement(sql);
-        psmt.setString(1, str);
-
-        ResultSet r = psmt.executeQuery();
-
-        return r != null;
-
+      
+    @FXML
+    private void validateSecAnswers() throws IOException {
+        
+        boolean check1 = answerArray[0].equals(secAns1.getText());
+        boolean check2 = answerArray[1].equals(secAns2.getText());
+        boolean check3 = answerArray[2].equals(secAns3.getText());
+        //validate answers
+        if(!check1){
+            secAns1.setText("Wrong Answer");
+        }
+        if(!check2){
+            secAns2.setText("Wrong Answer");
+        }
+        if(!check3){
+            secAns3.setText("Wrong Answer");
+        }
+        if(check1 && check2 && check3){
+            labelEnterPW.setVisible(true);
+            btnOk.setDisable(true);
+            btnOk2.setVisible(true);
+            textNewPassword.setVisible(true);
+        }
+        //App.setRoot("login");
     }
-
-    /**
-     * Go back Function
-     *
-     * Get us back to the login screen
-     *
-     * @throws IOException
-     */
-    private void goBack() throws IOException {
+    
+    @FXML
+    private void saveNewPassword() throws IOException, NoSuchAlgorithmException {
+    
+        String str = theDB.returnHashPassword(textNewPassword.getText());
+        //check if its a valid password, then save it in the DB
+        theDB.updateColumn("User_Profile", theModel.getUserName(), str, DBColumn.User_Password);
         App.setRoot("login");
     }
 
-    /**
-     * Connect to Database
-     *
-     * Connects to the database and returns connection
-     */
-    //TODO: REPLACE VOID WITH CONNECTION
-    private Connection connectToDatabase() {
-
-        dataConnector dc = new dataConnector();
-
-        Connection c = dc.getConnectionDBoutside();
-
-        return c;
-
-        //TODO: CONNECT TO DATABASE PROPERLY
-    }
+   
 }

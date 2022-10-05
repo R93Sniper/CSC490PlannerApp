@@ -30,8 +30,8 @@
          <children>
             <TextField fx:id="textUserName" prefHeight="50.0" prefWidth="330.0" promptText="UserName" />
             <TextField fx:id="textPassword" layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="330.0" promptText="Password" />
-            <TextField layoutX="10.0" layoutY="60.0" prefHeight="50.0" prefWidth="330.0" promptText="Re-Enter Password" />
-            <TextField fx:id="textFullName" layoutX="10.0" layoutY="110.0" prefHeight="50.0" prefWidth="330.0" promptText="Full Name" />
+
+            <TextField fx:id="textPassword2" layoutX="10.0" layoutY="60.0" prefHeight="50.0" prefWidth="330.0" promptText="Re-Enter Password" />
             <Button fx:id="btnCreateAcct" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#createAccount" prefHeight="40.0" prefWidth="101.0" text="Create Account " />
          </children>
       </VBox>

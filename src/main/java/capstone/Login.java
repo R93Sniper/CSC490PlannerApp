@@ -1,6 +1,12 @@
 package capstone;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import static java.sql.JDBCType.NULL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -12,6 +18,8 @@ import javafx.scene.control.TextField;
  *         Nick Andrle
  */
 public class Login {
+    
+    dataConnector instance = dataConnector.getInstance();
     
     @FXML
     private TextField loginUsername;
@@ -39,7 +47,37 @@ public class Login {
     
     @FXML
     private void forgotPassword() throws IOException{
-        App.setRoot("forgotPW");
+      
+        if(instance.existingUser(loginUsername.getText())){
+            UserProfileModel theModel = UserProfileModel.getInstance();   
+            theModel.setUserName(loginUsername.getText());
+            App.setRoot("forgotPW");
+        }else{
+            loginUsername.setText("enter valid username first");
+        }
+        
+    }
+    
+    
+    @FXML
+    private void switchToCreateAccount() throws IOException {
+        App.setRoot("createAccount");
+    }
+    
+    
+    @FXML
+    private void onLoginPressed() throws IOException, NoSuchAlgorithmException {
+        String str = instance.returnHashPassword(loginPassword.getText());
+        if(instance.verifiedUserInstance(loginUsername.getText(),str)){
+            UserProfileModel theModel = UserProfileModel.getInstance();
+            theModel.setUserName(loginUsername.getText());
+            App.setRoot("home");
+        }else{
+            loginUsername.setText("Invalid Username or Password");
+            loginPassword.setText("");
+        }
+        
+        
     }
     
     
@@ -65,7 +103,6 @@ public class Login {
         
         
     }
-    
     
     
 }

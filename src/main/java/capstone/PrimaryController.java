@@ -18,7 +18,7 @@ public class PrimaryController {
     }
     
     @FXML
-    private void switchToLogin(ActionEvent event) throws IOException {
+    private void switchToLogin() throws IOException {
         App.setRoot("login");
     }
     

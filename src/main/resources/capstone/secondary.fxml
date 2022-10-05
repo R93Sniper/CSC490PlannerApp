@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="747.0" prefWidth="635.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecondaryController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="747.0" prefWidth="635.0" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecondaryController">
+
     <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conversions" />
       <BorderPane prefHeight="332.0" prefWidth="414.0">
@@ -51,6 +57,8 @@
                   <Button fx:id="cb1" mnemonicParsing="false" onAction="#calculateCaloriesButton" onMouseClicked="#calculateCaloriesButton" text="Calculate" VBox.vgrow="NEVER" />
                   <Text fx:id="tr1" strokeType="OUTSIDE" strokeWidth="0.0" text="There is text here" wrappingWidth="339.0" />
                   <Button mnemonicParsing="false" onAction="#reCalculateButton" text="Reset" />
+                  <Button fx:id="secondaryButton1" onAction="#switchToHome" text="Home view" />
+
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -59,7 +67,7 @@
          </top>
       </BorderPane>
         <Label text="Secondary View" />
-      <Button mnemonicParsing="false" text="Button" />
+
         <Button fx:id="secondaryButton" onAction="#switchToPrimary" text="Switch to Primary View" />
     </children>
     <padding>
