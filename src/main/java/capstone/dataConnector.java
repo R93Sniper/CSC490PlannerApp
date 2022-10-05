@@ -1,5 +1,9 @@
 package capstone;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -70,16 +74,17 @@ public class dataConnector {
      * @param userName
      * @param userPassword
      */
-    public void newUserSignup(String userName, String userPassword) {
+    public void newUserSignup(String userName, String userPassword) throws NoSuchAlgorithmException {
         //call the getConnectionDB method
         //getConnectionDB();
+        String hashedPass = returnHashPassword(userPassword);
          String tableName = "User_Profile";
         try {
             String sql = "INSERT INTO "+tableName+"(User_Name, User_Password) VALUES"
                     + "(?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, userPassword);
+            preparedStatement.setString(2, hashedPass);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted into DB");
@@ -92,16 +97,17 @@ public class dataConnector {
      * newUserProfileSignup - setting up new user profile information and storing their data.
      */
     public void newUserProfileSignup(String userName, String userPassword, String secQ1, String secQ2, String secQ3,
-            String secAns1, String secAns2, String secAns3, String fullName, String height, String dob, String gender, String bodytype) {
+            String secAns1, String secAns2, String secAns3, String fullName, String height, String dob, String gender, String bodytype) throws NoSuchAlgorithmException {
         //call the getConnectionDB method
         //getConnectionDB();
+        String hashedPassword = returnHashPassword(userPassword);
         try {
             String sql = "INSERT INTO User(userName,userPassword,secQ1,secQ2,secQ3,secAns1,secAns2,secAns3, "
                     + "fullName, height, dob, gender, bodytype) VALUES"
                     + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, userPassword);
+            preparedStatement.setString(2, hashedPassword);
             preparedStatement.setString(3, secQ1);
             preparedStatement.setString(4, secQ2);
             preparedStatement.setString(5, secQ3);
@@ -219,15 +225,16 @@ public class dataConnector {
      * @param secAns3
      */
     public void forgetPassword(String uName, String uPswd,
-            String secAns1, String secAns2, String secAns3) {
+            String secAns1, String secAns2, String secAns3) throws NoSuchAlgorithmException {
         getConnectionDB();
 
         // check if the user entered right answers
+        String hashedPass = returnHashPassword(uPswd);
         if (checkSecurityAnswers(uName, secAns1, secAns2, secAns3) == true) {
             try {
                 String sql = "UPDATE User SET userPassword=? WHERE userName=?";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setString(1, uPswd);
+                preparedStatement.setString(1, hashedPass);
                 preparedStatement.setString(2, uName);
                 int row = preparedStatement.executeUpdate();
                 if (row > 0) {
@@ -307,6 +314,29 @@ public class dataConnector {
         }
      
          return returnStr;
+     }
+     
+     /**
+      * takes the user password and hashes it using SHA-256 bit hashing, a one way hash function for 
+      * security
+      * @param password
+      * @return 
+      */
+     public String returnHashPassword(String password) throws NoSuchAlgorithmException{
+         
+         MessageDigest md = MessageDigest.getInstance("SHA-256");
+         byte[] messageDigest = md.digest(password.getBytes());
+         
+         BigInteger no = new BigInteger(1,messageDigest);
+         
+         String hashPassword = no.toString(16);
+         
+         while(hashPassword.length() < 32){
+             hashPassword = "0" + hashPassword;
+         }
+         System.out.println(hashPassword + "------");
+         
+         return hashPassword;
      }
      
      
