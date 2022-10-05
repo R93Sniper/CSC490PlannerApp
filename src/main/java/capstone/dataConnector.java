@@ -37,7 +37,6 @@ public class dataConnector {
     /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
-    private Connection conn;
     private static dataConnector instance = null;
 
     private final String connectionStr = "jdbc:sqlserver://fitnessappserver.database.windows.net:1433;"
@@ -71,7 +70,6 @@ public class dataConnector {
             ex.printStackTrace();
         }
 
-        return conn;
     }
 
     /**
@@ -275,12 +273,12 @@ public class dataConnector {
 
     }
 
-    public boolean updateColumn(String tableName, String userName, String newStr, DBColumn col) {
+    public boolean updateColumn(String tableName, String userName, String newStr, String col) {
 
-        String column = col.toString();
+        //String column = col.toString();
         try {
             String sql = "UPDATE "+ tableName
-                    + " SET "+column+" = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
+                    + " SET "+col+" = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
            
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
@@ -342,12 +340,12 @@ public class dataConnector {
 
     }
     
-    public boolean updateUserSecQID(String userName, int qId, DBColumn col) {
+    public boolean updateUserSecQID(String userName, int qId, String col) {
 
-        String column = col.toString();
+        //String column = col.toString();
         try {
             String sql = "UPDATE " + "User_Profile"
-                    + " SET " + column + " = " + qId + " WHERE User_Name=\'" + userName + "\'";
+                    + " SET " + col + " = " + qId + " WHERE User_Name=\'" + userName + "\'";
 
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
@@ -381,25 +379,6 @@ public class dataConnector {
          
          return hashPassword;
      }
-     
- } 
-
-    enum DBColumn{
-    User_Name,
-    User_Password,
-    First_Name,
-    Last_Name,
-    Email,
-    PhoneNumber,
-    Address,
-    Gender,
-    Height,
-    SecurityQ1_id,
-    SecurityQ2_id,
-    SecurityQ3_id,
-    SecurityA1,
-    SecurityA2,
-    SecurityA3,
      
      //CODE FOR ProgressCard DB
      /**
@@ -492,4 +471,22 @@ public class dataConnector {
         } catch (SQLException e) {
         }
     }
+        
 }
+  enum DBCol{
+    User_Name,
+    User_Password,
+    First_Name,
+    Last_Name,
+    Email,
+    PhoneNumber,
+    Address,
+    Gender,
+    Height,
+    SecurityQ1_id,
+    SecurityQ2_id,
+    SecurityQ3_id,
+    SecurityA1,
+    SecurityA2,
+    SecurityA3,
+    }

@@ -143,29 +143,29 @@ public class UserProfileController {
         String usr = instanceUser.getUserName();
         
         if(textEmail.getText() != null &&!textEmail.getText().equals(instanceUser.getEmail()) ){    
-            userDB.updateColumn(tableName, usr, textEmail.getText(), DBColumn.Email);
+            userDB.updateColumn(tableName, usr, textEmail.getText(), DBCol.Email.toString());
             System.out.println("email updated in the DB");
             instanceUser.setEmail(textEmail.getText());
         }
         if(textFirstName.getText() != null && !textFirstName.getText().equals(instanceUser.getFirstName()) ){           
-            userDB.updateColumn(tableName,usr, textFirstName.getText(), DBColumn.First_Name);
+            userDB.updateColumn(tableName,usr, textFirstName.getText(), DBCol.First_Name.toString());
             System.out.println("FirstName updated in the DB");
             instanceUser.setFullName(textFirstName.getText());
         }  
          if(textGender.getText()!= null && !textGender.getText().equals(instanceUser.getGender()) ){      
-            userDB.updateColumn(tableName,usr, textGender.getText(), DBColumn.Gender);
+            userDB.updateColumn(tableName,usr, textGender.getText(), DBCol.Gender.toString());
             System.out.println("gender updated in the DB");
             instanceUser.setGender(textGender.getText());
          }
                   
          if(textLastName.getText()!= null && !textLastName.getText().equals(instanceUser.getLastName()) ){      
-            userDB.updateColumn(tableName,usr, textLastName.getText(), DBColumn.Last_Name);
+            userDB.updateColumn(tableName,usr, textLastName.getText(), DBCol.Last_Name.toString());
             System.out.println("last name updated in the DB");
             instanceUser.setLastName(textLastName.getText());
          }
          
          if(textHeight.getText()!= null && !textHeight.getText().equals(instanceUser.getHeight()) ){      
-            userDB.updateColumn(tableName,usr , textHeight.getText(), DBColumn.Height);
+            userDB.updateColumn(tableName,usr , textHeight.getText(), DBCol.Height.toString());
             System.out.println("height updated in the DB");
             instanceUser.setHeight(textHeight.getText());
            

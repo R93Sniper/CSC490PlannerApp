@@ -136,7 +136,8 @@ public class forgotPassword {
     
         String str = theDB.returnHashPassword(textNewPassword.getText());
         //check if its a valid password, then save it in the DB
-        theDB.updateColumn("User_Profile", theModel.getUserName(), str, DBColumn.User_Password);
+        DBColumn d;
+        theDB.updateColumn("User_Profile", theModel.getUserName(), str, DBCol.User_Password.toString());
         App.setRoot("login");
     }
 
