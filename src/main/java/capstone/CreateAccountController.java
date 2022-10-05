@@ -8,6 +8,7 @@ package capstone;
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ import javafx.scene.control.TextField;
  * @author jesus
  */
 public class CreateAccountController {
+
 
     dataConnector userDB = null;
     @FXML
@@ -33,6 +35,7 @@ public class CreateAccountController {
      */
     public void initialize() {
         userDB = dataConnector.getInstance();
+
         // TODO
     }
 
@@ -55,6 +58,7 @@ public class CreateAccountController {
             }
         } else {
             textUserName.setText("User Name Already Taken");
+
         }
 
     }

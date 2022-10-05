@@ -25,7 +25,6 @@ public class SecondaryController {
     private void switchToHome() throws IOException {
         App.setRoot("home");
     }
-    
     @FXML
     private void calculateCaloriesButton() throws IOException {
         

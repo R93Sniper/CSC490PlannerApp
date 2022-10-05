@@ -19,9 +19,11 @@
    </top>
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+
          <children>
             <VBox prefHeight="355.0" prefWidth="270.0">
                <children>
+
                   <Label fx:id="secQues1" prefHeight="30.0" prefWidth="248.0" text="Security Question">
                      <VBox.margin>
                         <Insets left="10.0" right="10.0" top="10.0" />
@@ -87,6 +89,7 @@
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </Button>
+
                </children>
             </VBox>
          </children>

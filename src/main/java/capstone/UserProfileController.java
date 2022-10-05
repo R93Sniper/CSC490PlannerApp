@@ -6,6 +6,7 @@
 package capstone;
 
 import java.io.IOException;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,10 +14,12 @@ import java.time.LocalDate;
 //import java.util.Date;
 
 
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
+
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -28,8 +31,8 @@ import javafx.scene.control.TextField;
  */
 public class UserProfileController {
 
-    dataConnector userDB = null;
 
+    dataConnector userDB = null;
     @FXML
     private Label labelPassword;
     @FXML
@@ -48,11 +51,11 @@ public class UserProfileController {
     private TextField textGender;
     @FXML
     private TextField textHeight;
-    
     @FXML 
     private DatePicker birthDate;
 
     private UserProfileModel instanceUser;
+
     private ResultSet result;
     
     public UserProfileController() {
@@ -61,7 +64,9 @@ public class UserProfileController {
     @FXML
     public void initialize() {
         System.out.println("initial UserProfile here");
+
         userDB = dataConnector.getInstance();
+
         loadProfile();
     }
     
@@ -69,6 +74,7 @@ public class UserProfileController {
     @FXML
     private void loadProfile() {
         //returns resultset matching the given username
+
         instanceUser = UserProfileModel.getInstance();
         result = userDB.getResult(instanceUser.getUserName(), "User_Profile");
 
@@ -97,6 +103,7 @@ public class UserProfileController {
                 tempHeight= result.getString("Height");
 
                 System.out.printf("username= %s , h= %s \n", tempUserName, tempHeight);
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserProfileController.class.getName()).log(Level.SEVERE, null, ex);
@@ -190,5 +197,5 @@ public class UserProfileController {
         App.setRoot("forgotPW");
     }
     
-    
+
 }

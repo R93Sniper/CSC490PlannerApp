@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -60,10 +61,12 @@
                         <Insets left="50.0" />
                      </VBox.margin>
                   </Label>
+
                </children>
             </VBox>
             <VBox prefHeight="349.0" prefWidth="219.0">
                <children>
+
                   <Label fx:id="labelUserName" layoutX="10.0" layoutY="10.0" prefHeight="33.0" prefWidth="203.0" text="username" />
                   <Label fx:id="labelPassword" prefHeight="30.0" prefWidth="189.0" text="XXXXXXX" />
                   <TextField fx:id="textFirstName" layoutX="10.0" layoutY="208.0" prefHeight="30.0" prefWidth="219.0" />
@@ -90,6 +93,7 @@
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#saveBtnPressed" prefHeight="34.0" prefWidth="77.0" text="Save">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" top="175.0" />
+
                      </VBox.margin>
                   </Button>
                </children>
@@ -97,6 +101,7 @@
          </children>
       </HBox>
    </center>
+
    <top>
       <HBox prefHeight="47.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -124,6 +129,7 @@
                   </Label>
                </children>
             </VBox>
+
          </children>
       </HBox>
    </top>

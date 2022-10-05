@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="747.0" prefWidth="635.0" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecondaryController">
+
     <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conversions" />
       <BorderPane prefHeight="332.0" prefWidth="414.0">
@@ -57,6 +58,7 @@
                   <Text fx:id="tr1" strokeType="OUTSIDE" strokeWidth="0.0" text="There is text here" wrappingWidth="339.0" />
                   <Button mnemonicParsing="false" onAction="#reCalculateButton" text="Reset" />
                   <Button fx:id="secondaryButton1" onAction="#switchToHome" text="Home view" />
+
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -65,6 +67,7 @@
          </top>
       </BorderPane>
         <Label text="Secondary View" />
+
         <Button fx:id="secondaryButton" onAction="#switchToPrimary" text="Switch to Primary View" />
     </children>
     <padding>
