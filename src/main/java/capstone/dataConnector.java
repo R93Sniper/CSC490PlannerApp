@@ -479,7 +479,7 @@ public class dataConnector {
     First_Name,
     Last_Name,
     Email,
-    PhoneNumber,
+    Body_Type,
     Address,
     Gender,
     Height,

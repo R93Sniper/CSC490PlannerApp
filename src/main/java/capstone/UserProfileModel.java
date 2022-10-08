@@ -16,11 +16,10 @@ public class UserProfileModel {
     private String fullName="";
     private String firstName="";
     private String lastName="";
-
     private String userName="";
     private String password="";
     private String email="";
-    private String phoneNum="";
+    private String bodyType="";
     private String address="";
     private String gender="";
     private String height="";
@@ -53,8 +52,8 @@ public class UserProfileModel {
     public String getEmail() {
         return email;
     }
-    public String getPhoneNum() {
-        return phoneNum;
+    public String getBodyType() {
+        return bodyType;
     }
     public String getAddress() {
         return address;
@@ -86,8 +85,8 @@ public class UserProfileModel {
     public void setEmail(String e) {
         email = e;
     }
-    public void setPhoneNum(String num) {
-        phoneNum = num;
+    public void setBodyType(String bt) {
+        bodyType = bt;
     }
     public void setAddress(String adr) {
         address = adr;

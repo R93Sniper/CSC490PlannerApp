@@ -11,13 +11,19 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 //import java.util.Date;
 
 
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 
 
@@ -44,30 +50,72 @@ public class UserProfileController {
     @FXML
     private TextField textEmail;
     @FXML
-    private TextField textPhoneNumber;
-    @FXML
-    private TextField textAddress;
-    @FXML
-    private TextField textGender;
-    @FXML
     private TextField textHeight;
     @FXML 
     private DatePicker birthDate;
+    @FXML 
+    private ChoiceBox<String> choiceBoxGender;
+
+    @FXML 
+    private ChoiceBox<String> choiceBoxMedical;
+        @FXML 
+    private ChoiceBox<String> choiceBoxBodyType;
+    @FXML 
+    private Label labelGender;
+     @FXML 
+    private Label labelBodyType;
+      @FXML 
+    private Label labelMedical;
 
     private UserProfileModel instanceUser;
-
     private ResultSet result;
+    private boolean genderSelected = false;
+    private boolean bodyTypeSelected = false;
     
     public UserProfileController() {
     }
 
     @FXML
     public void initialize() {
-        System.out.println("initial UserProfile here");
-
         userDB = dataConnector.getInstance();
-
         loadProfile();
+        ArrayList<String> genderList = new ArrayList<>(Arrays.asList("Male", "Female"));
+        ArrayList<String> bodyTypeList = new ArrayList<>(Arrays.asList("Endomorph","Ectomorph","Mesomorph"));
+        ArrayList<String> medicalList = new ArrayList<>(Arrays.asList("Diabetes", "Asthma","Low Blood Pressure","ACL tear"));
+        
+        choiceBoxGender.setItems(FXCollections.observableArrayList(genderList));
+        choiceBoxGender.getSelectionModel().selectedIndexProperty()
+                .addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue ov, Number value, Number new_value) { 
+                        System.out.println("gender selected is = "+ genderList.get(new_value.intValue()));
+                        String gender = genderList.get(new_value.intValue());
+                        instanceUser.setGender(gender);
+                        labelGender.setText(gender);
+                        genderSelected = true;
+                    }
+                });
+        
+        
+        
+        choiceBoxBodyType.setItems(FXCollections.observableArrayList(bodyTypeList));
+        choiceBoxBodyType.getSelectionModel().selectedIndexProperty()
+                .addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue ov, Number value, Number new_value) { 
+          
+                        String bt = bodyTypeList.get(new_value.intValue());
+                        instanceUser.setBodyType(bt);
+                        labelBodyType.setText(bt);
+                        bodyTypeSelected = true;
+                    }
+                });
+        
+        
+  
+        
+        
+        
     }
     
     //loadProfile for userName in the model
@@ -84,7 +132,7 @@ public class UserProfileController {
         String tempFirstName = "";
         String tempLastName = "";
         String tempEmail = "";
-        //String tempPhoneNum= "";
+        String tempBodyType= "";
         //String tempAddress = "";
         String tempGender = "";
         String tempHeight= "";
@@ -97,12 +145,12 @@ public class UserProfileController {
                 tempFirstName = result.getString("First_Name");
                 tempLastName = result.getString("Last_Name");
                 tempEmail = result.getString("Email");
-                //tempPhoneNum= result.getString("PhoneNumber");
+                tempBodyType= result.getString("Body_Type");
                 //tempAddress = result.getString("Address");
                 tempGender = result.getString("Gender");
                 tempHeight= result.getString("Height");
 
-                System.out.printf("username= %s , h= %s \n", tempUserName, tempHeight);
+                //System.out.printf("username= %s , h= %s \n", tempUserName, tempHeight);
 
             }
         } catch (SQLException ex) {
@@ -115,21 +163,18 @@ public class UserProfileController {
         instanceUser.setPassword(tempPW);
         instanceUser.setFirstName(tempFirstName);
         instanceUser.setLastName(tempLastName);
-        //instanceUser .setAddress(tempAddress);
         instanceUser.setEmail(tempEmail);
-        //instanceUser .setPhoneNum(tempPhoneNum);
-        instanceUser.setHeight(tempHeight);
-        
+        instanceUser.setHeight(tempHeight);  
+        instanceUser.setBodyType(tempBodyType);
         
         labelPassword.setText(tempPW);
         textFirstName.setText(tempFirstName);
         textLastName.setText(tempLastName);
         textEmail.setText(tempEmail);
-       // textPhoneNumber.setText(tempPhoneNum);
-       // textAddress.setText(tempAddress);
         textHeight.setText(tempHeight);
         labelUserName.setText(tempUserName);
-        textGender.setText(tempGender);
+        labelBodyType.setText(tempBodyType);
+        labelGender.setText(tempGender);
     }
 
     @FXML
@@ -152,33 +197,42 @@ public class UserProfileController {
             System.out.println("FirstName updated in the DB");
             instanceUser.setFullName(textFirstName.getText());
         }  
-         if(textGender.getText()!= null && !textGender.getText().equals(instanceUser.getGender()) ){      
-            userDB.updateColumn(tableName,usr, textGender.getText(), DBCol.Gender.toString());
-            System.out.println("gender updated in the DB");
-            instanceUser.setGender(textGender.getText());
-         }
-                  
+        
          if(textLastName.getText()!= null && !textLastName.getText().equals(instanceUser.getLastName()) ){      
             userDB.updateColumn(tableName,usr, textLastName.getText(), DBCol.Last_Name.toString());
             System.out.println("last name updated in the DB");
             instanceUser.setLastName(textLastName.getText());
          }
          
-         if(textHeight.getText()!= null && !textHeight.getText().equals(instanceUser.getHeight()) ){      
+         if(textHeight.getText()!= null && !textHeight.getText().equals(instanceUser.getHeight()) )
+         {      
             userDB.updateColumn(tableName,usr , textHeight.getText(), DBCol.Height.toString());
             System.out.println("height updated in the DB");
             instanceUser.setHeight(textHeight.getText());
-           
+         }
+            
+         if(genderSelected)
+         {      
+            userDB.updateColumn(tableName,usr, instanceUser.getGender(), DBCol.Gender.toString());
+            System.out.println("gender choice updated in the DB");
+            genderSelected = false;
          }
          
-         //userDoB.getValue().
+         if(bodyTypeSelected)
+         {      
+            userDB.updateColumn(tableName,usr, instanceUser.getBodyType(), DBCol.Body_Type.toString());
+            System.out.println("gender choice updated in the DB");
+            bodyTypeSelected = false;
+         }
+            
+     //userDoB.getValue().
          //int day = birthDate.getValue().getDayOfMonth();
          //int month = birthDate.getValue().getMonthValue();
          //int year = birthDate.getValue().getYear();
         // System.out.println("day= "+day +" , month= "+month +" , year= "+year);
          LocalDate date = LocalDate.now();
          LocalDate d = birthDate.getValue();
-         dataConnector.getInstance().updateUserBirthDate( d, labelUserName.getText());
+         //dataConnector.getInstance().updateUserBirthDate( d, labelUserName.getText());
          
          //userDoB.getValue().
          //System.out.println();
