@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.waterCalculator">
+   <children>
+      <Button layoutX="154.0" layoutY="340.0" mnemonicParsing="false" onAction="#switchToSecondary" text="Calculators" />
+      <Text layoutX="220.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Water Calculator">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Text>
+      <TextField fx:id="watertf" layoutX="79.0" layoutY="100.0" promptText="Enter your weight" />
+      <RadioButton fx:id="rb1" layoutX="245.0" layoutY="104.0" mnemonicParsing="false" text="lbs" />
+      <RadioButton fx:id="rb2" layoutX="295.0" layoutY="104.0" mnemonicParsing="false" text="kgs" />
+      <ChoiceBox fx:id="choicebox1" layoutX="79.0" layoutY="166.0" prefWidth="150.0" />
+      <Text layoutX="79.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your daily exercise time ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="tresponse" layoutX="75.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="378.0">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+      <Text fx:id="cupT" layoutX="79.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="349.0">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <Button layoutX="92.0" layoutY="340.0" mnemonicParsing="false" onAction="#resetWaterCalc" text="Reset" />
+      <Button fx:id="wcb" layoutX="92.0" layoutY="299.0" mnemonicParsing="false" onAction="#waterButtonFunction" text="Calculate" />
+   </children>
+</AnchorPane>

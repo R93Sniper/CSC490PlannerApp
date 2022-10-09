@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="647.0" prefWidth="627.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.CalculatorFunctions">
+
+    <children>
+      <Label text="Calorie Calculator">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <VBox prefHeight="485.0" prefWidth="610.0" spacing="10.0">
+         <children>
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                  <ToggleButton fx:id="fb1" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Female" />
+                  <ToggleButton fx:id="mb1" mnemonicParsing="false" text="Male" />
+              </buttons>
+            </ButtonBar>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your age" />
+            <TextField fx:id="af1" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="100.0" promptText="age" scaleShape="false" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter weight" />
+            <TextField fx:id="tf1" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="weight" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </TextField>
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <buttons>
+                  <ToggleButton fx:id="kgtb" mnemonicParsing="false" text="KG" />
+                  <ToggleButton fx:id="lbtb" mnemonicParsing="false" text="LB" />
+               </buttons>
+            </ButtonBar>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter height" />
+            <ToolBar maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="525.0">
+               <items>
+                  <TextField fx:id="feetTF" maxWidth="-Infinity" prefHeight="25.0" prefWidth="60.0" promptText="feet" />
+                  <Label text="ft." />
+                  <TextField fx:id="inchesTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="66.0" promptText="inches" />
+                  <Label text="in.  or" />
+                  <TextField fx:id="hf1" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="96.0" promptText="centimeters" />
+                  <Label text="cm." />
+               </items>
+            </ToolBar>
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <buttons>
+                  <Button fx:id="cb1" mnemonicParsing="false" onAction="#calculateCaloriesButton" onMouseClicked="#calculateCaloriesButton" text="Calculate" />
+               </buttons>
+            </ButtonBar>
+            <Text fx:id="tr1" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="339.0" />
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                  <Button mnemonicParsing="false" onAction="#switchToSecondary" text="Calculators" />
+                  <Button mnemonicParsing="false" onAction="#reCalculateButton" text="Reset" />
+                  <Button fx:id="secondaryButton1" onAction="#switchToHome" text="Home view" />
+              </buttons>
+            </ButtonBar>
+
+                     </children>
+      </VBox>
+    </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
