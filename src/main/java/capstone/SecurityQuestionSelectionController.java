@@ -7,6 +7,7 @@ package capstone;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -106,9 +107,10 @@ public class SecurityQuestionSelectionController implements Initializable {
     }
 
     @FXML
-    private void onOkayPressed() throws IOException {
+    private void onOkayPressed() throws IOException, NoSuchAlgorithmException {
         
         String userName = UserProfileModel.getInstance().getUserName();
+        String userPassword = UserProfileModel.getInstance().getPassword();
         System.out.println("username from SecQsSelection = "+ userName);
         boolean allQuestionsChosen = true;
         for(int i=0; i<selectedQIds.size(); i++){
@@ -130,7 +132,7 @@ public class SecurityQuestionSelectionController implements Initializable {
 
             dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ3.getText(), DBCol.SecurityA3.toString());
             dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(2), DBCol.SecurityQ3_id.toString());
- 
+            dataConnector.getInstance().newUserSignup(userName, userPassword);
             App.setRoot("login");
         } else {
                 labelErrorMsg.setText("Must Select and Answer 3 Security Questions");   

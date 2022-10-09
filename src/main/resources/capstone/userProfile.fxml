@@ -80,7 +80,22 @@
                         <ChoiceBox fx:id="choiceBoxGender" prefHeight="30.0" prefWidth="95.0" />
                      </children>
                   </HBox>
-                  <TextField fx:id="textHeight" layoutX="10.0" layoutY="208.0" prefHeight="30.0" prefWidth="210.0" />
+                  <HBox layoutX="10.0" layoutY="133.0" prefHeight="30.0" prefWidth="219.0">
+                     <children>
+                        <TextField fx:id="textFeet" prefHeight="30.0" prefWidth="40.0" />
+                        <Label prefHeight="38.0" prefWidth="35.0" text="feet">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="textInches" prefHeight="30.0" prefWidth="40.0" />
+                        <Label layoutX="120.0" layoutY="10.0" prefHeight="38.0" prefWidth="35.0" text="inches">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                   <TextField fx:id="textEmail" prefHeight="30.0" prefWidth="233.0" />
                   <HBox layoutX="10.0" layoutY="252.0" prefHeight="30.0" prefWidth="200.0">
                      <children>

@@ -1,6 +1,7 @@
 package capstone;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -26,7 +27,30 @@ public class CalculatorFunctions {
 
     private int m = 400;
     private int g = 800;
+    private UserProfileModel usr = UserProfileModel.getInstance();
     
+        
+    @FXML
+    public void initialize() {
+        //userDB = dataConnector.getInstance();
+        usr = UserProfileModel.getInstance();
+        if(usr.getGender().equals("Male"))
+            mb1.setSelected(true);
+        if(usr.getGender().equals("Female"))
+            fb1.setSelected(true);
+        if(!usr.getHeight().equals(""))
+        {
+        String [] height = usr.getHeight().split("-");
+        String ft = height[0];
+        String in = height[1];
+        feetTF.setText(ft);
+        inchesTF.setText(in);
+        }
+        
+        loadUserAge();
+  
+    }
+
     @FXML
     private void switchToPrimary() throws IOException {
         App.setRoot("primary");
@@ -87,10 +111,10 @@ public class CalculatorFunctions {
                                     Alert a = new Alert(AlertType.INFORMATION);
                                     a.setHeaderText("Here are your results");
                                     a.setContentText("To achieve weight loss by roughly 1 lb/ 2kg a week you must consume a total of " + goal
-                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2 
-                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 +" calories/day");
+                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2
+                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 + " calories/day");
                                     a.showAndWait();
-                                    
+
                                 } else {
                                     System.out.println("Height error, height must be greater than 0");
                                 }
@@ -111,8 +135,8 @@ public class CalculatorFunctions {
                                     Alert a = new Alert(AlertType.INFORMATION);
                                     a.setHeaderText("Here are your results");
                                     a.setContentText("To achieve weight loss by roughly 1 lb/ 2kg a week you must consume a total of " + goal
-                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2 
-                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 +" calories/day");
+                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2
+                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 + " calories/day");
                                     a.showAndWait();
 
                                 }
@@ -145,8 +169,8 @@ public class CalculatorFunctions {
                                     Alert a = new Alert(AlertType.INFORMATION);
                                     a.setHeaderText("Here are your results");
                                     a.setContentText("To achieve weight loss by roughly 1 lb/ 2kg a week you must consume a total of " + goal
-                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2 
-                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 +" calories/day");
+                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2
+                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 + " calories/day");
                                     a.showAndWait();
                                 }
 
@@ -168,8 +192,8 @@ public class CalculatorFunctions {
                                     Alert a = new Alert(AlertType.INFORMATION);
                                     a.setHeaderText("Here are your results");
                                     a.setContentText("To achieve weight loss by roughly 1 lb/ 2kg a week you must consume a total of " + goal
-                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2 
-                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 +" calories/day");
+                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2
+                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 + " calories/day");
                                     a.showAndWait();
                                 }
                             } else {
@@ -217,8 +241,8 @@ public class CalculatorFunctions {
                                     Alert a = new Alert(AlertType.INFORMATION);
                                     a.setHeaderText("Here are your results");
                                     a.setContentText("To achieve weight loss by roughly 1 lb/ 2kg a week you must consume a total of " + goal
-                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2 
-                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 +" calories/day");
+                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2
+                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 + " calories/day");
                                     a.showAndWait();
 
                                 }
@@ -238,8 +262,8 @@ public class CalculatorFunctions {
                                     Alert a = new Alert(AlertType.INFORMATION);
                                     a.setHeaderText("Here are your results");
                                     a.setContentText("To achieve weight loss by roughly 1 lb/ 2kg a week you must consume a total of " + goal
-                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2 
-                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 +" calories/day");
+                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2
+                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 + " calories/day");
                                     a.showAndWait();
                                 } else {
                                     System.out.println("Height error");
@@ -266,8 +290,8 @@ public class CalculatorFunctions {
                                     Alert a = new Alert(AlertType.INFORMATION);
                                     a.setHeaderText("Here are your results");
                                     a.setContentText("To achieve weight loss by roughly 1 lb/ 2kg a week you must consume a total of " + goal
-                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2 
-                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 +" calories/day");
+                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2
+                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 + " calories/day");
                                     a.showAndWait();
                                 } else {
                                     System.out.println("Height error");
@@ -291,8 +315,8 @@ public class CalculatorFunctions {
                                     Alert a = new Alert(AlertType.INFORMATION);
                                     a.setHeaderText("Here are your results");
                                     a.setContentText("To achieve weight loss by roughly 1 lb/ 2kg a week you must consume a total of " + goal
-                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2 
-                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 +" calories/day");
+                                            + " calories/day. \n To maintain your weight you must consume a total of " + goal2
+                                            + " calories/day \n To gain muscle mass you must consume a total of " + goal3 + " calories/day");
                                     a.showAndWait();
                                 }
                             }
@@ -326,6 +350,49 @@ public class CalculatorFunctions {
         inchesTF.clear();
         System.out.println("Calculator has been reset");
 
+    }
+
+    @FXML
+    private void loadUserAge() {
+        if (getAge() > -1) {
+            af1.setText(String.valueOf(getAge()));
+        } else {
+            System.out.println("Birth Age is greater than Today's date so Can't calc");
+        }
+
+    }
+
+    @FXML
+    private void loadUserHeight() {
+        UserProfileModel usr = UserProfileModel.getInstance();
+
+    }
+
+    private int getAge() {
+        int returnAge = -1;
+        LocalDate todayDate = LocalDate.now();
+        String[] bDate = usr.getBirthDate().split("-");
+        int bDay = Integer.valueOf(bDate[1]);
+        int bMonth = Integer.valueOf(bDate[0]);
+        int bYear = Integer.valueOf(bDate[2]);
+        int todayDay = todayDate.getDayOfMonth();
+        int todayMonth = todayDate.getMonthValue();
+        int todayYear = todayDate.getYear();
+        if (bYear <= todayYear) {
+            returnAge = todayYear - bYear;
+        }
+        System.out.println("bdate = " + usr.getBirthDate());
+        System.out.println("todaydate = " + todayDate.toString());
+        if (bMonth >= todayMonth) {
+            System.out.println("minus 1");
+            returnAge -= 1;
+            if (bMonth == todayMonth && bDay < todayDay) {
+                System.out.println("plus 1");
+                returnAge += 1;
+            }
+        }
+
+        return returnAge;
     }
 
 }

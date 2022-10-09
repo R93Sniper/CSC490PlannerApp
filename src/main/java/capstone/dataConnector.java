@@ -487,6 +487,7 @@ public class dataConnector {
     Address,
     Gender,
     Height,
+    Date_Of_Birth,
     SecurityQ1_id,
     SecurityQ2_id,
     SecurityQ3_id,

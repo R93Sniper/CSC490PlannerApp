@@ -37,7 +37,7 @@ public class waterCalculator implements Initializable {
     private ChoiceBox<String> choicebox1;
     
     private String[] activity = {"30 minutes", "45 minutes", "1 hour", "1 1/2 hours", "2 hours"};
-   
+    
     @FXML
     private Label l;
     
@@ -64,10 +64,10 @@ public class waterCalculator implements Initializable {
     // Functionality 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        choicebox1.getItems().addAll(activity);
+        choicebox1.getItems().addAll(activity);     
         //choicebox1.setOnAction(this::getActivity);
     }
-    
+  
     @FXML 
     private void waterButtonFunction() throws IOException{
         // LBS with choicebox1 not having a value

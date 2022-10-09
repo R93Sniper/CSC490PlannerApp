@@ -49,8 +49,9 @@ public class CreateAccountController {
         if (!userDB.existingUser(textUserName.getText())) 
         {
             if (passwordMatch) {
-                userDB.newUserSignup(textUserName.getText(), textPassword.getText());
+                //userDB.newUserSignup(textUserName.getText(), textPassword.getText());
                 UserProfileModel.getInstance().setUserName(textUserName.getText());
+                UserProfileModel.getInstance().setPassword(textPassword.getText());
                 App.setRoot("securityQuestionSelection");
             } else {
                 textPassword.setText("Passwords Do Not Match");
@@ -60,7 +61,8 @@ public class CreateAccountController {
             textUserName.setText("User Name Already Taken");
 
         }
-
     }
+    
+    //private String boolean isValidPassword()
 
 }

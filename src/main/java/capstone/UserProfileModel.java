@@ -6,7 +6,6 @@
 package capstone;
 
 import java.time.LocalDate;
-
 /**
  *
  * @author jesus
@@ -24,14 +23,13 @@ public class UserProfileModel {
     private String bodyType="";
     private String gender="";
     private String height="";
-    private LocalDate birthDate;
+    private String birthDate="";
 
 
     public static UserProfileModel getInstance() {
         if (instance == null) {
             instance = new UserProfileModel();
         }
-
         return instance;
     }
 
@@ -57,7 +55,7 @@ public class UserProfileModel {
     public String getBodyType() {
         return bodyType;
     }
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
     public String getGender() {
@@ -90,7 +88,7 @@ public class UserProfileModel {
     public void setBodyType(String bt) {
         bodyType = bt;
     }
-    public void setBirthDate(LocalDate dob) {
+    public void setBirthDate(String dob) {
         birthDate = dob;
     }
     public void setGender(String g) {
