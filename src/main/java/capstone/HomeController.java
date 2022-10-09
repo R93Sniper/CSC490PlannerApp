@@ -7,6 +7,7 @@ package capstone;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,7 +29,8 @@ public class HomeController implements Initializable {
     
     
     @FXML
-    private void onLogoutPressed() throws IOException {
+    private void onLogoutPressed() throws IOException, SQLException {
+        dataConnector.getInstance().closeConnectionDB();
         App.setRoot("login");
     }
     @FXML

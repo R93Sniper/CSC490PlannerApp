@@ -82,7 +82,16 @@
                   </HBox>
                   <TextField fx:id="textHeight" layoutX="10.0" layoutY="208.0" prefHeight="30.0" prefWidth="210.0" />
                   <TextField fx:id="textEmail" prefHeight="30.0" prefWidth="233.0" />
-                  <DatePicker fx:id="birthDate" prefHeight="29.0" prefWidth="175.0" promptText="mm/dd/yyyy" />
+                  <HBox layoutX="10.0" layoutY="252.0" prefHeight="30.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="labelBirthDate" prefHeight="30.0" prefWidth="94.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <DatePicker fx:id="birthDate" prefHeight="29.0" prefWidth="120.0" promptText="mm/dd/yyyy" />
+                     </children>
+                  </HBox>
                   <HBox prefHeight="30.0" prefWidth="200.0">
                      <children>
                         <Label fx:id="labelBodyType" prefHeight="30.0" prefWidth="143.0">

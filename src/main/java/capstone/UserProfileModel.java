@@ -5,6 +5,8 @@
  */
 package capstone;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author jesus
@@ -20,9 +22,9 @@ public class UserProfileModel {
     private String password="";
     private String email="";
     private String bodyType="";
-    private String address="";
     private String gender="";
     private String height="";
+    private LocalDate birthDate;
 
 
     public static UserProfileModel getInstance() {
@@ -55,8 +57,8 @@ public class UserProfileModel {
     public String getBodyType() {
         return bodyType;
     }
-    public String getAddress() {
-        return address;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
     public String getGender() {
         return gender;
@@ -88,8 +90,8 @@ public class UserProfileModel {
     public void setBodyType(String bt) {
         bodyType = bt;
     }
-    public void setAddress(String adr) {
-        address = adr;
+    public void setBirthDate(LocalDate dob) {
+        birthDate = dob;
     }
     public void setGender(String g) {
         gender = g;

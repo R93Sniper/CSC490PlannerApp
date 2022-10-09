@@ -38,7 +38,7 @@ public class dataConnector {
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
     private static dataConnector instance = null;
-
+    private final String accessConnStr = "jdbc:ucanaccess://.//SeniorProjectDB.accdb";
     private final String connectionStr = "jdbc:sqlserver://fitnessappserver.database.windows.net:1433;"
             + "database=FitnessAppDB;"
             + "user=alvaj29@fitnessappserver;"
@@ -64,12 +64,16 @@ public class dataConnector {
         try {
 
             //String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
-            conn = DriverManager.getConnection(connectionStr);
+            conn = DriverManager.getConnection(accessConnStr);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
+    }
+    
+    public void closeConnectionDB() throws SQLException{
+    conn.close();
     }
 
     /**

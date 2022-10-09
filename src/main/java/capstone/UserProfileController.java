@@ -11,11 +11,10 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 //import java.util.Date;
-
-
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +25,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 
-
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -36,7 +34,6 @@ import javafx.scene.control.TextField;
  * @author jesus
  */
 public class UserProfileController {
-
 
     dataConnector userDB = null;
     @FXML
@@ -51,27 +48,29 @@ public class UserProfileController {
     private TextField textEmail;
     @FXML
     private TextField textHeight;
-    @FXML 
+    @FXML
     private DatePicker birthDate;
-    @FXML 
+    @FXML
     private ChoiceBox<String> choiceBoxGender;
 
-    @FXML 
+    @FXML
     private ChoiceBox<String> choiceBoxMedical;
-        @FXML 
+    @FXML
     private ChoiceBox<String> choiceBoxBodyType;
-    @FXML 
+    @FXML
     private Label labelGender;
-     @FXML 
+    @FXML
     private Label labelBodyType;
-      @FXML 
+    @FXML
     private Label labelMedical;
+    @FXML
+    private Label labelBirthDate;
 
     private UserProfileModel instanceUser;
     private ResultSet result;
     private boolean genderSelected = false;
     private boolean bodyTypeSelected = false;
-    
+
     public UserProfileController() {
     }
 
@@ -79,45 +78,46 @@ public class UserProfileController {
     public void initialize() {
         userDB = dataConnector.getInstance();
         loadProfile();
-        ArrayList<String> genderList = new ArrayList<>(Arrays.asList("Male", "Female"));
-        ArrayList<String> bodyTypeList = new ArrayList<>(Arrays.asList("Endomorph","Ectomorph","Mesomorph"));
-        ArrayList<String> medicalList = new ArrayList<>(Arrays.asList("Diabetes", "Asthma","Low Blood Pressure","ACL tear"));
+        loadChoiceBox();
         
+        
+        
+    }
+     
+    @FXML
+    private void loadChoiceBox(){
+        ArrayList<String> genderList = new ArrayList<>(Arrays.asList("Male", "Female"));
+        ArrayList<String> bodyTypeList = new ArrayList<>(Arrays.asList("Endomorph", "Ectomorph", "Mesomorph"));
+        ArrayList<String> medicalList = new ArrayList<>(Arrays.asList("Diabetes", "Asthma", "Low Blood Pressure", "ACL tear"));
+
         choiceBoxGender.setItems(FXCollections.observableArrayList(genderList));
         choiceBoxGender.getSelectionModel().selectedIndexProperty()
                 .addListener(new ChangeListener<Number>() {
                     @Override
-                    public void changed(ObservableValue ov, Number value, Number new_value) { 
-                        System.out.println("gender selected is = "+ genderList.get(new_value.intValue()));
+                    public void changed(ObservableValue ov, Number value, Number new_value) {
+                        System.out.println("gender selected is = " + genderList.get(new_value.intValue()));
                         String gender = genderList.get(new_value.intValue());
                         instanceUser.setGender(gender);
                         labelGender.setText(gender);
                         genderSelected = true;
                     }
                 });
-        
-        
-        
+
         choiceBoxBodyType.setItems(FXCollections.observableArrayList(bodyTypeList));
         choiceBoxBodyType.getSelectionModel().selectedIndexProperty()
                 .addListener(new ChangeListener<Number>() {
                     @Override
-                    public void changed(ObservableValue ov, Number value, Number new_value) { 
-          
+                    public void changed(ObservableValue ov, Number value, Number new_value) {
+
                         String bt = bodyTypeList.get(new_value.intValue());
                         instanceUser.setBodyType(bt);
                         labelBodyType.setText(bt);
                         bodyTypeSelected = true;
                     }
                 });
-        
-        
-  
-        
-        
-        
+
     }
-    
+
     //loadProfile for userName in the model
     @FXML
     private void loadProfile() {
@@ -132,11 +132,11 @@ public class UserProfileController {
         String tempFirstName = "";
         String tempLastName = "";
         String tempEmail = "";
-        String tempBodyType= "";
-        //String tempAddress = "";
+        String tempBodyType = "";
         String tempGender = "";
-        String tempHeight= "";
-        
+        String tempHeight = "";
+        String tempDOB = "";
+
         try {
             while (result.next()) {
                 //id = result.getInt("ID");
@@ -145,26 +145,24 @@ public class UserProfileController {
                 tempFirstName = result.getString("First_Name");
                 tempLastName = result.getString("Last_Name");
                 tempEmail = result.getString("Email");
-                tempBodyType= result.getString("Body_Type");
-                //tempAddress = result.getString("Address");
+                tempBodyType = result.getString("Body_Type");
                 tempGender = result.getString("Gender");
-                tempHeight= result.getString("Height");
+                tempHeight = result.getString("Height");
+                tempDOB = result.getString("Date_Of_Birth");
 
                 //System.out.printf("username= %s , h= %s \n", tempUserName, tempHeight);
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         instanceUser.setUserName(tempUserName);
         instanceUser.setGender(tempGender);
         instanceUser.setPassword(tempPW);
         instanceUser.setFirstName(tempFirstName);
         instanceUser.setLastName(tempLastName);
         instanceUser.setEmail(tempEmail);
-        instanceUser.setHeight(tempHeight);  
+        instanceUser.setHeight(tempHeight);
         instanceUser.setBodyType(tempBodyType);
         
         labelPassword.setText(tempPW);
@@ -175,81 +173,90 @@ public class UserProfileController {
         labelUserName.setText(tempUserName);
         labelBodyType.setText(tempBodyType);
         labelGender.setText(tempGender);
+        labelBirthDate.setText(tempDOB);
+        
+        if(tempDOB != null)
+        {
+        //LocalDate theDate = LocalDate.parse(tempDOB, DateTimeFormatter.ofPattern("MM-DD-YYYY"));
+        //LocalDate.pa
+        //instanceUser.setBirthDate(theDate);
+        }
     }
 
     @FXML
     private void switchToHome() throws IOException {
         App.setRoot("home");
     }
-    
-     @FXML
-    private void saveBtnPressed(){
+
+    @FXML
+    private void saveBtnPressed() {
         String tableName = "User_Profile";
         String usr = instanceUser.getUserName();
-        
-        if(textEmail.getText() != null &&!textEmail.getText().equals(instanceUser.getEmail()) ){    
+
+        if (textEmail.getText() != null && !textEmail.getText().equals(instanceUser.getEmail())) {
             userDB.updateColumn(tableName, usr, textEmail.getText(), DBCol.Email.toString());
             System.out.println("email updated in the DB");
             instanceUser.setEmail(textEmail.getText());
         }
-        if(textFirstName.getText() != null && !textFirstName.getText().equals(instanceUser.getFirstName()) ){           
-            userDB.updateColumn(tableName,usr, textFirstName.getText(), DBCol.First_Name.toString());
+        if (textFirstName.getText() != null && !textFirstName.getText().equals(instanceUser.getFirstName())) {
+            userDB.updateColumn(tableName, usr, textFirstName.getText(), DBCol.First_Name.toString());
             System.out.println("FirstName updated in the DB");
             instanceUser.setFullName(textFirstName.getText());
-        }  
-        
-         if(textLastName.getText()!= null && !textLastName.getText().equals(instanceUser.getLastName()) ){      
-            userDB.updateColumn(tableName,usr, textLastName.getText(), DBCol.Last_Name.toString());
+        }
+
+        if (textLastName.getText() != null && !textLastName.getText().equals(instanceUser.getLastName())) {
+            userDB.updateColumn(tableName, usr, textLastName.getText(), DBCol.Last_Name.toString());
             System.out.println("last name updated in the DB");
             instanceUser.setLastName(textLastName.getText());
-         }
-         
-         if(textHeight.getText()!= null && !textHeight.getText().equals(instanceUser.getHeight()) )
-         {      
-            userDB.updateColumn(tableName,usr , textHeight.getText(), DBCol.Height.toString());
+        }
+
+        if (textHeight.getText() != null && !textHeight.getText().equals(instanceUser.getHeight())) {
+            userDB.updateColumn(tableName, usr, textHeight.getText(), DBCol.Height.toString());
             System.out.println("height updated in the DB");
             instanceUser.setHeight(textHeight.getText());
-         }
-            
-         if(genderSelected)
-         {      
-            userDB.updateColumn(tableName,usr, instanceUser.getGender(), DBCol.Gender.toString());
+        }
+
+        if (genderSelected) {
+            userDB.updateColumn(tableName, usr, instanceUser.getGender(), DBCol.Gender.toString());
             System.out.println("gender choice updated in the DB");
             genderSelected = false;
-         }
-         
-         if(bodyTypeSelected)
-         {      
-            userDB.updateColumn(tableName,usr, instanceUser.getBodyType(), DBCol.Body_Type.toString());
+        }
+
+        if (bodyTypeSelected) {
+            userDB.updateColumn(tableName, usr, instanceUser.getBodyType(), DBCol.Body_Type.toString());
             System.out.println("gender choice updated in the DB");
             bodyTypeSelected = false;
-         }
-            
-     //userDoB.getValue().
-         //int day = birthDate.getValue().getDayOfMonth();
-         //int month = birthDate.getValue().getMonthValue();
-         //int year = birthDate.getValue().getYear();
+        }
+
+        //userDoB.getValue().
+        //int day = birthDate.getValue().getDayOfMonth();
+        //int month = birthDate.getValue().getMonthValue();
+        //int year = birthDate.getValue().getYear();
         // System.out.println("day= "+day +" , month= "+month +" , year= "+year);
-         LocalDate date = LocalDate.now();
-         LocalDate d = birthDate.getValue();
-         //dataConnector.getInstance().updateUserBirthDate( d, labelUserName.getText());
-         
-         //userDoB.getValue().
-         //System.out.println();
-         
+        //LocalDate date = LocalDate.now();
+        LocalDate date = birthDate.getValue();
+        //LocalDate date = LocalDate.parse(d.toString(), DateTimeFormatter.ofPattern("MM-DD-YYYY"));
+       // LocalDate c = LocalDate.parse(date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        if (date != null) {
+            labelBirthDate.setText(date.toString());
+            if (!dataConnector.getInstance().updateUserBirthDate(date, labelUserName.getText())) {
+                System.out.println("failed to add birthDate to DB");
+            }
+        }
+
+        //userDoB.getValue().
+        //System.out.println();
         // usrBirthDate.getV
-        
     }
-    
+
     @FXML
     private void onUpdateSecQuestions() throws IOException {
         App.setRoot("securityQuestionSelection");
     }
-    
+
     @FXML
     private void changePassword() throws IOException {
         App.setRoot("forgotPW");
     }
-    
 
 }
