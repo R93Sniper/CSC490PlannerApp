@@ -133,7 +133,7 @@ public class SecurityQuestionSelectionController{
 
             dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ3.getText(), DBCol.SecurityA3.toString());
             dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(2), DBCol.SecurityQ3_id.toString());
-            dataConnector.getInstance().newUserSignup(userName, userPassword);
+
             App.setRoot("login");
         } else {
                 labelErrorMsg.setText("Must Select and Answer 3 Security Questions");   

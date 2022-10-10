@@ -98,7 +98,7 @@ public class dataConnector {
             int row = preparedStatement.executeUpdate();
 
             if (row > 0) {
-                System.out.println("Row inserted into DB");
+                System.out.println("**NEW USER inserted into DB");
             }
         } catch (SQLException e) {
         }

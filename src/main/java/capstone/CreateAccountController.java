@@ -52,6 +52,7 @@ public class CreateAccountController {
                 //userDB.newUserSignup(textUserName.getText(), textPassword.getText());
                 UserProfileModel.getInstance().setUserName(textUserName.getText());
                 UserProfileModel.getInstance().setPassword(textPassword.getText());
+                dataConnector.getInstance().newUserSignup(textUserName.getText(), textPassword.getText());
                 App.setRoot("securityQuestionSelection");
             } else {
                 textPassword.setText("Passwords Do Not Match");
