@@ -103,6 +103,19 @@ public class UserProfileController {
                         genderSelected = true;
                     }
                 });
+        
+        choiceBoxMedical.setItems(FXCollections.observableArrayList(medicalList));
+        choiceBoxMedical.getSelectionModel().selectedIndexProperty()
+                .addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue ov, Number value, Number new_value) {
+                        System.out.println("medical selected is = " + medicalList.get(new_value.intValue()));
+                        String m = medicalList.get(new_value.intValue());
+                        //instanceUser
+                        labelMedical.setText(m);
+                        //genderSelected = true;
+                    }
+                });
 
         choiceBoxBodyType.setItems(FXCollections.observableArrayList(bodyTypeList));
         choiceBoxBodyType.getSelectionModel().selectedIndexProperty()
