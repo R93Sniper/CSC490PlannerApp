@@ -33,7 +33,6 @@ public class CalculatorFunctions {
     public void initialize() {
         //userDB = dataConnector.getInstance();
         usr = UserProfileModel.getInstance();
-
         if (!usr.getUserName().equals("")) {
             loadGender();
             loadHeightData();
@@ -76,7 +75,12 @@ public class CalculatorFunctions {
 
     @FXML
     private void switchToHome() throws IOException {
+        
+        if (usr.getUserName().equals("")) {
+            App.setRoot("primary");
+        }else{
         App.setRoot("home");
+        }
     }
 
     @FXML

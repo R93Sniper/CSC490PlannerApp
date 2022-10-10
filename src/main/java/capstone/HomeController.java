@@ -38,7 +38,8 @@ public class HomeController implements Initializable {
     @FXML
     private void onLogoutPressed() throws IOException, SQLException {
         //dataConnector.getInstance().closeConnectionDB();
-        App.setRoot("login");
+        instanceUser.resetModel();
+        App.setRoot("primary");
     }
     @FXML
     private void onViewProfile() throws IOException {
@@ -53,8 +54,8 @@ public class HomeController implements Initializable {
      @FXML
     private void loadProfile() {
         //returns resultset matching the given username
-        UserProfileModel instanceUser = UserProfileModel.getInstance();
-        dataConnector userDB = dataConnector.getInstance();
+        instanceUser = UserProfileModel.getInstance();
+        userDB = dataConnector.getInstance();
         ResultSet result;
         result = userDB.getResult(instanceUser.getUserName(), "User_Profile");
 
