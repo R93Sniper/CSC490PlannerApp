@@ -28,27 +28,45 @@ public class CalculatorFunctions {
     private int m = 400;
     private int g = 800;
     private UserProfileModel usr = UserProfileModel.getInstance();
-    
-        
+
     @FXML
     public void initialize() {
         //userDB = dataConnector.getInstance();
         usr = UserProfileModel.getInstance();
-        if(usr.getGender().equals("Male"))
-            mb1.setSelected(true);
-        if(usr.getGender().equals("Female"))
-            fb1.setSelected(true);
-        if(!usr.getHeight().equals(""))
-        {
-        String [] height = usr.getHeight().split("-");
-        String ft = height[0];
-        String in = height[1];
-        feetTF.setText(ft);
-        inchesTF.setText(in);
+
+        if (!usr.getUserName().equals("")) {
+            loadGender();
+            loadHeightData();
+            loadUserAge();
         }
-        
-        loadUserAge();
-  
+
+    }
+    
+    @FXML
+    private void loadGender(){
+        if(usr.getGender() != null)
+        {
+            if (usr.getGender().equals("Male")) 
+            {
+                mb1.setSelected(true);
+            }
+            if (usr.getGender().equals("Female")) 
+            {
+                fb1.setSelected(true);
+            }
+        }
+    }
+
+    @FXML
+    public void loadHeightData(){
+        if (usr.getHeight() != null) 
+        {
+            String[] height = usr.getHeight().split("-");
+            String ft = height[0];
+            String in = height[1];
+            feetTF.setText(ft);
+            inchesTF.setText(in);
+        }
     }
 
     @FXML
@@ -353,11 +371,15 @@ public class CalculatorFunctions {
     }
 
     @FXML
-    private void loadUserAge() {
+    private void loadUserAge() 
+    {
+        if(usr.getBirthDate() != null)
+        {
         if (getAge() > -1) {
             af1.setText(String.valueOf(getAge()));
         } else {
             System.out.println("Birth Age is greater than Today's date so Can't calc");
+        }
         }
 
     }

@@ -92,7 +92,7 @@ public class dataConnector {
             String sql = "INSERT INTO " + tableName + "(User_Name, User_Password) VALUES"
                     + "(?, ?)";
 
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, hashedPass);
             int row = preparedStatement.executeUpdate();

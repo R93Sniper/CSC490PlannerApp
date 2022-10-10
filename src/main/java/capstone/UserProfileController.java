@@ -35,7 +35,8 @@ import javafx.scene.control.TextField;
  */
 public class UserProfileController {
 
-    dataConnector userDB = null;
+    dataConnector userDB = dataConnector.getInstance();
+    UserProfileModel instanceUser = UserProfileModel.getInstance();
     @FXML
     private Label labelPassword;
     @FXML
@@ -69,7 +70,6 @@ public class UserProfileController {
     @FXML
     private Label labelBirthDate;
 
-    private UserProfileModel instanceUser;
     private ResultSet result;
     private boolean genderSelected = false;
     private boolean bodyTypeSelected = false;
@@ -122,64 +122,23 @@ public class UserProfileController {
     //loadProfile for userName in the model
     @FXML
     private void loadProfile() {
-        //returns resultset matching the given username
-
-        instanceUser = UserProfileModel.getInstance();
-        result = userDB.getResult(instanceUser.getUserName(), "User_Profile");
-
-        int id;
-        String tempUserName = "";
-        String tempPW = "";
-        String tempFirstName = "";
-        String tempLastName = "";
-        String tempEmail = "";
-        String tempBodyType = "";
-        String tempGender = "";
-        String tempHeight = "";
-        String tempDOB = "";
-
-        try {
-            while (result.next()) {
-                //id = result.getInt("ID");
-                tempUserName = result.getString("User_Name");
-                tempPW = result.getString("User_Password");
-                tempFirstName = result.getString("First_Name");
-                tempLastName = result.getString("Last_Name");
-                tempEmail = result.getString("Email");
-                tempBodyType = result.getString("Body_Type");
-                tempGender = result.getString("Gender");
-                tempHeight = result.getString("Height");
-                tempDOB = result.getString("Date_Of_Birth");
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+ 
+        labelPassword.setText(instanceUser.getPassword());
+        textFirstName.setText(instanceUser.getFirstName());
+        textLastName.setText(instanceUser.getLastName());
+        textEmail.setText(instanceUser.getEmail());
+        labelUserName.setText(instanceUser.getUserName());
+        labelBodyType.setText(instanceUser.getBodyType());
+        labelGender.setText(instanceUser.getGender());
+        labelBirthDate.setText(instanceUser.getBirthDate());
         
-        
-        instanceUser.setUserName(tempUserName);
-        instanceUser.setGender(tempGender);
-        instanceUser.setPassword(tempPW);
-        instanceUser.setFirstName(tempFirstName);
-        instanceUser.setLastName(tempLastName);
-        instanceUser.setEmail(tempEmail);
-        instanceUser.setHeight(tempHeight);
-        instanceUser.setBodyType(tempBodyType);
-        instanceUser.setBirthDate(tempDOB);
-        
-        labelPassword.setText(tempPW);
-        textFirstName.setText(tempFirstName);
-        textLastName.setText(tempLastName);
-        textEmail.setText(tempEmail);
-        labelUserName.setText(tempUserName);
-        labelBodyType.setText(tempBodyType);
-        labelGender.setText(tempGender);
-        labelBirthDate.setText(tempDOB);
-        
-        
-        String[] height =  tempHeight.split("-");
+        String h = instanceUser.getHeight();
+        if(h != null)
+        {
+        String[] height =  h.split("-");
         textFeet.setText(height[0]);
         textInches.setText(height[1]);
+        }
 
     }
 

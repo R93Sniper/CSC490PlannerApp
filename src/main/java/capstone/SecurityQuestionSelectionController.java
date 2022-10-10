@@ -29,7 +29,7 @@ import javafx.scene.control.TextField;
  *
  * @author jesus
  */
-public class SecurityQuestionSelectionController implements Initializable {
+public class SecurityQuestionSelectionController{
 
     @FXML
     private Button btnOkay;
@@ -58,8 +58,8 @@ public class SecurityQuestionSelectionController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    @FXML
+    public void initialize() {
         selectedQIds.add(-1);
         selectedQIds.add(-1);
         selectedQIds.add(-1);
@@ -93,7 +93,8 @@ public class SecurityQuestionSelectionController implements Initializable {
 
     @FXML
     private void loadChoiceBox() {
-        ResultSet allSecQs = dataConnector.getInstance().getAllSecQs();
+        dataConnector dc = dataConnector.getInstance();
+        ResultSet allSecQs = dc.getAllSecQs();
 
         try {
             while (allSecQs.next()) {
