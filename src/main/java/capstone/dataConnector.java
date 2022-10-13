@@ -56,16 +56,12 @@ public class dataConnector {
         if (instance == null) {
             instance = new dataConnector();
         }
-
         return instance;
     }
 
     private void getConnectionDB() {
         try {
-
-            //String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
             conn = DriverManager.getConnection(accessConnStr);
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -99,43 +95,6 @@ public class dataConnector {
 
             if (row > 0) {
                 System.out.println("**NEW USER inserted into DB");
-            }
-        } catch (SQLException e) {
-        }
-    }
-
-    /**
-     * newUserProfileSignup - setting up new user profile information and
-     * storing their data.
-     */
-    public void newUserProfileSignup(String userName, String userPassword, String secQ1, String secQ2, String secQ3,
-            String secAns1, String secAns2, String secAns3, String fullName, String height, String dob, String gender, String bodytype) throws NoSuchAlgorithmException {
-        //call the getConnectionDB method
-        //getConnectionDB();
-        String hashedPassword = returnHashPassword(userPassword);
-        try {
-
-            String sql = "INSERT INTO User(userName,userPassword,secQ1,secQ2,secQ3,secAns1,secAns2,secAns3, "
-                    + "fullName, height, dob, gender, bodytype) VALUES"
-                    + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, hashedPassword);
-            preparedStatement.setString(3, secQ1);
-            preparedStatement.setString(4, secQ2);
-            preparedStatement.setString(5, secQ3);
-            preparedStatement.setString(6, secAns1);
-            preparedStatement.setString(7, secAns2);
-            preparedStatement.setString(8, secAns3);
-            preparedStatement.setString(9, fullName);
-            preparedStatement.setString(10, height);
-            preparedStatement.setString(11, dob);
-            preparedStatement.setString(12, gender);
-            preparedStatement.setString(13, bodytype);
-
-            int row = preparedStatement.executeUpdate();
-            if (row > 0) {
-                System.out.println("Row inserted");
             }
         } catch (SQLException e) {
         }
@@ -238,7 +197,7 @@ public class dataConnector {
      * @param secAns2
      * @param secAns3
      */
-    public void forgetPassword(String uName, String uPswd,
+    public void forgetPasswordk(String uName, String uPswd,
             String secAns1, String secAns2, String secAns3) throws NoSuchAlgorithmException {
         getConnectionDB();
 
