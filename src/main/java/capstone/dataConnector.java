@@ -1,81 +1,116 @@
-package capstone;
+package com.mycompany.csc490_seniorproject;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
 
 /**
  * Data Connector object
  *
- * This acts as an intermediate between the database and the code
- * All major functions that called against the database backend go here
- * This should be a pure retrieval based object, no logic
- * Logic should be handled in the classes where needed
+ * This acts as an intermediate between the database and the code All major
+ * functions that called against the database backend go here This should be a
+ * pure retrieval based object, no logic Logic should be handled in the classes
+ * where needed
  *
- * @author Wahab Quazi, Simranjit
- *         -----------
- *         -----------
+ * @author Wahab Quazi, Simranjit, Jzeuus ----------- -----------
  */
-public class dataConnector {
-    //PlannerDB
-    public Connection conn;
-    public PreparedStatement preparedStatement;
-     
+public class Database {
 
-     //CODE FOR PlannerDB
-     /**
+    //SeniorProjectDB
+    public  Connection conn;
+    public  PreparedStatement preparedStatement;
+
+    /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
      */
-    public void getConnectionDB() {
-        try {
-            String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
-            conn = DriverManager.getConnection(databaseURL);
-        } catch (SQLException ex) {
-            ;
+    private static Database instance = null;
+    private static String accessConnStr = "jdbc:ucanaccess://.//SeniorProjectDB.accdb";
+    private final String connectionStr = "jdbc:sqlserver://fitnessappserver.database.windows.net:1433;"
+            + "database=FitnessAppDB;"
+            + "user=alvaj29@fitnessappserver;"
+            + "password=Seniorproject1;"
+            + "encrypt=true;"
+            + "trustServerCertificate=false;"
+            + "hostNameInCertificate=*.database.windows.net;"
+            + "loginTimeout=30;";
+
+    private Database() {
+        getConnectionDB();
+    }
+
+    public static Database getInstance() {
+        if (instance == null) {
+            instance = new Database();
         }
+
+        return instance;
+    }
+
+    private void getConnectionDB() {
+        try {
+            conn = DriverManager.getConnection(accessConnStr);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void closeConnectionDB() throws SQLException {
+        conn.close();
     }
 
     /**
      * newUserSignup: when new user sign up
+     *
+     * @param userName
+     * @param userPassword
      */
-    public void newUserSignup(String userName, String userPassword) {
+    public void newUserSignup(String userName, String userPassword) throws NoSuchAlgorithmException {
         //call the getConnectionDB method
-        getConnectionDB();
+        //getConnectionDB();
+        String tableName = "User_Profile";
+        String hashedPass = returnHashPassword(userPassword);
         try {
-            String sql = "INSERT INTO User(userName,userPassword) VALUES"
+            String sql = "INSERT INTO " + tableName + "(User_Name, User_Password) VALUES"
                     + "(?, ?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, userPassword);
+            preparedStatement.setString(2, hashedPass);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
-                System.out.println("Row inserted");
+                System.out.println("**NEW USER inserted into DB");
             }
         } catch (SQLException e) {
         }
     }
 
     /**
-     * newUserProfileSignup - setting up new user profile information and storing their data.
+     * newUserProfileSignup - setting up new user profile information and
+     * storing their data.
      */
     public void newUserProfileSignup(String userName, String userPassword, String secQ1, String secQ2, String secQ3,
-            String secAns1, String secAns2, String secAns3, String fullName, String height, String dob, String gender, String bodytype) {
+            String secAns1, String secAns2, String secAns3, String fullName, String height, String dob, String gender, String bodytype) throws NoSuchAlgorithmException {
         //call the getConnectionDB method
-        getConnectionDB();
+        //getConnectionDB();
+        String hashedPassword = returnHashPassword(userPassword);
         try {
+
             String sql = "INSERT INTO User(userName,userPassword,secQ1,secQ2,secQ3,secAns1,secAns2,secAns3, "
                     + "fullName, height, dob, gender, bodytype) VALUES"
                     + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            preparedStatement = conn.prepareStatement(sql);
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, userPassword);
+            preparedStatement.setString(2, hashedPassword);
             preparedStatement.setString(3, secQ1);
             preparedStatement.setString(4, secQ2);
             preparedStatement.setString(5, secQ3);
@@ -98,52 +133,65 @@ public class dataConnector {
 
     /**
      * existingUserLogin: existing user login
+     *
+     * @param userName
+     * @param userPassword
+     * @return
      */
-    public boolean existingUserLogin(String userName, String userPassword) {
-        getConnectionDB();
+    public boolean existingUser(String userName) {
+        //getConnectionDB();
+        String tableName = "User_Profile";
         String uName = null, uPswd = null;
         try {
             Statement stmt = conn.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT * FROM User WHERE userName = '" + userName + "'");
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\'");
+
             while (result.next()) {
-                uName = result.getString("userName");
-                uPswd = result.getString("userPassword");
+                uName = result.getString("User_Name");
+                //uPswd = result.getString("User_Password");
             }
         } catch (SQLException except) {
+            except.printStackTrace();
         }
-        return (userName.equals(uName) && userPassword.equals(uPswd));
+        return userName.equals(uName);
     }
 
     /**
      * verifiedUserInstance: verified if user login info is correct
+     *
+     * @param uName
+     * @param uPswd
+     * @return
      */
-    public String verifiedUserInstance(String uName, String uPswd) {
-        getConnectionDB();
+    public boolean verifiedUserInstance(String uName, String uPswd) {
+        String tableName = "User_Profile";
         try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT userName, userPassword FROM User");
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM " + tableName
+                    + " where User_Name=\'" + uName + "\'"
+                    + " AND User_Password=\'" + uPswd + "\'");
             while (resultSet.next()) {
-                String name = resultSet.getString("userName");
-                String password = resultSet.getString("userPassword");
-                if (existingUserLogin(uName, uPswd) == true) {
-                    return "Login Successfully";
-                } else {
-                    return "INFORMATION PROVIDED IS INCORRECT.";
+                String name = resultSet.getString("User_Name");
+                String password = resultSet.getString("User_Password");
+                if (uName.equals(name) && uPswd.equals(password)) {
+                    return true;
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return "";
+        return false;
     }
 
     /**
-     * checkSecurityAnswers - check if the user entered answers and answers stored in 
-     * the database match
+     * checkSecurityAnswers - check if the user entered answers and answers
+     * stored in the database match
+     *
      * @param userName
      * @param secAns1
      * @param secAns2
      * @param secAns3
-     * @return 
+     * @return
      */
     public boolean checkSecurityAnswers(String userName, String secAns1, String secAns2,
             String secAns3) {
@@ -170,8 +218,8 @@ public class dataConnector {
 
     /**
      * forgetPassword: if user forget their password store the updated password
-     * in the back-end database but before that check if the user answered all security questions
-     * correctly.
+     * in the back-end database but before that check if the user answered all
+     * security questions correctly.
      *
      * @param uName
      * @param uPswd
@@ -179,46 +227,163 @@ public class dataConnector {
      * @param secAns2
      * @param secAns3
      */
-    public boolean forgetPassword(String uName, String uPswd,
-            String secAns1, String secAns2, String secAns3) {
+    public void forgetPassword(String uName, String uPswd,
+            String secAns1, String secAns2, String secAns3) throws NoSuchAlgorithmException {
         getConnectionDB();
-        boolean flag = true;
+
         // check if the user entered right answers
-        if (existingUser(uName, secAns1, secAns2, secAns3) == flag) {
+        String hashedPass = returnHashPassword(uPswd);
+        if (checkSecurityAnswers(uName, secAns1, secAns2, secAns3) == true) {
             try {
                 String sql = "UPDATE User SET userPassword=? WHERE userName=?";
-                preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setString(1, uPswd);
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, hashedPass);
                 preparedStatement.setString(2, uName);
                 int row = preparedStatement.executeUpdate();
                 if (row > 0) {
                     System.out.println("Row updated");
-                    flag = true;
                 }
             } catch (SQLException e) {
             }
         } else {
-            flag = false;
+            System.out.println("Error!!");
         }
-        return flag;
     }
-  
-     /**
-     * userProgressCard: inserting user info into their progress card.
-     */
-    public void userProgressCard(String userName, String dateOfCard, String weight, String diet, String bodyFat) {
-        getConnectionDB();
 
+    public ResultSet getResult(String userName, String tableName) {
+
+        System.out.println("query data:");
+        ResultSet result = null;
         try {
-            String sql = "INSERT INTO Progresscard(userName,dateOfCard,weight,diet,bodyFat) VALUES"
-                    + "(?,?,?,?,?)";
-            // preparedStatement = conn.prepareStatement(sql);
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where User_Name=\'" + userName + "\'");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+
+    }
+
+    public boolean updateColumn(String tableName, String userName, String newStr, String col) {
+        try {
+            String sql = "UPDATE " + tableName
+                    + " SET " + col + " = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean updateUserBirthDate(LocalDate dob, String userName) {
+        System.out.println("dob= " + dob);
+        try {
+            String sql = "UPDATE User_Profile"
+                    + " SET Date_Of_Birth = \'" + dob.toString() + "\' WHERE User_Name=\'" + userName + "\'";
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public String getSecq(int id) {
+        String tableName = "Security_Questions";
+        ResultSet result = null;
+        String returnStr = "";
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where SecQ_id= " + id);
+            while (result.next()) {
+                returnStr = result.getString("SecQ_desc");
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return returnStr;
+    }
+
+    public ResultSet getAllSecQs() {
+
+        ResultSet result = null;
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + "Security_Questions");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+
+    }
+
+    public boolean updateUserSecQID(String userName, int qId, String col) {
+        try {
+            String sql = "UPDATE " + "User_Profile"
+                    + " SET " + col + " = " + qId + " WHERE User_Name=\'" + userName + "\'";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     * takes the user password and hashes it using SHA-256 bit hashing, a one
+     * way hash function for security
+     *
+     * @param password
+     * @return
+     */
+    public String returnHashPassword(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] messageDigest = md.digest(password.getBytes());
+
+        BigInteger no = new BigInteger(1, messageDigest);
+
+        String hashPassword = no.toString(16);
+
+        while (hashPassword.length() < 32) {
+            hashPassword = "0" + hashPassword;
+        }
+        System.out.println(hashPassword + "------");
+
+        return hashPassword;
+    }
+
+    //CODE FOR ProgressCard DB
+    public void  userProgressCard(String userName, Date dateOfCard, String weight, String bodyMeasurement, int intakeID,
+            int excerciseID) {
+        getConnectionDB();
+        dateOfCard  = Date.valueOf(LocalDate.now());
+        try {
+            String sql = "INSERT INTO Progresscard(User_Name, DateOfCard, Weight, BodyMeasurement,"
+                    + "Intake_ID, Excercise_ID) VALUES"
+                    + "(?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, dateOfCard);
+            preparedStatement.setDate(2, dateOfCard);
             preparedStatement.setString(3, weight);
-            preparedStatement.setString(4, diet);
-            preparedStatement.setString(5, bodyFat);
+            preparedStatement.setString(4, bodyMeasurement);
+            preparedStatement.setInt(5, intakeID);
+            preparedStatement.setInt(6, excerciseID);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted");
@@ -226,16 +391,19 @@ public class dataConnector {
         } catch (SQLException e) {
         }
     }
-     
-     /**
-     * updateDateOfCard: if registered user want to update their date of card entry.
+
+    /**
+     * updateDateOfCard: if registered user want to update their date of card
+     *
+     * @param uName
+     * @param dateOfCard
      */
-    public void updateDateOfCard(String uName, String dateOfCard) {
+    public void updateDateOfCard(String uName, Date dateOfCard) {
         getConnectionDB();
         try {
-            String sql = "UPDATE Progresscard SET dateOfCard=? WHERE userName=?";
+            String sql = "UPDATE Progresscard SET DateOfCard=? WHERE userName=?";
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, dateOfCard);
+            preparedStatement.setDate(1, dateOfCard);
             preparedStatement.setString(2, uName);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
@@ -244,11 +412,11 @@ public class dataConnector {
         } catch (SQLException e) {
         }
     }
-    
+
     /**
      * updateWeight: if registered user want to update their date of card entry.
      */
-  public void updateWeight(String uName, String weight) {
+    public void updateWeight(String uName, String weight) {
         getConnectionDB();
         try {
             String sql = "UPDATE Progresscard SET weight=? WHERE userName=?";
@@ -262,7 +430,7 @@ public class dataConnector {
         } catch (SQLException e) {
         }
     }
-     
+
     /**
      * updateWeight: if registered user want to update their date of card entry.
      */
@@ -280,4 +448,29 @@ public class dataConnector {
         } catch (SQLException e) {
         }
     }
+
+}
+
+enum DBCol {
+    User_Name,
+    User_Password,
+    First_Name,
+    Last_Name,
+    Email,
+    Body_Type,
+    Address,
+    Gender,
+    Height,
+    Date_Of_Birth,
+    SecurityQ1_id,
+    SecurityQ2_id,
+    SecurityQ3_id,
+    SecurityA1,
+    SecurityA2,
+    SecurityA3,
+    DateOfCard,
+    Weight, 
+    BodyMeasurement,
+    Intake_ID, 
+    Excercise_ID
 }
