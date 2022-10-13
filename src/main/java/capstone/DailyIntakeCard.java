@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package capstone.ProgressCard;
+package capstone;
 
 /**
  *
- * @author Battlestation
+ * @author Wahab Quazi
  */
-public class DailyExerciseCard {
+public class DailyIntakeCard {
     
 }

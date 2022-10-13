@@ -70,22 +70,22 @@ public class CalculatorFunctions {
 
     @FXML
     private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
+        App.setRoot("Landing");
     }
 
     @FXML
     private void switchToHome() throws IOException {
         
         if (usr.getUserName().equals("")) {
-            App.setRoot("primary");
+            App.setRoot("Landing");
         }else{
-        App.setRoot("home");
+        App.setRoot("UserHome");
         }
     }
 
     @FXML
     private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("Calculators");
     }
 
     // Water Switch

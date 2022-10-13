@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecurityQuestionSelectionController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecurityQuestionSelectionController">
    <top>
       <Label alignment="CENTER" prefHeight="64.0" prefWidth="400.0" text="Security Questions" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
@@ -29,6 +29,11 @@
                   <ChoiceBox fx:id="choiceBoxQ2" layoutX="10.0" layoutY="57.0" prefHeight="38.0" prefWidth="237.0" />
                   <Label contentDisplay="CENTER" layoutX="10.0" layoutY="57.0" prefHeight="28.0" prefWidth="237.0" text="Question 3: " textAlignment="CENTER" />
                   <ChoiceBox fx:id="choiceBoxQ3" layoutX="10.0" layoutY="236.0" prefHeight="38.0" prefWidth="237.0" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="93.0" text="Go Back">
+                     <VBox.margin>
+                        <Insets left="100.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
             <VBox prefHeight="347.0" prefWidth="372.0">

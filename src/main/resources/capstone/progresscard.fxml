@@ -6,19 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.ProgressCard">
    <children>
       <Text layoutX="263.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progress Card" />
       <Text layoutX="204.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
       <Text fx:id="currentDate" layoutX="334.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[DATE]" />
       <Text layoutX="179.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Weight:" textAlignment="CENTER" />
-      <TextField layoutX="296.0" layoutY="83.0" />
-      <RadioButton layoutX="333.0" layoutY="117.0" mnemonicParsing="false" text="lbs" />
-      <RadioButton layoutX="384.0" layoutY="117.0" mnemonicParsing="false" text="kg" />
-      <BottomNavigationButton layoutX="29.0" layoutY="346.0" text="Go Back" />
-      <BottomNavigationButton layoutX="237.0" layoutY="152.0" text="Enter Measurements" />
-      <BottomNavigationButton layoutX="240.0" layoutY="200.0" text="Enter Dietary Intake" textAlignment="CENTER" />
-      <BottomNavigationButton layoutX="253.0" layoutY="246.0" text="Enter Exercises" />
+      <TextField fx:id="currentWeight" layoutX="296.0" layoutY="83.0" />
+      <RadioButton fx:id="rb_pounds" layoutX="333.0" layoutY="117.0" mnemonicParsing="false" text="lbs" />
+      <RadioButton fx:id="rb_kilo" layoutX="384.0" layoutY="117.0" mnemonicParsing="false" text="kg" />
+      <BottomNavigationButton layoutX="29.0" layoutY="346.0" onAction="#goBack" text="Go Back" />
+      <BottomNavigationButton layoutX="237.0" layoutY="152.0" onAction="#goToMeasure" text="Enter Measurements" />
+      <BottomNavigationButton layoutX="240.0" layoutY="200.0" onAction="#goToIntake" text="Enter Dietary Intake" textAlignment="CENTER" />
+      <BottomNavigationButton layoutX="253.0" layoutY="246.0" onAction="#goToExercise" text="Enter Exercises" />
+      <BottomNavigationButton layoutX="501.0" layoutY="346.0" onAction="#saveCard" text="Save Card" />
    </children>
 </AnchorPane>

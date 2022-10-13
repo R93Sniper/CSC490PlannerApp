@@ -39,16 +39,16 @@ public class HomeController implements Initializable {
     private void onLogoutPressed() throws IOException, SQLException {
         //dataConnector.getInstance().closeConnectionDB();
         instanceUser.resetModel();
-        App.setRoot("primary");
+        App.setRoot("Landing");
     }
     @FXML
     private void onViewProfile() throws IOException {
        
-        App.setRoot("userProfile");
+        App.setRoot("Profile");
     }
     @FXML
     private void onCalcWater() throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("Calculators");
     }
     
      @FXML
