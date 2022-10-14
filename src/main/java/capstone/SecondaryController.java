@@ -12,11 +12,12 @@ import javafx.scene.control.ChoiceBox;
 /**
  *
  * @author ramoy
+ *         Wahab Quazi
  */
 public class SecondaryController {
     @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");  
+    private void goBack() throws IOException {
+        App.setRoot("Landing");  
     }
     @FXML
     private void switchToCalorie() throws IOException {

@@ -45,20 +45,20 @@ public class waterCalculator implements Initializable {
     private int oz = 12; //Each half hour. 
     @FXML
     private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
+        App.setRoot("Landing");
     }
     @FXML
     private void switchToHome() throws IOException {
-        App.setRoot("home");
+        App.setRoot("UserHome");
     }
     @FXML
     private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("Calculators");
     }
     // Water Switch
     @FXML
     private void waterCalc() throws IOException{
-        App.setRoot("watercalc");
+        App.setRoot("waterCalc");
     }
     
     // Functionality 

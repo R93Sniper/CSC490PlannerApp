@@ -134,11 +134,16 @@ public class SecurityQuestionSelectionController{
             dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ3.getText(), DBCol.SecurityA3.toString());
             dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(2), DBCol.SecurityQ3_id.toString());
 
-            App.setRoot("login");
+            App.setRoot("LoginScreen");
         } else {
                 labelErrorMsg.setText("Must Select and Answer 3 Security Questions");   
         }
 
+    }
+    
+    @FXML
+    public void goBack() throws IOException {
+        App.setRoot("LoginScreen");
     }
 
 }

@@ -38,6 +38,11 @@ public class CreateAccountController {
 
         // TODO
     }
+    
+    @FXML
+    private void goBack() throws IOException{
+        App.setRoot("LoginScreen");
+    }
 
     @FXML
     public void createAccount() throws IOException, NoSuchAlgorithmException {
@@ -53,7 +58,7 @@ public class CreateAccountController {
                 UserProfileModel.getInstance().setUserName(textUserName.getText());
                 UserProfileModel.getInstance().setPassword(textPassword.getText());
                 dataConnector.getInstance().newUserSignup(textUserName.getText(), textPassword.getText());
-                App.setRoot("securityQuestionSelection");
+                App.setRoot("SecurityQuestions");
             } else {
                 textPassword.setText("Passwords Do Not Match");
                 textPassword2.setText("");

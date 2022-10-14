@@ -51,7 +51,7 @@ public class Login {
         if(instance.existingUser(loginUsername.getText())){
             UserProfileModel theModel = UserProfileModel.getInstance();   
             theModel.setUserName(loginUsername.getText());
-            App.setRoot("forgotPW");
+            App.setRoot("ChangePassword");
         }else{
             loginUsername.setText("enter valid username first");
         }
@@ -61,7 +61,7 @@ public class Login {
     
     @FXML
     private void switchToCreateAccount() throws IOException {
-        App.setRoot("createAccount");
+        App.setRoot("CreateAccount");
     }
     
     
@@ -71,7 +71,7 @@ public class Login {
         if(instance.verifiedUserInstance(loginUsername.getText(),str)){
             UserProfileModel theModel = UserProfileModel.getInstance();
             theModel.setUserName(loginUsername.getText());
-            App.setRoot("home");
+            App.setRoot("UserHome");
         }else{
             loginUsername.setText("Invalid Username or Password");
             loginPassword.setText("");

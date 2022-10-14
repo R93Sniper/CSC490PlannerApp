@@ -157,7 +157,7 @@ public class UserProfileController {
 
     @FXML
     private void switchToHome() throws IOException {
-        App.setRoot("home");
+        App.setRoot("UserHome");
     }
 
     @FXML
@@ -219,12 +219,12 @@ public class UserProfileController {
 
     @FXML
     private void onUpdateSecQuestions() throws IOException {
-        App.setRoot("securityQuestionSelection");
+        App.setRoot("SecurityQuestions");
     }
 
     @FXML
     private void changePassword() throws IOException {
-        App.setRoot("forgotPW");
+        App.setRoot("ChangePassword");
     }
 
 }

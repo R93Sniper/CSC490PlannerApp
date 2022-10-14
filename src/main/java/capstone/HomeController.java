@@ -21,10 +21,11 @@ import javafx.fxml.Initializable;
  * @author jesus
  */
 public class HomeController implements Initializable {
-    
+
     private UserProfileModel instanceUser;
     dataConnector userDB = null;
     private ResultSet result;
+
     /**
      * Initializes the controller class.
      */
@@ -32,26 +33,27 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loadProfile();
         // TODO
-    }    
-    
-    
+    }
+
     @FXML
     private void onLogoutPressed() throws IOException, SQLException {
         //dataConnector.getInstance().closeConnectionDB();
         instanceUser.resetModel();
-        App.setRoot("primary");
+        App.setRoot("Landing");
     }
+
     @FXML
     private void onViewProfile() throws IOException {
-       
-        App.setRoot("userProfile");
+
+        App.setRoot("Profile");
     }
+
     @FXML
     private void onCalcWater() throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("Calculators");
     }
-    
-     @FXML
+
+    @FXML
     private void loadProfile() {
         //returns resultset matching the given username
         instanceUser = UserProfileModel.getInstance();
@@ -87,8 +89,7 @@ public class HomeController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(UserProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         instanceUser.setUserName(tempUserName);
         instanceUser.setGender(tempGender);
         instanceUser.setPassword(tempPW);
@@ -99,6 +100,10 @@ public class HomeController implements Initializable {
         instanceUser.setBodyType(tempBodyType);
         instanceUser.setBirthDate(tempDOB);
     }
-    
-    
+
+    @FXML
+    private void goToPCard() throws IOException {
+        App.setRoot("progresscard");
+    }
+
 }
