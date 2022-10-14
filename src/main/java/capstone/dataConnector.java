@@ -27,8 +27,8 @@ import java.util.logging.Logger;
  */
 public class dataConnector {
     //PlannerDB
-    public Connection conn;
-    public PreparedStatement preparedStatement;
+    protected Connection conn;
+    protected PreparedStatement preparedStatement;
      
     //ProgressCard DB
     public PreparedStatement preparedStatement1;
@@ -48,7 +48,7 @@ public class dataConnector {
             + "hostNameInCertificate=*.database.windows.net;"
             + "loginTimeout=30;";
 
-    private dataConnector() {
+    protected dataConnector() {
         getConnectionDB();
     }
 
@@ -197,7 +197,7 @@ public class dataConnector {
      * @param secAns2
      * @param secAns3
      */
-    public void forgetPasswordk(String uName, String uPswd,
+    public void forgetPassword(String uName, String uPswd,
             String secAns1, String secAns2, String secAns3) throws NoSuchAlgorithmException {
         getConnectionDB();
 
@@ -237,8 +237,6 @@ public class dataConnector {
     }
 
     public boolean updateColumn(String tableName, String userName, String newStr, String col) {
-
-        //String column = col.toString();
         try {
             String sql = "UPDATE "+ tableName
                     + " SET "+col+" = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
@@ -252,24 +250,8 @@ public class dataConnector {
 
         return false;
     }
+  
     
-    public boolean updateUserBirthDate(LocalDate dob, String userName){
-     System.out.println("dob= "+ dob);
-        
-        try {
-            String sql = "UPDATE User_Profile"
-                    + " SET Date_Of_Birth = \'" + dob.toString() + "\' WHERE User_Name=\'" + userName + "\'";
-           
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return false;
-    }
-
     public String getSecq(int id) {
         String tableName = "Security_Questions";
         ResultSet result = null;

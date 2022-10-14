@@ -10,12 +10,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  *
  * @author jesus
+ * 
+ * For better and more accurate results from the API, when users enters quantity, they need to enter in grams.. could also have a grams 
+ * conversion for UI
  */
 public class FoodAPIConnector {
     
@@ -30,22 +37,37 @@ public class FoodAPIConnector {
     }
     
     public FoodAPIConnector(){
-    FoodItem[] temp = parseJSON(getJSONFromAPI("1 pizza coca cola 3 bread sticks 5 buffalo wings"));
-    for(int i=0; i< temp.length;i++)
-    {
-        System.out.println("name: "+temp[i].getName() + " , caloreis: "+temp[i].getCalories());
+        try {
+            FoodLogDataConnector log = new FoodLogDataConnector();
+            ResultSet result = log.getFoodLogRow(4);
+            String name = "";
+            while (result.next()) {
+                //id = result.getInt("ID");
+               name = result.getString("Food_Name");
+               System.out.println("name= "+name);
+            }
+            
+            
+            
+            /*
+            FoodItem[] temp = parseJSON(getJSONFromAPI("eggs bacon ham cheese"));
+            for (FoodItem temp1 : temp) {
+            System.out.println("name: " + temp1.getName() + " , caloreis: " + temp1.getCalories());
+            log.insertNewFoodLog(temp1.getName(), temp1.getCalories(), temp1.getCarbs(), temp1.getFats(), temp1.getProtein(), temp1.getServingSize());
+            }
+        */  } catch (SQLException ex) {
+            Logger.getLogger(FoodAPIConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }
     
     
-    }
-    
-    public String getJSONFromAPI(String x)
+    private String getJSONFromAPI(String x)
     {
-       System.out.println("running method B");
-        //String GET_URL = "https://calorieninjas.p.rapidapi.com/v1/nutrition?query=fish";       
-        String foodStr = "fish";
-        String queryStr = urlStr+ x;
+
+        //String GET_URL = "https://calorieninjas.p.rapidapi.com/v1/nutrition?query=fish";  
         
+        String queryStr = urlStr+ x;    
         String result = "";
          try {
                 URL obj = new URL(queryStr);
@@ -54,9 +76,9 @@ public class FoodAPIConnector {
                 con = (HttpURLConnection) obj.openConnection();
      
 		con.setRequestMethod("GET");
-                con.setRequestProperty("X-RapidAPI-Key", "8660709c02msh2c56c97518d8565p104f75jsnd8ee709be868");
-                con.setRequestProperty("X-RapidAPI-Host", "calorieninjas.p.rapidapi.com");
-		//con.setRequestProperty("User-Agent", USER_AGENT);
+                con.setRequestProperty("X-RapidAPI-Key", apiKey);
+                con.setRequestProperty("X-RapidAPI-Host", apiHost);
+	
 		int responseCode = con.getResponseCode();
 		System.out.println("GET Response Code :: " + responseCode);
 		if (responseCode == HttpURLConnection.HTTP_OK) { // success
@@ -69,21 +91,16 @@ public class FoodAPIConnector {
                                 result = result+inputLine;
 			}        
 			in.close();
-			// print result
-			//System.out.println(response.toString());
 		} else {
 			System.out.println("GET request not worked");
 		}
                 
-                  } catch (IOException ex) {
-            //Logger.getLogger(NewClass.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                  } catch (IOException ex) { }
          
          return result;
     }
-    
-    
-    public FoodItem[] parseJSON(String result){
+        
+    private FoodItem[] parseJSON(String result){
         //if ever run into problem with dependencies not being visible, jsut right click project, and click "Build with Dependencies"
         //Gson json = new Gson(result);
         JSONObject jsonObj= new JSONObject(result);
@@ -102,17 +119,37 @@ public class FoodAPIConnector {
             double carbs = obj.getDouble("carbohydrates_total_g");
             String name = obj.getString("name");
             double protein = obj.getDouble("protein_g");
+            double servingsize = obj.getDouble("serving_size_g");
             //System.out.println("calories = "+cal);
             foodObj.setCalories(cal);
             foodObj.setCarbs(carbs);
             foodObj.setFats(fats);
             foodObj.setName(name);
             foodObj.setProtein(protein);
+            foodObj.setServingSize(servingsize);
             items[i] = foodObj;
         }
         return items;
     }
     
-    
+    public double convertToGrams(double quantity, String unitType){
+        // 1 oz = 28.35 grams
+        if(unitType.equals("Oz") || unitType.equals("ounce")){
+            return (quantity * 28.35);
+        }
+        // 1 lb = 453.6 grams
+        if(unitType.equals("lb") || unitType.equals("pound")){
+            return (quantity * 453.6);
+        }
+        // 1 l(liter) = 1000 grams
+        if(unitType.equals("l") || unitType.equals("liter")){
+            return (quantity * 1000);
+        }
+        if(unitType.equals("c") || unitType.equals("cup")){
+            return (quantity * 250);
+        }
+        
+        return -1;
+    }
     
 }
