@@ -222,7 +222,6 @@ public class dataConnector {
 
     public ResultSet getResult(String userName, String tableName) {
 
-        System.out.println("query data:");
         ResultSet result = null;
         try {
             Statement stmt = conn.createStatement();
