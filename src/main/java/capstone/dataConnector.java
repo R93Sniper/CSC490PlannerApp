@@ -1,7 +1,9 @@
 package capstone;
 
 import java.math.BigInteger;
+
 import java.nio.charset.StandardCharsets;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -92,7 +94,6 @@ public class dataConnector {
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, hashedPass);
             int row = preparedStatement.executeUpdate();
-
             if (row > 0) {
                 System.out.println("**NEW USER inserted into DB");
             }
@@ -341,74 +342,77 @@ public class dataConnector {
      /**
      * userProgressCard: inserting user info into their progress card.
      */
-    public void userProgressCard(String userName, String dateOfCard, String weight, String diet, String bodyFat) {
+    public void userProgressCard(String userName, String dateOfCard, String weight, String bodyMeasurement, int intakeID, int excerciseID) {
         getConnectionPCDB();
-
         try {
-            String sql = "INSERT INTO Progresscard(userName,dateOfCard,weight,diet,bodyFat) VALUES"
-                    + "(?,?,?,?,?)";
-            // preparedStatement = conn.prepareStatement(sql);
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, userName);
-            preparedStatement1.setString(2, dateOfCard);
-            preparedStatement1.setString(3, weight);
-            preparedStatement1.setString(4, diet);
-            preparedStatement1.setString(5, bodyFat);
-            int row = preparedStatement1.executeUpdate();
+            String sql = "INSERT INTO Progresscard(User_Name, DateOfCard, Weight, BodyMeasurement,"
+                    + "Intake_ID, Excercise_ID) VALUES"
+                    + "(?,?,?,?,?,?)";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, dateOfCard);
+            preparedStatement.setString(3, weight);
+            preparedStatement.setString(4, bodyMeasurement);
+            preparedStatement.setInt(5, intakeID);
+            preparedStatement.setInt(6, excerciseID);
+            int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted");
             }
         } catch (SQLException e) {
         }
     }
-     
-     /**
-     * updateDateOfCard: if registered user want to update their date of card entry.
+
+    /**
+     * updateDateOfCard: if registered user want to update their date of card
+     *
+     * @param uName
+     * @param dateOfCard
      */
-    public void updateDateOfCard(String uName, String dateOfCard) {
-        getConnectionPCDB();
+    public void updateDateOfCard(String uName, Date dateOfCard) {
+        getConnectionDB();
         try {
-            String sql = "UPDATE Progresscard SET dateOfCard=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, dateOfCard);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
+            String sql = "UPDATE Progresscard SET DateOfCard=? WHERE userName=?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setDate(1, dateOfCard);
+            preparedStatement.setString(2, uName);
+            int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row updated");
             }
         } catch (SQLException e) {
         }
     }
-    
+
     /**
      * updateWeight: if registered user want to update their date of card entry.
      */
-  public void updateWeight(String uName, String weight) {
-        getConnectionPCDB();
+    public void updateWeight(String uName, String weight) {
+        getConnectionDB();
         try {
             String sql = "UPDATE Progresscard SET weight=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, weight);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, weight);
+            preparedStatement.setString(2, uName);
+            int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row updated");
             }
         } catch (SQLException e) {
         }
     }
-     
+
     /**
      * updateWeight: if registered user want to update their date of card entry.
      */
     public void updateBodyFat(String uName, String bodyFat) {
-        getConnectionPCDB();
+        getConnectionDB();
         try {
             String sql = "UPDATE Progresscard SET bodyFat=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, bodyFat);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, bodyFat);
+            preparedStatement.setString(2, uName);
+            int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row updated");
             }
@@ -417,7 +421,8 @@ public class dataConnector {
     }
         
 }
-  enum DBCol{
+
+enum DBCol {
     User_Name,
     User_Password,
     First_Name,
@@ -434,4 +439,10 @@ public class dataConnector {
     SecurityA1,
     SecurityA2,
     SecurityA3,
-    }
+    DateOfCard,
+    Weight, 
+    BodyMeasurement,
+    Intake_ID, 
+    Excercise_ID
+
+}
