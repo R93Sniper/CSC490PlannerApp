@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,6 +45,7 @@ public class FoodLogDataConnector extends dataConnector{
         }
     }
     
+    //returns the row of the food item from our Food Log Data
     public ResultSet getFoodLogRow(int id){
         
         System.out.println("query data:");
@@ -53,12 +56,26 @@ public class FoodLogDataConnector extends dataConnector{
                     + " where ID=" + id +";");
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return result;
 
     }
     
+    public boolean updateFoodLogData(int id, String colName, double val){
+        
+        try {
+            String sql = "UPDATE " + "FoodLog"
+                    + " SET " + colName + " = " + val + " WHERE ID= " + id + ";";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
     
+    }
     
 }

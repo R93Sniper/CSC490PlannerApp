@@ -36,7 +36,13 @@ public class FoodAPIConnector {
      //getFoodData();
     }
     
+    public void demo(){}
+    
     public FoodAPIConnector(){
+        FoodLogDataConnector con = new FoodLogDataConnector();
+        con.updateFoodLogData(2, "Protein", 7.2);
+        con.updateFoodLogData(2, "Serving_Size", 20.4);
+        /*
         try {
             FoodLogDataConnector log = new FoodLogDataConnector();
             ResultSet result = log.getFoodLogRow(4);
@@ -46,18 +52,11 @@ public class FoodAPIConnector {
                name = result.getString("Food_Name");
                System.out.println("name= "+name);
             }
-            
-            
-            
-            /*
-            FoodItem[] temp = parseJSON(getJSONFromAPI("eggs bacon ham cheese"));
-            for (FoodItem temp1 : temp) {
-            System.out.println("name: " + temp1.getName() + " , caloreis: " + temp1.getCalories());
-            log.insertNewFoodLog(temp1.getName(), temp1.getCalories(), temp1.getCarbs(), temp1.getFats(), temp1.getProtein(), temp1.getServingSize());
-            }
-        */  } catch (SQLException ex) {
+           
+         } catch (SQLException ex) {
             Logger.getLogger(FoodAPIConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
+*/
     
     }
     
