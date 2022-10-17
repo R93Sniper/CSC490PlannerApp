@@ -27,7 +27,8 @@ public class DailyIntakeController implements Initializable {
     private ListView listView;
     ObservableList<String> obsList = FXCollections.observableArrayList ();
     FoodAPIConnector foodApi = new FoodAPIConnector();
-    
+    //DailyIntakeConnector 
+    FoodLogDataConnector foodLog = new FoodLogDataConnector();
     @FXML
     private TextField tfFoodItem;
 

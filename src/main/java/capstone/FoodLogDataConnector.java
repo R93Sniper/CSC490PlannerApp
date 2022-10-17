@@ -23,7 +23,7 @@ public class FoodLogDataConnector extends dataConnector{
 
 
     //method to add food data FoodLog table in the database
-    public void insertNewFoodLog(String name, double cal, double carb, double fats, double protein, double serving){
+    public void insertNewFoodLog(String name, String cal, String carb, String fats, String protein, String serving){
     String tableName = "FoodLog";
         try {
             String sql = "INSERT INTO " + tableName + "(Food_Name, Calories, Carbs, Fats, Protein, Serving_Size) VALUES"
@@ -31,11 +31,11 @@ public class FoodLogDataConnector extends dataConnector{
 
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, name);
-            preparedStatement.setDouble(2, cal);
-            preparedStatement.setDouble(3, carb);
-            preparedStatement.setDouble(4, fats);
-            preparedStatement.setDouble(5, protein);
-            preparedStatement.setDouble(6, serving);
+            preparedStatement.setString(2, cal);
+            preparedStatement.setString(3, carb);
+            preparedStatement.setString(4, fats);
+            preparedStatement.setString(5, protein);
+            preparedStatement.setString(6, serving);
             int row = preparedStatement.executeUpdate();
 
             if (row > 0) {
@@ -61,11 +61,11 @@ public class FoodLogDataConnector extends dataConnector{
 
     }
     
-    public boolean updateFoodLogData(int id, String colName, double val){
+    public boolean updateFoodLogData(int id, String colName, String val){
         
         try {
             String sql = "UPDATE " + "FoodLog"
-                    + " SET " + colName + " = " + val + " WHERE ID= " + id + ";";
+                    + " SET " + colName + " = \'" + val + "\' WHERE ID= " + id + ";";
 
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
