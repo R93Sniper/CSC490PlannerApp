@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author simra
+ * @author Simranjit
  */
 public class DailyIntakeConnector extends dataConnector {
 
