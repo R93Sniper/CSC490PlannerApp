@@ -35,14 +35,13 @@ public class FoodAPIConnector {
      FoodAPIConnector api = new FoodAPIConnector();
      //getFoodData();
     }
-    
-    public void demo(){}
-    
+       
     public FoodAPIConnector(){
+        /*
         FoodLogDataConnector con = new FoodLogDataConnector();
         con.updateFoodLogData(2, "Protein", 7.2);
         con.updateFoodLogData(2, "Serving_Size", 20.4);
-        /*
+        
         try {
             FoodLogDataConnector log = new FoodLogDataConnector();
             ResultSet result = log.getFoodLogRow(4);
@@ -61,7 +60,7 @@ public class FoodAPIConnector {
     }
     
     
-    private String getJSONFromAPI(String x)
+    public String getJSONFromAPI(String x)
     {
 
         //String GET_URL = "https://calorieninjas.p.rapidapi.com/v1/nutrition?query=fish";  
@@ -99,7 +98,7 @@ public class FoodAPIConnector {
          return result;
     }
         
-    private FoodItem[] parseJSON(String result){
+    public FoodItem[] parseJSON(String result){
         //if ever run into problem with dependencies not being visible, jsut right click project, and click "Build with Dependencies"
         //Gson json = new Gson(result);
         JSONObject jsonObj= new JSONObject(result);

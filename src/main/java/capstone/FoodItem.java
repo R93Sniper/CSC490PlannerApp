@@ -33,4 +33,11 @@ public class FoodItem {
     public void setFats(double f){fats = f;}
     public void setServingSize(double s){servingSize = s;}
     
+    @Override
+    public String toString(){
+    String str ="";
+    str = "Name: "+name+ "\n calories: "+ calories+ "\n Serving Size: "+ servingSize+ "g\n "+" Carbs: "+carbs;
+    return str;
+    }
+    
 }

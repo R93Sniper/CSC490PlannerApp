@@ -50,6 +50,10 @@ public class HomeController implements Initializable {
     private void onCalcWater() throws IOException {
         App.setRoot("secondary");
     }
+    @FXML
+    private void onProgressCard() throws IOException {
+        App.setRoot("progresscard");
+    }
     
      @FXML
     private void loadProfile() {
