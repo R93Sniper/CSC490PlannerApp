@@ -327,7 +327,7 @@ public class dataConnector {
      
 }
 
-enum DBCol {
+enum DB_Col {
     User_Name,
     User_Password,
     First_Name,

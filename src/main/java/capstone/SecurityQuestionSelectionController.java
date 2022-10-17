@@ -125,14 +125,14 @@ public class SecurityQuestionSelectionController{
        
         if ( allQuestionsChosen && !textAnswerQ1.getText().equals("") && !textAnswerQ2.getText().equals("") && !textAnswerQ3.getText().equals("")) {
 
-            dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ1.getText(), DBCol.SecurityA1.toString());
-            dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(0), DBCol.SecurityQ1_id.toString());
+            dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ1.getText(), DB_Col.SecurityA1.toString());
+            dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(0), DB_Col.SecurityQ1_id.toString());
 
-            dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ2.getText(), DBCol.SecurityA2.toString());
-            dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(1), DBCol.SecurityQ2_id.toString());
+            dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ2.getText(), DB_Col.SecurityA2.toString());
+            dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(1), DB_Col.SecurityQ2_id.toString());
 
-            dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ3.getText(), DBCol.SecurityA3.toString());
-            dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(2), DBCol.SecurityQ3_id.toString());
+            dataConnector.getInstance().updateColumn("User_Profile", userName, textAnswerQ3.getText(), DB_Col.SecurityA3.toString());
+            dataConnector.getInstance().updateUserSecQID(userName, selectedQIds.get(2), DB_Col.SecurityQ3_id.toString());
 
             App.setRoot("login");
         } else {

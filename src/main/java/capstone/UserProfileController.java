@@ -166,38 +166,38 @@ public class UserProfileController {
         String usr = instanceUser.getUserName();
 
         if (textEmail.getText() != null && !textEmail.getText().equals(instanceUser.getEmail())) {
-            userDB.updateColumn(tableName, usr, textEmail.getText(), DBCol.Email.toString());
+            userDB.updateColumn(tableName, usr, textEmail.getText(), DB_Col.Email.toString());
             System.out.println("email updated in the DB");
             instanceUser.setEmail(textEmail.getText());
         }
         if (textFirstName.getText() != null && !textFirstName.getText().equals(instanceUser.getFirstName())) {
-            userDB.updateColumn(tableName, usr, textFirstName.getText(), DBCol.First_Name.toString());
+            userDB.updateColumn(tableName, usr, textFirstName.getText(), DB_Col.First_Name.toString());
             System.out.println("FirstName updated in the DB");
             instanceUser.setFullName(textFirstName.getText());
         }
 
         if (textLastName.getText() != null && !textLastName.getText().equals(instanceUser.getLastName())) {
-            userDB.updateColumn(tableName, usr, textLastName.getText(), DBCol.Last_Name.toString());
+            userDB.updateColumn(tableName, usr, textLastName.getText(), DB_Col.Last_Name.toString());
             System.out.println("last name updated in the DB");
             instanceUser.setLastName(textLastName.getText());
         }
 
         if (textFeet.getText() != null && textInches.getText() != null) {
             String h = textFeet.getText() +"-" + textInches.getText();
-            userDB.updateColumn(tableName, usr, h, DBCol.Height.toString());
+            userDB.updateColumn(tableName, usr, h, DB_Col.Height.toString());
             System.out.println("height updated in the DB");
             instanceUser.setHeight(h);
         }
 
         if (genderSelected) {
-            userDB.updateColumn(tableName, usr, labelGender.getText(), DBCol.Gender.toString());
+            userDB.updateColumn(tableName, usr, labelGender.getText(), DB_Col.Gender.toString());
             System.out.println("gender choice updated in the DB");
             genderSelected = false;
             instanceUser.setGender(labelGender.getText());
         }
 
         if (bodyTypeSelected) {
-            userDB.updateColumn(tableName, usr, instanceUser.getBodyType(), DBCol.Body_Type.toString());
+            userDB.updateColumn(tableName, usr, instanceUser.getBodyType(), DB_Col.Body_Type.toString());
             System.out.println("gender choice updated in the DB");
             bodyTypeSelected = false;
             instanceUser.setBodyType(labelBodyType.getText());
