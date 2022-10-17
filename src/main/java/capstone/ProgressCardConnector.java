@@ -5,30 +5,16 @@
  */
 package capstone;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 /**
  *
  * @author jesus
  */
-public class ProgressCardConnector extends dataConnector{
-    
-    
-    public static void main(String[] args){
-    
-        //dataConnector dc = dataConnector.getInstance();
-        ProgressCardConnector pc = new ProgressCardConnector();
-        pc.userProgressCard("mike1","10/17/2022","110",1,1,"0","0");
-    }
-    
-    
-       //CODE FOR ProgressCard DB
-    public  void  userProgressCard(String userName, String dateOfCard, String weight,int intakeID,
+public class ProgressCardConnector extends dataConnector {
+
+    public void userProgressCard(String userName, String dateOfCard, String weight, int intakeID,
             int excerciseID, String neckInches, String waistInches) {
-       //getConnectionDB();
-      //  dateOfCard  = Date.valueOf(LocalDate.now());
         try {
             String sql = "INSERT INTO Progress_Cards(User_Name, Date_Of_Card, Weight,"
                     + "Daily_Intake_Id, Daily_Excercise_ID,Neck_Inches,Waist_Inches) VALUES"
@@ -55,12 +41,11 @@ public class ProgressCardConnector extends dataConnector{
      * @param uName
      * @param dateOfCard
      */
-    public void updateDateOfCard(String uName, Date dateOfCard) {
-//        getConnectionDB();
+    public void updateDateOfCard(String uName, String dateOfCard) {
         try {
             String sql = "UPDATE Progress_cards SET DateOfCard=? WHERE userName=?";
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setDate(1, dateOfCard);
+            preparedStatement.setString(1, dateOfCard);
             preparedStatement.setString(2, uName);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
@@ -74,7 +59,6 @@ public class ProgressCardConnector extends dataConnector{
      * updateWeight: if registered user want to update their date of card entry.
      */
     public void updateWeight(String uName, String weight) {
-//        getConnectionDB();
         try {
             String sql = "UPDATE Progress_cards SET weight=? WHERE userName=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -89,14 +73,36 @@ public class ProgressCardConnector extends dataConnector{
     }
 
     /**
-     * updateWeight: if registered user want to update their date of card entry.
+     * updateNeckInches
+     *
+     * @param uName
+     * @param neckInches
      */
-    public void updateBodyFat(String uName, String bodyFat) {
-        //getConnectionDB();
+    public void updateNeckInches(String uName, String neckInches) {
         try {
-            String sql = "UPDATE Progress_cards SET bodyFat=? WHERE userName=?";
+            String sql = "UPDATE Progress_cards SET Neck_Inches=? WHERE userName=?";
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, bodyFat);
+            preparedStatement.setString(1, neckInches);
+            preparedStatement.setString(2, uName);
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                System.out.println("Row updated");
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    /**
+     * updateWaistInches
+     *
+     * @param uName
+     * @param waistInches
+     */
+    public void updateWaistInches(String uName, String waistInches) {
+        try {
+            String sql = "UPDATE Progress_cards SET Waist_Inches=? WHERE userName=?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, waistInches);
             preparedStatement.setString(2, uName);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
