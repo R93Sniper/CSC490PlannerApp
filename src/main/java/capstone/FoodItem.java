@@ -18,7 +18,7 @@ public class FoodItem {
     private double protein;
     private double fats;
     private double servingSize;
-
+    
     public String getName(){return name;}
     public double getCalories() {return calories;}
     public double getCarbs(){return carbs;}
@@ -32,11 +32,16 @@ public class FoodItem {
     public void setProtein(double p){protein = p;}
     public void setFats(double f){fats = f;}
     public void setServingSize(double s){servingSize = s;}
-    
+  
     @Override
     public String toString(){
     String str ="";
-    str = "Name: "+name+ "\n calories: "+ calories+ "\n Serving Size: "+ servingSize+ "g\n "+" Carbs: "+carbs;
+    str = "Name: "+name 
+            + "\n calories: "+ calories
+            + "\n Carbs: "+carbs
+            + "\n Protein: "+ protein
+            + "\n Fats: " + fats
+            + "\n Serving Size: " + servingSize;
     return str;
     }
     
