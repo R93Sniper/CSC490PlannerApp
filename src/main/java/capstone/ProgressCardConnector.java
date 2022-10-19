@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author jesus
+ * @author jesus and simran
  */
 public class ProgressCardConnector extends dataConnector {
 
@@ -17,8 +17,8 @@ public class ProgressCardConnector extends dataConnector {
             int excerciseID, String neckInches, String waistInches) {
         try {
             String sql = "INSERT INTO Progress_Cards(User_Name, Date_Of_Card, Weight,"
-                    + "Daily_Intake_Id, Daily_Excercise_ID,Neck_Inches,Waist_Inches) VALUES"
-                    + "(?,?,?,?,?,?)";
+                    + "Daily_Intake_Id, Daily_Exercise_Id,Neck_Inches,Waist_Inches) VALUES"
+                    + "(?,?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, dateOfCard);
@@ -29,7 +29,7 @@ public class ProgressCardConnector extends dataConnector {
             preparedStatement.setString(7, waistInches);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
-                System.out.println("Row inserted");
+                System.out.println("Row inserted into Progress Card Table");
             }
         } catch (SQLException e) {
         }
@@ -43,7 +43,7 @@ public class ProgressCardConnector extends dataConnector {
      */
     public void updateDateOfCard(String uName, String dateOfCard) {
         try {
-            String sql = "UPDATE Progress_cards SET DateOfCard=? WHERE userName=?";
+            String sql = "UPDATE Progress_cards SET Date_Of_Card=? WHERE User_Name=?";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, dateOfCard);
             preparedStatement.setString(2, uName);
@@ -60,7 +60,7 @@ public class ProgressCardConnector extends dataConnector {
      */
     public void updateWeight(String uName, String weight) {
         try {
-            String sql = "UPDATE Progress_cards SET weight=? WHERE userName=?";
+            String sql = "UPDATE Progress_cards SET Weight=? WHERE User_Name=?";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, weight);
             preparedStatement.setString(2, uName);
@@ -80,7 +80,7 @@ public class ProgressCardConnector extends dataConnector {
      */
     public void updateNeckInches(String uName, String neckInches) {
         try {
-            String sql = "UPDATE Progress_cards SET Neck_Inches=? WHERE userName=?";
+            String sql = "UPDATE Progress_cards SET Neck_Inches=? WHERE User_Name=?";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, neckInches);
             preparedStatement.setString(2, uName);
@@ -100,7 +100,7 @@ public class ProgressCardConnector extends dataConnector {
      */
     public void updateWaistInches(String uName, String waistInches) {
         try {
-            String sql = "UPDATE Progress_cards SET Waist_Inches=? WHERE userName=?";
+            String sql = "UPDATE Progress_cards SET Waist_Inches=? WHERE User_Name=?";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, waistInches);
             preparedStatement.setString(2, uName);
