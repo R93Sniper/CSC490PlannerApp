@@ -105,14 +105,14 @@ public class ProgressCard {
     public void saveCard() throws IOException {
         
         
+        validateEntry();
          
          dataConnector makeConnection = dataConnector.getInstance();
          makeConnection.getConnectionPCDB();
          
          
-         
-         
-         makeConnection.userProgressCard( UserProfileModel.getInstance().getUserName(), currentDate.getText(), currentWeight.getText(), null, null);
+         //uncomment when branches are merged 
+         //makeConnection.userProgressCard( UserProfileModel.getInstance().getUserName(), currentDate.getText(), currentWeight.getText(), null, null);
         
         
         validateEntry();
