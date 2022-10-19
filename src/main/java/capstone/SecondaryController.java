@@ -7,11 +7,10 @@ package capstone;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 
 /**
  *
- * @author ramoy
+ * @author Omar Muy
  *         Wahab Quazi
  */
 public class SecondaryController {
@@ -26,5 +25,13 @@ public class SecondaryController {
     @FXML
     private void switchToWater() throws IOException {
         App.setRoot("waterCalc");  
+    }
+    @FXML
+    private void switchToBMI() throws IOException {
+        App.setRoot("bmiCalc");
+    }
+    @FXML
+    private void switchToBodyFat() throws IOException {
+        App.setRoot("bodyfatCalc");
     }
 }
