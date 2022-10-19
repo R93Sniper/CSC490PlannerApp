@@ -104,8 +104,20 @@ public class ProgressCard {
     @FXML
     public void saveCard() throws IOException {
         
-      
+        
+         
+         dataConnector makeConnection = dataConnector.getInstance();
+         makeConnection.getConnectionPCDB();
+         
+         
+         
+         
+         makeConnection.userProgressCard( UserProfileModel.getInstance().getUserName(), currentDate.getText(), currentWeight.getText(), null, null);
+        
+        
         validateEntry();
+        
+        
         //TODO: Make this save the given contents to DB
     }
 
