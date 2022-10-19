@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="420.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.bmiCalculator">
+   <children>
+      <Label layoutX="226.0" layoutY="29.0" text="BMI Calculator">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="98.0" text="Age :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ageTF" layoutX="91.0" layoutY="99.0" prefHeight="25.0" prefWidth="127.0" promptText="Enter your age here" />
+      <ButtonBar layoutX="40.0" layoutY="134.0" prefHeight="40.0" prefWidth="200.0">
+         <buttons>
+            <RadioButton fx:id="rbMale" mnemonicParsing="false" text="Male" />
+            <RadioButton fx:id="rbFemale" mnemonicParsing="false" text="Female" />
+         </buttons>
+      </ButtonBar>
+      <ToolBar layoutX="40.0" layoutY="174.0" prefHeight="37.0" prefWidth="338.0">
+         <items>
+            <Label text="Height :">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="feetTF" prefHeight="25.0" prefWidth="41.0" promptText="feet" />
+            <Label text="ft." />
+            <TextField fx:id="inchesTF" prefHeight="25.0" prefWidth="55.0" promptText="inches" />
+            <Label text="in." />
+            <Label text="Or" />
+            <TextField fx:id="cmTF" prefHeight="25.0" prefWidth="79.0" promptText="centimeters" />
+            <Label text="cm." />
+         </items>
+      </ToolBar>
+      <ToolBar layoutX="40.0" layoutY="233.0" prefHeight="37.0" prefWidth="357.0">
+         <items>
+            <Label text="Weight :">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="lbsTF" prefHeight="25.0" prefWidth="59.0" promptText="pounds" />
+            <Label text="lbs. Or" />
+            <TextField fx:id="kgTF" prefHeight="25.0" prefWidth="68.0" promptText="kilograms" />
+            <Label text="kgs." />
+         </items>
+      </ToolBar>
+      <Button layoutX="40.0" layoutY="365.0" mnemonicParsing="false" onAction="#switchToCalculators" prefHeight="27.0" prefWidth="63.0" text="Back" />
+      <Label fx:id="answerLabel" layoutX="36.0" layoutY="318.0" prefHeight="27.0" prefWidth="216.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="35.0" layoutY="284.0" mnemonicParsing="false" onAction="#getBMI" text="Calculate" />
+      <Button layoutX="120.0" layoutY="365.0" mnemonicParsing="false" onAction="#resetBMICalc" prefHeight="27.0" prefWidth="55.0" text="Reset" />
+   </children>
+</AnchorPane>
