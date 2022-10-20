@@ -137,8 +137,13 @@ public class forgotPassword {
         String str = theDB.returnHashPassword(textNewPassword.getText());
         //check if its a valid password, then save it in the DB
         //DBColumn d;
+<<<<<<< HEAD
         theDB.updateColumn("User_Profile", theModel.getUserName(), str, DBCol.User_Password.toString());
         App.setRoot("LoginScreen");
+=======
+        theDB.updateColumn("User_Profile", theModel.getUserName(), str, DB_Col.User_Password.toString());
+        App.setRoot("login");
+>>>>>>> origin/Sprint2-DietApi
     }
 
    
