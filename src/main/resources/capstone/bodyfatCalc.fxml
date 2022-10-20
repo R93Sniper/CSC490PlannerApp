@@ -4,21 +4,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.bodyFatCalculator">
    <children>
       <Label layoutX="198.0" layoutY="29.0" text="Body Fat Calculator">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ToolBar layoutX="10.0" layoutY="80.0" prefHeight="35.0" prefWidth="353.0">
+      <ToolBar layoutX="12.0" layoutY="134.0" prefHeight="35.0" prefWidth="353.0">
          <items>
             <Label text="Gender: " />
             <RadioButton fx:id="rbMale" mnemonicParsing="false" text="Male" />
-            <RadioButton fx:id="rbFemale" mnemonicParsing="false" text="Female" />
+            <RadioButton fx:id="rbFemale" mnemonicParsing="false" onAction="#ifChoiceFemale" text="Female" />
          </items>
       </ToolBar>
-      <ToolBar layoutX="12.0" layoutY="115.0" prefHeight="40.0" prefWidth="353.0">
+      <ToolBar layoutX="10.0" layoutY="165.0" prefHeight="40.0" prefWidth="353.0">
          <items>
             <Label text="Age:">
                <font>
@@ -28,69 +28,64 @@
             <TextField fx:id="ageTF" prefHeight="25.0" prefWidth="84.0" promptText="Enter age" />
          </items>
       </ToolBar>
-      <ToolBar layoutX="135.0" layoutY="358.0" prefHeight="40.0" prefWidth="353.0">
+      <ToolBar layoutX="10.0" layoutY="205.0" prefHeight="40.0" prefWidth="353.0">
          <items>
             <Label text="Weight:">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="lbsTF" prefHeight="25.0" prefWidth="75.0" promptText="pounds" />
-            <Label text="lbs.     Or " />
-            <TextField fx:id="kgsTF" prefHeight="25.0" prefWidth="76.0" promptText="kilograms" />
-            <Label text="kgs." />
+            <TextField fx:id="weightTF" prefHeight="25.0" prefWidth="75.0" />
+            <Label />
+            <Label />
          </items>
       </ToolBar>
-      <ToolBar layoutX="12.0" layoutY="205.0" prefHeight="40.0" prefWidth="353.0">
+      <ToolBar layoutX="12.0" layoutY="325.0" prefHeight="40.0" prefWidth="353.0">
          <items>
             <Label text="Height:">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="feetTF" prefHeight="25.0" prefWidth="44.0" promptText="feet" />
+            <TextField fx:id="feetTF" prefHeight="25.0" prefWidth="44.0" />
             <Label text="ft." />
-            <TextField fx:id="inchesTF" prefHeight="25.0" prefWidth="58.0" promptText="inches" />
+            <TextField fx:id="inchesTF" prefHeight="25.0" prefWidth="58.0" />
             <Label text="in.    Or" />
-            <TextField fx:id="centTF" prefHeight="25.0" prefWidth="82.0" promptText="centimeters" />
+            <TextField fx:id="centTF" prefHeight="25.0" prefWidth="82.0" />
             <Label text="cm." />
          </items>
       </ToolBar>
-      <ToolBar layoutX="12.0" layoutY="251.0" prefHeight="40.0" prefWidth="353.0">
+      <ToolBar layoutX="12.0" layoutY="245.0" prefHeight="40.0" prefWidth="353.0">
          <items>
             <Label text="Neck:">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="inches2TF" prefHeight="25.0" prefWidth="55.0" promptText="inches" />
-            <Label text="in.      Or" />
-            <TextField fx:id="cm2TF" prefHeight="25.0" prefWidth="82.0" promptText="centimeters" />
-            <Label text="cm." />
+            <TextField fx:id="neckTF" prefHeight="25.0" prefWidth="90.0" />
          </items>
       </ToolBar>
-      <ToolBar layoutX="12.0" layoutY="291.0" prefHeight="40.0" prefWidth="353.0">
+      <ToolBar fx:id="toolBar1" layoutX="12.0" layoutY="285.0" prefHeight="40.0" prefWidth="353.0">
          <items>
             <Label text="Waist:">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="inches3TF" prefHeight="25.0" prefWidth="77.0" promptText="inches" />
-            <Label text="in.     Or" />
-            <TextField fx:id="cm3TF" prefHeight="25.0" prefWidth="80.0" promptText="centimeters" />
-            <Label text="cm." />
+            <TextField fx:id="waistTF" prefHeight="25.0" prefWidth="94.0" />
+            <Label fx:id="hipID" disable="true" opacity="0.0" text="Hip:" />
+            <TextField fx:id="hipTF" disable="true" opacity="0.0" prefHeight="25.0" prefWidth="102.0" />
          </items>
       </ToolBar>
-      <Button layoutX="496.0" layoutY="438.0" mnemonicParsing="false" text="Calculate" />
-      <Button layoutX="488.0" layoutY="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Clear" />
-      <Button layoutX="14.0" layoutY="433.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="55.0" text="Back" />
-      <Label fx:id="aLabel" layoutX="403.0" layoutY="134.0" prefHeight="35.0" prefWidth="158.0" />
-      <ToolBar layoutX="10.0" layoutY="155.0" prefHeight="40.0" prefWidth="200.0">
+      <Button layoutX="496.0" layoutY="438.0" mnemonicParsing="false" onAction="#calculateBodyFat" text="Calculate" />
+      <Button layoutX="69.0" layoutY="433.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="64.0" text="Clear" />
+      <Button layoutX="14.0" layoutY="433.0" mnemonicParsing="false" onAction="#switchToCalc" prefHeight="35.0" prefWidth="55.0" text="Back" />
+      <Label fx:id="aLabel" layoutX="383.0" layoutY="129.0" prefHeight="40.0" prefWidth="178.0" />
+      <ToolBar layoutX="10.0" layoutY="95.0" prefHeight="40.0" prefWidth="353.0">
          <items>
             <Label text="Unit:" />
-            <RadioButton mnemonicParsing="false" text="Metric" />
-            <RadioButton mnemonicParsing="false" text="Imperial" />
+            <RadioButton fx:id="rbMetric" mnemonicParsing="false" onAction="#getMetricProperties" text="Metric" />
+            <RadioButton fx:id="rbUS" mnemonicParsing="false" onAction="#getUSProperties" text="US" />
          </items>
       </ToolBar>
    </children>
