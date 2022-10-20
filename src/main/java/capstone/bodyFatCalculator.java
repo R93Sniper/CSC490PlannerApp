@@ -467,4 +467,33 @@ public class bodyFatCalculator {
             }
         }
     }
+    
+    @FXML
+    private void resetBFP(){
+        //reset all except ageTF prompt
+        rbMale.setSelected(false);
+        rbFemale.setSelected(false);
+        rbUS.setSelected(false);
+        rbMetric.setSelected(false);
+        
+        ageTF.setText("");
+        weightTF.setText("");
+        weightTF.setPromptText("");
+        feetTF.setText("");
+        feetTF.setPromptText("");
+        inchesTF.setText("");
+        inchesTF.setPromptText("");
+        centTF.setText("");
+        centTF.setPromptText("");
+        waistTF.setText("");
+        waistTF.setPromptText("");
+        neckTF.setText("");
+        neckTF.setPromptText("");
+        hipTF.setText("");
+        hipTF.setPromptText("");
+        hipTF.setOpacity(0);
+        hipID.setOpacity(0);
+        aLabel.setText("");
+                      
+    }
 }

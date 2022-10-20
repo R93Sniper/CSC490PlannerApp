@@ -78,7 +78,7 @@
          </items>
       </ToolBar>
       <Button layoutX="496.0" layoutY="438.0" mnemonicParsing="false" onAction="#calculateBodyFat" text="Calculate" />
-      <Button layoutX="69.0" layoutY="433.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="64.0" text="Clear" />
+      <Button layoutX="69.0" layoutY="433.0" mnemonicParsing="false" onAction="#resetBFP" prefHeight="35.0" prefWidth="64.0" text="Clear" />
       <Button layoutX="14.0" layoutY="433.0" mnemonicParsing="false" onAction="#switchToCalc" prefHeight="35.0" prefWidth="55.0" text="Back" />
       <Label fx:id="aLabel" layoutX="383.0" layoutY="129.0" prefHeight="40.0" prefWidth="178.0" />
       <ToolBar layoutX="10.0" layoutY="95.0" prefHeight="40.0" prefWidth="353.0">
