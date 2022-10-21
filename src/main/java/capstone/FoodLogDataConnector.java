@@ -48,18 +48,36 @@ public class FoodLogDataConnector extends dataConnector {
     }
 
     //returns the row of the food item from our Food Log Data
-    public ResultSet getFoodLogRow(int id) {
+    public FoodItem getFoodLogRow(int id) {
 
         System.out.println("query data:");
         ResultSet result = null;
+        FoodItem item = null;
         try {
             Statement stmt = conn.createStatement();
             result = stmt.executeQuery("select * from FoodLog"
                     + " where ID=" + id + ";");
+            
+            while(result.next()){
+            String name = result.getString("Food_Name");
+            String calories = result.getString("Calories");
+            String carbs = result.getString("Carbs");
+            String fats= result.getString("Fats");
+            String protein = result.getString("Protein");
+            String servings = result.getString("Serving_Size");
+            item = new FoodItem();
+            item.setName(name);
+            item.setCalories(Double.valueOf(calories));
+            item.setCarbs(Double.valueOf(carbs));
+            item.setFats(Double.valueOf(fats));
+            item.setProtein(Double.valueOf(protein));
+            item.setServingSize(Double.valueOf(servings));
+              
+            }
 
         } catch (SQLException ex) {
         }
-        return result;
+        return item;
 
     }
 

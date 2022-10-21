@@ -10,6 +10,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ import javafx.fxml.Initializable;
  * @author jesus
  */
 public class HomeController implements Initializable {
-    
+    private DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private UserProfileModel instanceUser = UserProfileModel.getInstance();
     private dataConnector userDB = dataConnector.getInstance();
     private ResultSet result;
@@ -111,7 +112,7 @@ public class HomeController implements Initializable {
     private void loadProgressCardData() {
         ProgressCardConnector pc = new ProgressCardConnector();
         LocalDate now = LocalDate.now();
-        int progressID = pc.getProgressID(instanceUser.getUserName(), now.toString());
+        int progressID = pc.getProgressID(instanceUser.getUserName(), dt.format(now));
         if (progressID != -1) {
             instanceUser.setProgressCardId(progressID);
             int intakeID = pc.getDailyIntakeID(progressID);

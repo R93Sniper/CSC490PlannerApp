@@ -111,4 +111,22 @@ public class DailyIntakeConnector extends dataConnector {
         }
     }
 
+    public String getFoodLogIds(int id) {
+
+        String tableName = "Daily_Intake_Cards";
+        String foodLogIds = "";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + ";");
+
+            while (result.next()) {
+                foodLogIds = result.getString("Food_Log_Ids");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return foodLogIds;
+    }
+    
+    
 }

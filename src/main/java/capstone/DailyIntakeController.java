@@ -21,8 +21,8 @@ import javafx.scene.control.TextField;
  *
  * @author jesus
  */
-public class DailyIntakeController implements Initializable {
-    
+public class DailyIntakeController{
+
     @FXML
     private ListView listView;
     ObservableList<String> obsList = FXCollections.observableArrayList();
@@ -35,23 +35,21 @@ public class DailyIntakeController implements Initializable {
     @FXML
     private TextField tfFoodItem;
     private UserProfileModel usr = UserProfileModel.getInstance();
-    private int dailyIntakeID = usr.getDailyIntakeId();
+    private int dailyIntakeID = 0;
 
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
+    @FXML
+    public void initialize() {
+        dailyIntakeID = usr.getDailyIntakeId();
+        loadItemList();
+
     }
 
-    @FXML    
-    public void initialize() {
-        
-    }
-    
     @FXML
-    private void onGoBack() throws IOException {        
+    private void onGoBack() throws IOException {
         App.setRoot("progressCard");
     }
 
@@ -61,7 +59,7 @@ public class DailyIntakeController implements Initializable {
         int totalCal = 0;
         int totalCarbs = 0;
         int totalProtein = 0;
-        int totalFats = 0;        
+        int totalFats = 0;
         for (FoodItem item : itemsInListView) {
             totalCal += item.getCalories();
             totalCarbs += item.getCarbs();
@@ -69,19 +67,19 @@ public class DailyIntakeController implements Initializable {
             totalFats += item.getFats();
         }
         String strFoodLogIds = foodLogIds.get(0).toString();
-        for(int i=1; i<foodLogIds.size(); i++){
-        strFoodLogIds += "-"+foodLogIds.get(i).toString();
+        for (int i = 1; i < foodLogIds.size(); i++) {
+            strFoodLogIds += "-" + foodLogIds.get(i).toString();
         }
-        if(dailyIntakeID==0){
-        intakeDC.userDailyIntake(strFoodLogIds, String.valueOf(totalCal), String.valueOf(totalCarbs), String.valueOf(totalProtein), String.valueOf(totalFats));
-        dailyIntakeID = intakeDC.getLastRow("Daily_Intake_Cards");
-        usr.setDailyIntakeId(dailyIntakeID);
-        }else{ //update the dailyIntake row
-        intakeDC.updateCaloriesTotal(dailyIntakeID, String.valueOf(totalCal));
-        intakeDC.updateCarbsTotal(dailyIntakeID, String.valueOf(totalCarbs));
-        intakeDC.updateFatsTotal(dailyIntakeID, String.valueOf(totalFats));
-        intakeDC.updateProteinTotal(dailyIntakeID, String.valueOf(totalProtein));
-        intakeDC.updateFoodLogIds(dailyIntakeID, strFoodLogIds);
+        if (dailyIntakeID == 0) {
+            intakeDC.userDailyIntake(strFoodLogIds, String.valueOf(totalCal), String.valueOf(totalCarbs), String.valueOf(totalProtein), String.valueOf(totalFats));
+            dailyIntakeID = intakeDC.getLastRow("Daily_Intake_Cards");
+            usr.setDailyIntakeId(dailyIntakeID);
+        } else { //update the dailyIntake row
+            intakeDC.updateCaloriesTotal(dailyIntakeID, String.valueOf(totalCal));
+            intakeDC.updateCarbsTotal(dailyIntakeID, String.valueOf(totalCarbs));
+            intakeDC.updateFatsTotal(dailyIntakeID, String.valueOf(totalFats));
+            intakeDC.updateProteinTotal(dailyIntakeID, String.valueOf(totalProtein));
+            intakeDC.updateFoodLogIds(dailyIntakeID, strFoodLogIds);
         }
     }
 
@@ -96,10 +94,32 @@ public class DailyIntakeController implements Initializable {
                     String.valueOf(item.getProtein()), String.valueOf(item.getServingSize()));
             foodLogIds.add(foodLog.getLastRow());
         }
-       
+
         listView.setItems(obsList);
         tfFoodItem.setText("");
-        
+
     }
-    
+
+    @FXML
+    public void loadItemList() {
+        System.out.println("intake id = "+usr.getDailyIntakeId());
+        String foodIds = intakeDC.getFoodLogIds(usr.getDailyIntakeId());
+        System.out.println("fodlogid= "+foodIds);
+        if (!foodIds.equals("")) 
+        {
+            String[] idArray = foodIds.split("-");
+            for (int i = 0; i < idArray.length; i++) 
+            {
+                FoodItem item = foodLog.getFoodLogRow(Integer.valueOf(idArray[i]));
+                if (item != null) {
+                    obsList.add(item.toString());
+                    itemsInListView.add(item);
+                    foodLogIds.add(Integer.valueOf(idArray[i]));
+                }
+
+            }
+            listView.setItems(obsList);
+        }
+
+    }
 }
