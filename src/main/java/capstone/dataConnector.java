@@ -109,7 +109,7 @@ public class dataConnector {
      * @return
      */
     public boolean existingUser(String userName) {
-        //getConnectionDB();
+       
         String tableName = "User_Profile";
         String uName = null, uPswd = null;
         try {

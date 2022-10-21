@@ -111,19 +111,24 @@ public class ProgressCard {
 
     @FXML
     public void saveCard() throws IOException {
+
         //if valid entry then add row to Progress Table;
-        if(validateEntry()){
-        pcTable.userProgressCard(usr.getUserName(), now.toString(), currentWeight.getText(), 0, 0, "0", "0");
-        
+        if (validateEntry() && usr.getProgressCardId() == 0) {
+            //check to see if progressID already exists for user 
+            int id = pcTable.getProgressID(usr.getUserName(), now.toString());
+            //if id returned is -1, then it does not exist yet and need to add new row in table
+            if (id == -1) {
+                int intakeID = usr.getDailyIntakeId();
+                if (intakeID == 0) {
+                    pcTable.userProgressCard(usr.getUserName(), now.toString(), currentWeight.getText(), 0, 0, "0", "0");
+                } else {
+                    pcTable.userProgressCard(usr.getUserName(), now.toString(), currentWeight.getText(), intakeID, 0, "0", "0");
+                }
+                id = pcTable.getLastRow("Progress_Cards");
+            }
+            usr.setProgressCardId(id);
         }
 
-        //dataConnector makeConnection = dataConnector.getInstance();
-        //makeConnection.getConnectionPCDB();
-        //uncomment when branches are merged 
-        //makeConnection.userProgressCard( UserProfileModel.getInstance().getUserName(), currentDate.getText(), currentWeight.getText(), null, null);
-        validateEntry();
-
-        //TODO: Make this save the given contents to DB
     }
 
     @FXML

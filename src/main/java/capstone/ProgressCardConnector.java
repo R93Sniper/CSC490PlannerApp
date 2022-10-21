@@ -5,7 +5,9 @@
  */
 package capstone;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -111,5 +113,27 @@ public class ProgressCardConnector extends dataConnector {
             }
         } catch (SQLException e) {
         }
+    }
+    
+    public int getProgressID(String userName, String targetDate){
+    
+        String tableName = "Progress_Cards";
+        //String uName = null, uPswd = null;
+        int id = -1;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\' AND "
+                    + "WHERE Date_Of_Card = \'"+targetDate+"\' ;");
+
+            while (result.next()) {
+                id = result.getInt("ID");
+                //uPswd = result.getString("User_Password");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return id;
+    
+    
     }
 }
