@@ -10,26 +10,35 @@ import javafx.fxml.FXML;
 
 /**
  *
- * @author Omar Muy
- *         Wahab Quazi
+ * @author Omar Muy Wahab Quazi
  */
 public class SecondaryController {
+
     @FXML
     private void goBack() throws IOException {
-        App.setRoot("Landing");  
+        UserProfileModel usr = UserProfileModel.getInstance();
+        if (!usr.getUserName().equals("")) {
+            App.setRoot("UserHome");
+        } else {
+            App.setRoot("Landing");
+        }
     }
+
     @FXML
     private void switchToCalorie() throws IOException {
-        App.setRoot("calorieCalc");  
+        App.setRoot("calorieCalc");
     }
+
     @FXML
     private void switchToWater() throws IOException {
-        App.setRoot("waterCalc");  
+        App.setRoot("waterCalc");
     }
+
     @FXML
     private void switchToBMI() throws IOException {
         App.setRoot("bmiCalc");
     }
+
     @FXML
     private void switchToBodyFat() throws IOException {
         App.setRoot("bodyfatCalc");

@@ -28,6 +28,51 @@ public class bmiCalculator {
     private Label answerLabel;
 
     private Alert a = new Alert(AlertType.INFORMATION);
+    private UserProfileModel usr = UserProfileModel.getInstance();
+
+    @FXML
+    public void initialize() {
+
+        if (!usr.getUserName().equals("")) {
+            loadGender();
+            loadHeightData();
+            loadUserAge();
+        }
+    }
+
+    @FXML
+    public void loadHeightData() {
+        if (usr.getHeight() != null) {
+            String[] height = usr.getHeight().split("-");
+            String ft = height[0];
+            String in = height[1];
+            feetTF.setText(ft);
+            inchesTF.setText(in);
+        }
+    }
+
+    @FXML
+    private void loadUserAge() {
+        if (usr.getBirthDate() != null) {
+            if (usr.getAge() > -1) {
+                ageTF.setText(String.valueOf(usr.getAge()));
+            } else {
+                System.out.println("Birth Age is greater than Today's date so Can't calc");
+            }
+        }
+    }
+
+    @FXML
+    private void loadGender() {
+        if (usr.getGender() != null) {
+            if (usr.getGender().equals("Male")) {
+                rbMale.setSelected(true);
+            }
+            if (usr.getGender().equals("Female")) {
+                rbFemale.setSelected(true);
+            }
+        }
+    }
 
     @FXML
     private void switchToCalculators() throws IOException {
@@ -165,6 +210,7 @@ public class bmiCalculator {
         answerLabel.setText("");
         System.out.println("Calc has been reset");
     }
+
     // This will sent informative alerts out.
     private void output(double result, String format) {
         if (result < 16) {
