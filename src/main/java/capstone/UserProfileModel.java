@@ -24,6 +24,8 @@ public class UserProfileModel {
     private String gender="";
     private String height="";
     private String birthDate="";
+    private int progressCardId = 0;
+    private int dailyIntakeId = 0;
 
 
     public static UserProfileModel getInstance() {
@@ -64,7 +66,8 @@ public class UserProfileModel {
     public String getHeight() {
         return height;
     }
-
+    public int getProgressCardId(){ return progressCardId;}
+    public int getDailyIntakeId(){ return dailyIntakeId;}
     
     public void setFullName(String name) {
         fullName = name;
@@ -97,7 +100,8 @@ public class UserProfileModel {
     public void setHeight(String h) {
         height = h;
     }
-
+    public void setProgressCardId(int id){progressCardId = id;}
+    public void setDailyIntakeId(int id){dailyIntakeId = id;}
     public void resetModel() {
         instance = null;
     }
