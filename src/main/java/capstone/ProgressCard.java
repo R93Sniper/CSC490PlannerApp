@@ -108,7 +108,7 @@ public class ProgressCard {
         validateEntry();
          
          dataConnector makeConnection = dataConnector.getInstance();
-         makeConnection.getConnectionPCDB();
+         //makeConnection.getConnectionPCDB();
          
          
          //uncomment when branches are merged 
@@ -129,7 +129,7 @@ public class ProgressCard {
 
     @FXML
     public void goToIntake() throws IOException {
-        App.setRoot("IntakeCard");
+        App.setRoot("dailyIntake");
     }
 
     @FXML
