@@ -34,7 +34,8 @@ public class DailyIntakeController implements Initializable {
     ArrayList<FoodItem> itemsInListView = new ArrayList<>();
     @FXML
     private TextField tfFoodItem;
-    private int dailyIntakeID = -1;
+    private UserProfileModel usr = UserProfileModel.getInstance();
+    private int dailyIntakeID = usr.getDailyIntakeId();
 
     /**
      * Initializes the controller class.
@@ -71,9 +72,10 @@ public class DailyIntakeController implements Initializable {
         for(int i=1; i<foodLogIds.size(); i++){
         strFoodLogIds += "-"+foodLogIds.get(i).toString();
         }
-        if(dailyIntakeID<0){
+        if(dailyIntakeID==0){
         intakeDC.userDailyIntake(strFoodLogIds, String.valueOf(totalCal), String.valueOf(totalCarbs), String.valueOf(totalProtein), String.valueOf(totalFats));
         dailyIntakeID = intakeDC.getLastRow("Daily_Intake_Cards");
+        usr.setDailyIntakeId(dailyIntakeID);
         }else{ //update the dailyIntake row
         intakeDC.updateCaloriesTotal(dailyIntakeID, String.valueOf(totalCal));
         intakeDC.updateCarbsTotal(dailyIntakeID, String.valueOf(totalCarbs));

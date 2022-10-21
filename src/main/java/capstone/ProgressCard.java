@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
  * @author Wahab Quazi
  */
 public class ProgressCard {
-
+    
     @FXML
     private TextField currentWeight;
     @FXML
@@ -47,17 +47,19 @@ public class ProgressCard {
      * intialize method, calls upon opening this controller sets the date to the
      * current system date
      */
+    @FXML
     public void initialize() {
-
+        
         currentDate.setText(dt.format(now));
-
+       
+        loadWeight();
     }
 
     /**
      * method to validate data collected from the user
      */
     public boolean validateEntry() {
-
+        
         if (currentWeight.getText().equals("")) {//if the person enters nothing
             makeAlert("Error, you did not enter a weight");
             return false;
@@ -86,7 +88,7 @@ public class ProgressCard {
                 makeAlert("Error, not sure how you got here but good job");
             }
         }
-
+        
         return false;
     }
 
@@ -96,52 +98,64 @@ public class ProgressCard {
      * @param alertText
      */
     public void makeAlert(String alertText) {
-
+        
         Alert a = new Alert(AlertType.ERROR);
         a.setTitle("Error");
         a.setHeaderText(alertText);
         a.showAndWait();
-
+        
     }
-
+    
     @FXML
     public void goBack() throws IOException {
         App.setRoot("UserHome");
     }
-
+    
     @FXML
     public void saveCard() throws IOException {
-
+        
         //if valid entry then add row to Progress Table;
-        if (validateEntry() && usr.getProgressCardId() == 0) {
+        if (validateEntry()) {
             //check to see if progressID already exists for user 
-            int id = pcTable.getProgressID(usr.getUserName(), now.toString());
+            int id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
             //if id returned is -1, then it does not exist yet and need to add new row in table
             if (id == -1) {
                 int intakeID = usr.getDailyIntakeId();
                 if (intakeID == 0) {
-                    pcTable.userProgressCard(usr.getUserName(), now.toString(), currentWeight.getText(), 0, 0, "0", "0");
+                    pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), 0, 0, "0", "0");
                 } else {
-                    pcTable.userProgressCard(usr.getUserName(), now.toString(), currentWeight.getText(), intakeID, 0, "0", "0");
+                    pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), intakeID, 0, "0", "0");
                 }
                 id = pcTable.getLastRow("Progress_Cards");
+            } else {// row exists in table, so just need to update fields
+                pcTable.updateWeight(id, currentWeight.getText());
+                pcTable.updateDailyIntakeID(id, usr.getDailyIntakeId());
+                
             }
             usr.setProgressCardId(id);
         }
-
+        
     }
-
+    
+    @FXML
+    public void loadWeight() {
+        int id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
+        if (id != -1) {
+            currentWeight.setText(String.valueOf(pcTable.getWeight(id)));
+        }
+    }
+    
     @FXML
     public void goToMeasure() throws IOException {
         makeAlert("Error, feature not yet implemented");
         //App.setRoot("MeasureCard");
     }
-
+    
     @FXML
     public void goToIntake() throws IOException {
         App.setRoot("dailyIntake");
     }
-
+    
     @FXML
     public void goToExercise() throws IOException {
         makeAlert("Error feature not yet implemented");
