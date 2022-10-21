@@ -28,10 +28,11 @@ import java.util.logging.Logger;
  * @author Wahab Quazi, Simranjit ----------- -----------
  */
 public class dataConnector {
+
     //PlannerDB
     protected Connection conn;
     protected PreparedStatement preparedStatement;
-     
+
     //ProgressCard DB
     public PreparedStatement preparedStatement1;
     public Connection conn1 = null;
@@ -69,16 +70,16 @@ public class dataConnector {
         }
 
     }
-    
-    public void closeConnectionDB() throws SQLException{
-    conn.close();
+
+    public void closeConnectionDB() throws SQLException {
+        conn.close();
     }
 
     /**
      * newUserSignup: when new user sign up
      *
      * @param userName
-     * @param userPassword     
+     * @param userPassword
      */
     public void newUserSignup(String userName, String userPassword) throws NoSuchAlgorithmException {
         //call the getConnectionDB method
@@ -237,9 +238,9 @@ public class dataConnector {
 
     public boolean updateColumn(String tableName, String userName, String newStr, String col) {
         try {
-            String sql = "UPDATE "+ tableName
-                    + " SET "+col+" = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
-           
+            String sql = "UPDATE " + tableName
+                    + " SET " + col + " = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
+
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             return true;
@@ -249,8 +250,7 @@ public class dataConnector {
 
         return false;
     }
-  
-    
+
     public String getSecq(int id) {
         String tableName = "Security_Questions";
         ResultSet result = null;
@@ -269,7 +269,7 @@ public class dataConnector {
 
         return returnStr;
     }
-    
+
     public ResultSet getAllSecQs() {
 
         ResultSet result = null;
@@ -283,7 +283,7 @@ public class dataConnector {
         return result;
 
     }
-    
+
     public boolean updateUserSecQID(String userName, int qId, String col) {
 
         //String column = col.toString();
@@ -300,30 +300,50 @@ public class dataConnector {
 
         return false;
     }
-      
-     /**
-      * takes the user password and hashes it using SHA-256 bit hashing, a one way hash function for 
-      * security
-      * @param password
-      * @return 
-      */
-     public String returnHashPassword(String password) throws NoSuchAlgorithmException{
-         
-         MessageDigest md = MessageDigest.getInstance("SHA-256");
-         byte[] messageDigest = md.digest(password.getBytes());
-         
-         BigInteger no = new BigInteger(1,messageDigest);
-         
-         String hashPassword = no.toString(16);
-         
-         while(hashPassword.length() < 32){
-             hashPassword = "0" + hashPassword;
-         }
-         System.out.println(hashPassword + "------");
-         
-         return hashPassword;
-     }
-     
+
+    /**
+     * takes the user password and hashes it using SHA-256 bit hashing, a one
+     * way hash function for security
+     *
+     * @param password
+     * @return
+     */
+    public String returnHashPassword(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] messageDigest = md.digest(password.getBytes());
+
+        BigInteger no = new BigInteger(1, messageDigest);
+
+        String hashPassword = no.toString(16);
+
+        while (hashPassword.length() < 32) {
+            hashPassword = "0" + hashPassword;
+        }
+        System.out.println(hashPassword + "------");
+
+        return hashPassword;
+    }
+
+    public int getLastRow(String tableName) {
+        int lastRowNum = -1;
+        //String tableName = "Daily_Intake_Cards";
+        ResultSet result = null;
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("SELECT * FROM " + tableName);
+
+            while (result.next()) {
+                lastRowNum = result.getInt("ID");
+                //System.out.println("RowId= "+rowNum);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lastRowNum;
+    }
+
 }
 
 enum DB_Col {
@@ -344,9 +364,9 @@ enum DB_Col {
     SecurityA2,
     SecurityA3,
     DateOfCard,
-    Weight, 
+    Weight,
     BodyMeasurement,
-    Intake_ID, 
+    Intake_ID,
     Excercise_ID
 
 }

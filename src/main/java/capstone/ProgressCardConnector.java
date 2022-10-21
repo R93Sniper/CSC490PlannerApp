@@ -32,6 +32,7 @@ public class ProgressCardConnector extends dataConnector {
                 System.out.println("Row inserted into Progress Card Table");
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

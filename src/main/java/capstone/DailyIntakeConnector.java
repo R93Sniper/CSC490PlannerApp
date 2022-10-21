@@ -111,21 +111,4 @@ public class DailyIntakeConnector extends dataConnector {
         }
     }
 
-    public int getLastRow() {
-        int lastRowNum = 0;
-        String tableName = "Daily_Intake_Cards";
-        ResultSet result = null;
-        try {
-            Statement stmt = conn.createStatement();
-            result = stmt.executeQuery("SELECT * FROM " + tableName);
-
-            while (result.next()) {
-                lastRowNum = result.getInt("ID");
-                //System.out.println("RowId= "+rowNum);
-            }
-
-        } catch (SQLException e) {
-        }
-        return lastRowNum;
-    }
 }

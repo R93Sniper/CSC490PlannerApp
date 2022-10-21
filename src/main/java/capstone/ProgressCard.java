@@ -38,6 +38,8 @@ public class ProgressCard {
      */
     private DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private LocalDateTime now = LocalDateTime.now();
+    private ProgressCardConnector pcTable = new ProgressCardConnector();
+    private UserProfileModel usr = UserProfileModel.getInstance();
     @FXML
     private Button measureMe;
 
@@ -54,33 +56,39 @@ public class ProgressCard {
     /**
      * method to validate data collected from the user
      */
-    public void validateEntry() {
+    public boolean validateEntry() {
 
         if (currentWeight.getText().equals("")) {//if the person enters nothing
-            makeAlert("Error, you did enter a weight");
+            makeAlert("Error, you did not enter a weight");
+            return false;
+        } else {
+            if (rb_pounds.isSelected()) {//if pounds is selected then validate data in pounds
+
+                if (Double.parseDouble(currentWeight.getText()) <= 0) {//if the person enters a negative weight or 0
+                    makeAlert("Error, you entered a negative weight");
+                    return false;
+                } else if (Double.parseDouble(currentWeight.getText()) > 1000) {//if the person enters over 1000 pounds
+                    makeAlert("Error, you enteted a weight over 1000lbs");
+                    return false;
+                }
+                return true;
+            } else if (rb_kilo.isSelected()) {//if KG is selected then validate the data in kilograms
+
+                if (Double.parseDouble(currentWeight.getText()) <= 0) {//if the person enters a negative weight or 0
+                    makeAlert("Error, you entered a negative weight");
+                    return false;
+                } else if (Double.parseDouble(currentWeight.getText()) > 453) {//if the person enters over 1000 pounds (in kg)
+                    makeAlert("Error, you enteted a weight over 453 kgs");
+                    return false;
+                }
+                return true;
+            } else {//unknwon/reserved for future use
+                makeAlert("Error, not sure how you got here but good job");
+            }
         }
 
-        if (rb_pounds.isSelected()) {//if pounds is selected then validate data in pounds
-
-            if (Double.parseDouble(currentWeight.getText()) <= 0) {//if the person enters a negative weight or 0
-                makeAlert("Error, you entered a negative weight");
-            } else if (Double.parseDouble(currentWeight.getText()) > 1000) {//if the person enters over 1000 pounds
-                makeAlert("Error, you enteted a weight over 1000lbs");
-            }
-        } else if (rb_kilo.isSelected()) {//if KG is selected then validate the data in kilograms
-               
-            if (Double.parseDouble(currentWeight.getText()) <= 0) {//if the person enters a negative weight or 0
-                makeAlert("Error, you entered a negative weight");
-            } else if (Double.parseDouble(currentWeight.getText()) > 453) {//if the person enters over 1000 pounds (in kg)
-                makeAlert("Error, you enteted a weight over 453 kgs");
-
-            }
-        } else {//unknwon/reserved for future use
-            makeAlert("Error, not sure how you got here but good job");
-        }
+        return false;
     }
-        
-    
 
     /**
      * method to make an alert for entering invalid data
@@ -103,21 +111,18 @@ public class ProgressCard {
 
     @FXML
     public void saveCard() throws IOException {
+        //if valid entry then add row to Progress Table;
+        if(validateEntry()){
+        pcTable.userProgressCard(usr.getUserName(), now.toString(), currentWeight.getText(), 0, 0, "0", "0");
         
-        
+        }
+
+        //dataConnector makeConnection = dataConnector.getInstance();
+        //makeConnection.getConnectionPCDB();
+        //uncomment when branches are merged 
+        //makeConnection.userProgressCard( UserProfileModel.getInstance().getUserName(), currentDate.getText(), currentWeight.getText(), null, null);
         validateEntry();
-         
-         dataConnector makeConnection = dataConnector.getInstance();
-         //makeConnection.getConnectionPCDB();
-         
-         
-         //uncomment when branches are merged 
-         //makeConnection.userProgressCard( UserProfileModel.getInstance().getUserName(), currentDate.getText(), currentWeight.getText(), null, null);
-        
-        
-        validateEntry();
-        
-        
+
         //TODO: Make this save the given contents to DB
     }
 

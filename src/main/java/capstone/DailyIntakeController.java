@@ -73,7 +73,7 @@ public class DailyIntakeController implements Initializable {
         }
         if(dailyIntakeID<0){
         intakeDC.userDailyIntake(strFoodLogIds, String.valueOf(totalCal), String.valueOf(totalCarbs), String.valueOf(totalProtein), String.valueOf(totalFats));
-        dailyIntakeID = intakeDC.getLastRow();
+        dailyIntakeID = intakeDC.getLastRow("Daily_Intake_Cards");
         }else{ //update the dailyIntake row
         intakeDC.updateCaloriesTotal(dailyIntakeID, String.valueOf(totalCal));
         intakeDC.updateCarbsTotal(dailyIntakeID, String.valueOf(totalCarbs));
