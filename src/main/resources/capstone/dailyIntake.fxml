@@ -141,6 +141,11 @@
                               <Label fx:id="labelProtein" prefHeight="28.0" prefWidth="91.0" text="Label" />
                            </children>
                         </HBox>
+                        <Button mnemonicParsing="false" onAction="#onClear" text="Clear">
+                           <VBox.margin>
+                              <Insets left="10.0" top="40.0" />
+                           </VBox.margin>
+                        </Button>
                      </children>
                   </VBox>
                </children>

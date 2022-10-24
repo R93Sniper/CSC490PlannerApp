@@ -97,20 +97,25 @@ public class DailyIntakeController {
     //this method will save the DailyIntake data in the database and update the DailyIntake row
     @FXML
     public void onSave() {
-        int totalCal = 0;
-        int totalCarbs = 0;
-        int totalProtein = 0;
-        int totalFats = 0;
+        double totalCal = 0.0;
+        double totalCarbs = 0.0;
+        double totalProtein = 0.0;
+        double totalFats = 0.0;
         for (FoodItem item : itemsInListView) {
             totalCal += item.getCalories();
             totalCarbs += item.getCarbs();
             totalProtein += item.getProtein();
             totalFats += item.getFats();
         }
-        String strFoodLogIds = foodLogIds.get(0).toString();
-        for (int i = 1; i < foodLogIds.size(); i++) {
+        
+        String strFoodLogIds="";
+        if(foodLogIds.size()>0){
+            strFoodLogIds = foodLogIds.get(0).toString();
+            for (int i = 1; i < foodLogIds.size(); i++) {
             strFoodLogIds += "-" + foodLogIds.get(i).toString();
+            }
         }
+        
         if (dailyIntakeID == 0) {
             intakeDC.userDailyIntake(strFoodLogIds, String.valueOf(df.format(totalCal)), String.valueOf(df.format(totalCarbs)),
                     String.valueOf(df.format(totalProtein)), String.valueOf(df.format(totalFats)));
@@ -128,7 +133,6 @@ public class DailyIntakeController {
         total_Fats = totalFats;
         total_Protein = totalProtein;
         loadTotalValues();
-
     }
 
     // this method will add the food items to the list view and to the foodLog DB
@@ -247,4 +251,22 @@ public class DailyIntakeController {
     btnAdd2.setVisible(true);
     
     }
+    
+    @FXML
+    public void onClear(){
+        //need to clear view without saving..
+        itemsInListView = new ArrayList<>();
+        foodLogIds = new ArrayList<>();
+        obsList.clear();
+        listView.setItems(obsList);
+        total_Cals = 0.0;
+        total_Carbs = 0.0;
+        total_Fats = 0.0;
+        total_Protein = 0.0;
+        loadTotalValues();
+            
+    }
+    
+    
+    
 }
