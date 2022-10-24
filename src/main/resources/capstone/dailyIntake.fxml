@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.DailyIntakeController">
+   <top>
+      <Label text="Daily Intake Log: Food/Drink " BorderPane.alignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="35.0" prefWidth="400.0">
+               <children>
+                  <RadioButton fx:id="rbFoodApi" mnemonicParsing="false" onAction="#onUseAPIselected" prefHeight="34.0" prefWidth="105.0" text="Use FoodAPI" />
+                  <RadioButton fx:id="rbUserInput" layoutX="171.0" layoutY="10.0" mnemonicParsing="false" onAction="#onUserInputselected" prefHeight="34.0" prefWidth="105.0" text="Manual Input" />
+               </children>
+            </HBox>
+            <HBox prefHeight="26.0" prefWidth="400.0">
+               <children>
+                  <Label fx:id="labeltext" prefHeight="36.0" prefWidth="157.0" text="For API: Enter item name" />
+                  <TextField fx:id="tfFoodItem" prefHeight="25.0" prefWidth="145.0" />
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAddFoodItem" prefHeight="25.0" prefWidth="70.0" text="Add" />
+               </children>
+            </HBox>
+            <HBox prefHeight="60.0" prefWidth="400.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="tfCal" promptText="# of Calories" />
+                        <HBox prefHeight="60.0" prefWidth="400.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" />
+                           </children>
+                        </HBox>
+                        <TextField fx:id="tfName" layoutX="10.0" layoutY="10.0" promptText="item name">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="62.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="tfCarb" promptText="# of Carbs" />
+                        <Button fx:id="btnAdd2" mnemonicParsing="false" onAction="#onAddManualInput" prefHeight="25.0" prefWidth="70.0" text="Add">
+                           <VBox.margin>
+                              <Insets left="15.0" top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="110.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="tfFat" promptText="# of Fats" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="tfPro" promptText="# of Protein" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="225.0" prefWidth="380.0">
+               <children>
+                  <VBox prefHeight="225.0" prefWidth="237.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" />
+                        <ListView fx:id="listView" prefHeight="471.0" prefWidth="235.0" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="225.0" prefWidth="168.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="186.0" text="Total Intake" underline="true">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox prefHeight="28.0">
+                           <children>
+                              <Label prefHeight="28.0" prefWidth="70.0" text="Calories:" underline="true">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="labelCalories" prefHeight="28.0" prefWidth="91.0" text="Label" />
+                           </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="38.0" prefHeight="28.0">
+                           <children>
+                              <Label prefHeight="28.0" prefWidth="70.0" text="Carbs:" underline="true">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="labelCarbs" prefHeight="28.0" prefWidth="91.0" text="Label" />
+                           </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="178.0" prefHeight="28.0">
+                           <children>
+                              <Label prefHeight="28.0" prefWidth="70.0" text="Fats:" underline="true">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="labelFats" prefHeight="28.0" prefWidth="91.0" text="Label" />
+                           </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="178.0" prefHeight="28.0">
+                           <children>
+                              <Label prefHeight="28.0" prefWidth="70.0" text="Protein " underline="true">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="labelProtein" prefHeight="28.0" prefWidth="91.0" text="Label" />
+                           </children>
+                        </HBox>
+                        <Button mnemonicParsing="false" onAction="#onClear" text="Clear">
+                           <VBox.margin>
+                              <Insets left="10.0" top="40.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onGoBack" text="Go Back">
+               <VBox.margin>
+                  <Insets left="20.0" top="300.0" />
+               </VBox.margin></Button>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSave" text="Save">
+               <VBox.margin>
+                  <Insets left="10.0" top="300.0" />
+               </VBox.margin></Button>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin></VBox>
+   </right>
+</BorderPane>

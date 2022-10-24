@@ -1,7 +1,9 @@
 package capstone;
 
 import java.math.BigInteger;
+
 import java.nio.charset.StandardCharsets;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -26,10 +28,11 @@ import java.util.logging.Logger;
  * @author Wahab Quazi, Simranjit ----------- -----------
  */
 public class dataConnector {
+
     //PlannerDB
-    public Connection conn;
-    public PreparedStatement preparedStatement;
-     
+    protected Connection conn;
+    protected PreparedStatement preparedStatement;
+
     //ProgressCard DB
     public PreparedStatement preparedStatement1;
     public Connection conn1 = null;
@@ -48,7 +51,7 @@ public class dataConnector {
             + "hostNameInCertificate=*.database.windows.net;"
             + "loginTimeout=30;";
 
-    private dataConnector() {
+    protected dataConnector() {
         getConnectionDB();
     }
 
@@ -56,31 +59,27 @@ public class dataConnector {
         if (instance == null) {
             instance = new dataConnector();
         }
-
         return instance;
     }
 
     private void getConnectionDB() {
         try {
-
-            //String databaseURL = "jdbc:ucanaccess://.//PlannerDB.accdb";
             conn = DriverManager.getConnection(accessConnStr);
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
     }
-    
-    public void closeConnectionDB() throws SQLException{
-    conn.close();
+
+    public void closeConnectionDB() throws SQLException {
+        conn.close();
     }
 
     /**
      * newUserSignup: when new user sign up
      *
      * @param userName
-     * @param userPassword     
+     * @param userPassword
      */
     public void newUserSignup(String userName, String userPassword) throws NoSuchAlgorithmException {
         //call the getConnectionDB method
@@ -91,51 +90,12 @@ public class dataConnector {
         try {
             String sql = "INSERT INTO " + tableName + "(User_Name, User_Password) VALUES"
                     + "(?, ?)";
-
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, hashedPass);
             int row = preparedStatement.executeUpdate();
-
             if (row > 0) {
                 System.out.println("**NEW USER inserted into DB");
-            }
-        } catch (SQLException e) {
-        }
-    }
-
-    /**
-     * newUserProfileSignup - setting up new user profile information and
-     * storing their data.
-     */
-    public void newUserProfileSignup(String userName, String userPassword, String secQ1, String secQ2, String secQ3,
-            String secAns1, String secAns2, String secAns3, String fullName, String height, String dob, String gender, String bodytype) throws NoSuchAlgorithmException {
-        //call the getConnectionDB method
-        //getConnectionDB();
-        String hashedPassword = returnHashPassword(userPassword);
-        try {
-
-            String sql = "INSERT INTO User(userName,userPassword,secQ1,secQ2,secQ3,secAns1,secAns2,secAns3, "
-                    + "fullName, height, dob, gender, bodytype) VALUES"
-                    + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, hashedPassword);
-            preparedStatement.setString(3, secQ1);
-            preparedStatement.setString(4, secQ2);
-            preparedStatement.setString(5, secQ3);
-            preparedStatement.setString(6, secAns1);
-            preparedStatement.setString(7, secAns2);
-            preparedStatement.setString(8, secAns3);
-            preparedStatement.setString(9, fullName);
-            preparedStatement.setString(10, height);
-            preparedStatement.setString(11, dob);
-            preparedStatement.setString(12, gender);
-            preparedStatement.setString(13, bodytype);
-
-            int row = preparedStatement.executeUpdate();
-            if (row > 0) {
-                System.out.println("Row inserted");
             }
         } catch (SQLException e) {
         }
@@ -149,7 +109,7 @@ public class dataConnector {
      * @return
      */
     public boolean existingUser(String userName) {
-        //getConnectionDB();
+       
         String tableName = "User_Profile";
         String uName = null, uPswd = null;
         try {
@@ -263,7 +223,6 @@ public class dataConnector {
 
     public ResultSet getResult(String userName, String tableName) {
 
-        System.out.println("query data:");
         ResultSet result = null;
         try {
             Statement stmt = conn.createStatement();
@@ -278,29 +237,10 @@ public class dataConnector {
     }
 
     public boolean updateColumn(String tableName, String userName, String newStr, String col) {
-
-        //String column = col.toString();
         try {
-            String sql = "UPDATE "+ tableName
-                    + " SET "+col+" = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
-           
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            String sql = "UPDATE " + tableName
+                    + " SET " + col + " = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
 
-        return false;
-    }
-    
-    public boolean updateUserBirthDate(LocalDate dob, String userName){
-     System.out.println("dob= "+ dob);
-        
-        try {
-            String sql = "UPDATE User_Profile"
-                    + " SET Date_Of_Birth = \'" + dob.toString() + "\' WHERE User_Name=\'" + userName + "\'";
-           
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             return true;
@@ -329,7 +269,7 @@ public class dataConnector {
 
         return returnStr;
     }
-    
+
     public ResultSet getAllSecQs() {
 
         ResultSet result = null;
@@ -343,7 +283,7 @@ public class dataConnector {
         return result;
 
     }
-    
+
     public boolean updateUserSecQID(String userName, int qId, String col) {
 
         //String column = col.toString();
@@ -360,124 +300,53 @@ public class dataConnector {
 
         return false;
     }
-      
-     /**
-      * takes the user password and hashes it using SHA-256 bit hashing, a one way hash function for 
-      * security
-      * @param password
-      * @return 
-      */
-     public String returnHashPassword(String password) throws NoSuchAlgorithmException{
-         
-         MessageDigest md = MessageDigest.getInstance("SHA-256");
-         byte[] messageDigest = md.digest(password.getBytes());
-         
-         BigInteger no = new BigInteger(1,messageDigest);
-         
-         String hashPassword = no.toString(16);
-         
-         while(hashPassword.length() < 32){
-             hashPassword = "0" + hashPassword;
-         }
-         System.out.println(hashPassword + "------");
-         
-         return hashPassword;
-     }
-     
-     //CODE FOR ProgressCard DB
-     /**
-     * getConnectionDB: retrieve data from the database using a JDBC connector
-     * for Progress Card.
-     */
-    public void getConnectionPCDB() {
-        try {
-            String databaseURL = "jdbc:ucanaccess://.//ProgressCard.accdb";
-            conn1 = DriverManager.getConnection(databaseURL);
-        } catch (SQLException ex) {
-            ;
-        }
-    }
-  
-     /**
-     * userProgressCard: inserting user info into their progress card.
-     */
-    public void userProgressCard(String userName, String dateOfCard, String weight, String diet, String bodyFat) {
-        getConnectionPCDB();
 
-        try {
-            String sql = "INSERT INTO Progresscard(userName,dateOfCard,weight,diet,bodyFat) VALUES"
-                    + "(?,?,?,?,?)";
-            // preparedStatement = conn.prepareStatement(sql);
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, userName);
-            preparedStatement1.setString(2, dateOfCard);
-            preparedStatement1.setString(3, weight);
-            preparedStatement1.setString(4, diet);
-            preparedStatement1.setString(5, bodyFat);
-            int row = preparedStatement1.executeUpdate();
-            if (row > 0) {
-                System.out.println("Row inserted");
-            }
-        } catch (SQLException e) {
-        }
-    }
-     
-     /**
-     * updateDateOfCard: if registered user want to update their date of card entry.
-     */
-    public void updateDateOfCard(String uName, String dateOfCard) {
-        getConnectionPCDB();
-        try {
-            String sql = "UPDATE Progresscard SET dateOfCard=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, dateOfCard);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
-            if (row > 0) {
-                System.out.println("Row updated");
-            }
-        } catch (SQLException e) {
-        }
-    }
-    
     /**
-     * updateWeight: if registered user want to update their date of card entry.
+     * takes the user password and hashes it using SHA-256 bit hashing, a one
+     * way hash function for security
+     *
+     * @param password
+     * @return
      */
-  public void updateWeight(String uName, String weight) {
-        getConnectionPCDB();
-        try {
-            String sql = "UPDATE Progresscard SET weight=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, weight);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
-            if (row > 0) {
-                System.out.println("Row updated");
-            }
-        } catch (SQLException e) {
+    public String returnHashPassword(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] messageDigest = md.digest(password.getBytes());
+
+        BigInteger no = new BigInteger(1, messageDigest);
+
+        String hashPassword = no.toString(16);
+
+        while (hashPassword.length() < 32) {
+            hashPassword = "0" + hashPassword;
         }
+        System.out.println(hashPassword + "------");
+
+        return hashPassword;
     }
-     
-    /**
-     * updateWeight: if registered user want to update their date of card entry.
-     */
-    public void updateBodyFat(String uName, String bodyFat) {
-        getConnectionPCDB();
+
+    public int getLastRow(String tableName) {
+        int lastRowNum = -1;
+        //String tableName = "Daily_Intake_Cards";
+        ResultSet result = null;
         try {
-            String sql = "UPDATE Progresscard SET bodyFat=? WHERE userName=?";
-            preparedStatement1 = conn1.prepareStatement(sql);
-            preparedStatement1.setString(1, bodyFat);
-            preparedStatement1.setString(2, uName);
-            int row = preparedStatement1.executeUpdate();
-            if (row > 0) {
-                System.out.println("Row updated");
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("SELECT * FROM " + tableName);
+
+            while (result.next()) {
+                lastRowNum = result.getInt("ID");
+                //System.out.println("RowId= "+rowNum);
             }
+
         } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return lastRowNum;
     }
-        
+
 }
-  enum DBCol{
+
+enum DB_Col {
     User_Name,
     User_Password,
     First_Name,
@@ -494,4 +363,10 @@ public class dataConnector {
     SecurityA1,
     SecurityA2,
     SecurityA3,
-    }
+    DateOfCard,
+    Weight,
+    BodyMeasurement,
+    Intake_ID,
+    Excercise_ID
+
+}

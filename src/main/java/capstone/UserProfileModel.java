@@ -24,6 +24,8 @@ public class UserProfileModel {
     private String gender="";
     private String height="";
     private String birthDate="";
+    private int progressCardId = 0;
+    private int dailyIntakeId = 0;
 
 
     public static UserProfileModel getInstance() {
@@ -64,7 +66,8 @@ public class UserProfileModel {
     public String getHeight() {
         return height;
     }
-
+    public int getProgressCardId(){ return progressCardId;}
+    public int getDailyIntakeId(){ return dailyIntakeId;}
     
     public void setFullName(String name) {
         fullName = name;
@@ -97,9 +100,38 @@ public class UserProfileModel {
     public void setHeight(String h) {
         height = h;
     }
-
+    public void setProgressCardId(int id){progressCardId = id;}
+    public void setDailyIntakeId(int id){dailyIntakeId = id;}
     public void resetModel() {
         instance = null;
     }
+    
+    public int getAge() {
+        int returnAge = -1;
+        LocalDate todayDate = LocalDate.now();
+        String[] bDate = this.getBirthDate().split("-");
+        int bDay = Integer.valueOf(bDate[1]);
+        int bMonth = Integer.valueOf(bDate[0]);
+        int bYear = Integer.valueOf(bDate[2]);
+        int todayDay = todayDate.getDayOfMonth();
+        int todayMonth = todayDate.getMonthValue();
+        int todayYear = todayDate.getYear();
+        if (bYear <= todayYear) {
+            returnAge = todayYear - bYear;
+        }
+        //System.out.println("bdate = " + this.getBirthDate());
+        //System.out.println("todaydate = " + todayDate.toString());
+        if (bMonth >= todayMonth) {
+            //System.out.println("minus 1");
+            returnAge -= 1;
+            if (bMonth == todayMonth && bDay < todayDay) {
+                //System.out.println("plus 1");
+                returnAge += 1;
+            }
+        }
+
+        return returnAge;
+    }
+    
 
 }
