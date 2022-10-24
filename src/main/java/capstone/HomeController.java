@@ -108,6 +108,12 @@ public class HomeController implements Initializable {
         App.setRoot("progresscard");
     }
     
+      @FXML
+    private void onExerciseLookup() throws IOException {
+        App.setRoot("ExerciseLookUp");
+    }
+    
+    
     @FXML
     private void loadProgressCardData() {
         ProgressCardConnector pc = new ProgressCardConnector();
