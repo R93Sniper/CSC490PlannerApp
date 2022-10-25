@@ -27,7 +27,7 @@ import javafx.scene.control.ListView;
 public class ExerciseLookUpController {
 
     @FXML
-    private ChoiceBox<String> cbExercise;
+    private ChoiceBox<String> cbEquipment;
     @FXML
     private ChoiceBox<String> cbBodyPart;
     @FXML
@@ -35,6 +35,11 @@ public class ExerciseLookUpController {
     @FXML
     private ListView lvExercises;
     ObservableList<String> obsList = FXCollections.observableArrayList();
+    
+    
+    private String filterValue="";
+    
+    private String lastSelectedFilter="";
 
     @FXML
     public void initialize() {
@@ -49,9 +54,9 @@ public class ExerciseLookUpController {
     
     @FXML
     public void onRunAPI(){
-    
+        obsList.clear();
         ExerciseApiConnector api = new ExerciseApiConnector();
-        String result = api.getJSONFromAPI("chest");
+        String result = api.getJSONFromAPI(filterValue, lastSelectedFilter);
         Exercise[] items = api.parseJSON(result);
         int i=0;
         for (Exercise item : items) {
@@ -66,9 +71,9 @@ public class ExerciseLookUpController {
 
     @FXML
     private void loadChoiceBox() {
-        ArrayList<String> bodyTypeList = new ArrayList<>(Arrays.asList("back", "cardio",
+        ArrayList<String> bodyPartList = new ArrayList<>(Arrays.asList("back", "cardio",
                 "chest", "lower arms", "lower legs", "neck", "shoulders", "upper arms",
-                "upper legs", "wasit"));
+                "upper legs", "waist"));
         ArrayList<String> targetList = new ArrayList<>(Arrays.asList(
                 "abductors",
                 "abs",
@@ -120,14 +125,14 @@ public class ExerciseLookUpController {
                 "weighted",
                 "wheel roller"
         ));
-        //ArrayList<String> medicalList = new ArrayList<>(Arrays.asList("Diabetes", "Asthma", "Low Blood Pressure", "ACL tear"));
-
-        cbExercise.setItems(FXCollections.observableArrayList(equipmentList));
-        cbExercise.getSelectionModel().selectedIndexProperty()
+        
+        cbEquipment.setItems(FXCollections.observableArrayList(equipmentList));
+        cbEquipment.getSelectionModel().selectedIndexProperty()
                 .addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue ov, Number value, Number new_value) {
-
+                           filterValue = equipmentList.get(new_value.intValue());
+                           lastSelectedFilter = "equipment";
                     }
                 });
 
@@ -136,20 +141,18 @@ public class ExerciseLookUpController {
                 .addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue ov, Number value, Number new_value) {
-
+                        filterValue = targetList.get(new_value.intValue());
+                        lastSelectedFilter = "target";
                     }
                 });
 
-        cbBodyPart.setItems(FXCollections.observableArrayList(bodyTypeList));
+        cbBodyPart.setItems(FXCollections.observableArrayList(bodyPartList));
         cbBodyPart.getSelectionModel().selectedIndexProperty()
                 .addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue ov, Number value, Number new_value) {
-                        //System.out.println("gender selected is = " + genderList.get(new_value.intValue()));
-                        //String gender = genderList.get(new_value.intValue());
-                        //instanceUser.setGender(gender);
-                        //labelGender.setText(gender);
-                        //genderSelected = true;
+                        lastSelectedFilter = "bodyPart";
+                        filterValue = bodyPartList.get(new_value.intValue());
                     }
                 });
 

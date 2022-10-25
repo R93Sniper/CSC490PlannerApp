@@ -14,7 +14,7 @@
       <Label prefHeight="39.0" prefWidth="287.0" text="Exercise Lookup" BorderPane.alignment="CENTER" />
    </top>
    <left>
-      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="49.0" text="Back" BorderPane.alignment="CENTER" />
+      <Button mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="49.0" text="Back" BorderPane.alignment="CENTER" />
    </left>
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -22,7 +22,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <ChoiceBox fx:id="cbBodyPart" prefHeight="31.0" prefWidth="100.0" />
-                  <ChoiceBox fx:id="cbExercise" prefHeight="31.0" prefWidth="115.0" />
+                  <ChoiceBox fx:id="cbEquipment" prefHeight="31.0" prefWidth="115.0" />
                   <ChoiceBox fx:id="cbTarget" layoutX="10.0" layoutY="41.0" prefHeight="31.0" prefWidth="115.0" />
                   <Button mnemonicParsing="false" onAction="#onRunAPI" prefHeight="46.0" prefWidth="100.0" text="run" />
                </children>
