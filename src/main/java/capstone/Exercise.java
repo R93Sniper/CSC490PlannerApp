@@ -18,6 +18,13 @@ public class Exercise {
     private String gifURL="";
     private String target="";
     
+    public String reps;
+    public String sets;
+    public String weightLifted;
+    public String duration;
+    public String distance;
+    public String caloriesOut;
+    
     
     public String getId(){ return id;}
     public String getName(){ return  name;}

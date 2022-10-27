@@ -24,41 +24,42 @@
          <children>
             <HBox prefHeight="35.0" prefWidth="400.0">
                <children>
-                  <RadioButton fx:id="rbFoodApi" mnemonicParsing="false" prefHeight="34.0" prefWidth="105.0" text="Use FoodAPI" />
-                  <RadioButton fx:id="rbUserInput" layoutX="171.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="105.0" text="Manual Input" />
+                  <RadioButton fx:id="rbCardio" mnemonicParsing="false" onAction="#onCardioSelected" prefHeight="34.0" prefWidth="105.0" selected="true" text="Cardio" />
+                  <RadioButton fx:id="rbWeightLifting" layoutX="171.0" layoutY="10.0" mnemonicParsing="false" onAction="#onWeightLiftingSelected" prefHeight="34.0" prefWidth="105.0" text="WeightLifting" />
                </children>
             </HBox>
-            <HBox prefHeight="26.0" prefWidth="400.0">
+            <HBox prefHeight="26.0" prefWidth="389.0">
                <children>
                   <Label fx:id="labeltext" prefHeight="26.0" prefWidth="127.0" text="Enter Exercise Name:" />
-                  <TextField fx:id="tfName" prefHeight="25.0" prefWidth="145.0" />
-                  <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Add" />
+                  <TextField fx:id="tfName" prefHeight="25.0" prefWidth="204.0" />
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAdd" prefHeight="25.0" prefWidth="99.0" text="Add" />
                </children>
             </HBox>
             <HBox prefHeight="60.0" prefWidth="400.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="200.0" prefWidth="120.0">
                      <children>
-                        <TextField fx:id="tfSets" promptText="# of Sets" />
-                        <HBox prefHeight="60.0" prefWidth="400.0">
-                           <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" />
-                           </children>
-                        </HBox>
-                        <TextField fx:id="tfDuration" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="120.0" promptText="Duration (min.)">
+                        <TextField fx:id="tfSets" prefHeight="30.0" prefWidth="120.0" promptText="# of Sets" />
+                        <TextField fx:id="tfDuration" layoutX="10.0" layoutY="10.0" prefHeight="34.0" prefWidth="100.0" promptText="Duration (min.)">
                            <VBox.margin>
-                              <Insets bottom="5.0" />
+                              <Insets />
                            </VBox.margin>
                         </TextField>
                      </children>
                   </VBox>
-                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="128.0">
+                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="120.0">
                      <children>
-                        <TextField fx:id="tfReps" promptText="# of Reps" />
-                        <TextField fx:id="tfCaloriesOut" promptText="# of Calories Burned" />
+                        <TextField fx:id="tfReps" prefHeight="30.0" prefWidth="128.0" promptText="# of Reps" />
+                        <TextField fx:id="tfDistance" prefHeight="30.0" promptText="Distance" />
                      </children>
                   </VBox>
-                  <VBox layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" />
+                  <VBox layoutX="210.0" layoutY="10.0" prefHeight="60.0" prefWidth="120.0">
+                     <children>
+                        <TextField fx:id="tfWeight" prefHeight="32.0" prefWidth="116.0" promptText="Weight (lbs)" />
+                        <TextField fx:id="tfCaloriesOut" prefHeight="37.0" prefWidth="120.0" promptText="# of Calories Burned" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="60.0" prefWidth="57.0" />
                </children>
             </HBox>
             <HBox prefHeight="225.0" prefWidth="380.0">
@@ -66,7 +67,7 @@
                   <VBox prefHeight="225.0" prefWidth="237.0">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0" />
-                        <ListView fx:id="listView" prefHeight="471.0" prefWidth="235.0" />
+                        <ListView fx:id="listView" prefHeight="393.0" prefWidth="235.0" />
                      </children>
                   </VBox>
                   <VBox prefHeight="225.0" prefWidth="168.0">
@@ -92,7 +93,7 @@
       </VBox>
    </left>
    <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="120.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" text="Clear">
                <VBox.margin>
