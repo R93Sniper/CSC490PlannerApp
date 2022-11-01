@@ -11,14 +11,9 @@ import java.sql.Statement;
 
 /**
  *
- * @author jesus and simran
+ * @author jesus and Simranjit
  */
 public class ProgressCardConnector extends dataConnector {
-    
-    public static void main(String[] args){
-    ProgressCardConnector pc = new ProgressCardConnector();
-    
-    }
 
     public void userProgressCard(String userName, String dateOfCard, String weight, int intakeID,
             int excerciseID, String neckInches, String waistInches) {
@@ -173,7 +168,7 @@ public class ProgressCardConnector extends dataConnector {
         }
         return w;
     }
-    
+
     public void updateDailyIntakeID(int progressID, int intakeID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Intake_Id=? WHERE ID=?";
