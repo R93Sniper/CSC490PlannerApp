@@ -158,7 +158,7 @@ public class ProgressCard {
     
     @FXML
     public void goToExercise() throws IOException {
-        makeAlert("Error feature not yet implemented");
-        //App.setRoot("ExerciseCard");
+       // makeAlert("Error feature not yet implemented");
+        App.setRoot("ExerciseCard");
     }
 }

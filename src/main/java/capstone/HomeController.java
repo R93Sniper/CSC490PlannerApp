@@ -55,7 +55,10 @@ public class HomeController implements Initializable {
     private void onCalcWater() throws IOException {
         App.setRoot("Calculators");
     }
-    
+    @FXML
+    private void setGoals() throws IOException {
+        App.setRoot("goals");
+    }
     @FXML
     private void loadProfile() {
         //returns resultset matching the given username

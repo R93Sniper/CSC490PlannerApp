@@ -301,6 +301,7 @@ public class bodyFatCalculator {
 
     @FXML
     private void ifChoiceFemale() {
+        rbMale.setSelected(false);
         hipID.setDisable(false);
         hipTF.setDisable(false);
         hipID.setOpacity(1);
@@ -541,5 +542,10 @@ public class bodyFatCalculator {
         hipID.setOpacity(0);
         aLabel.setText("");
                       
+    }
+    
+    @FXML   
+    private void ifMale(){
+        rbFemale.setSelected(false);
     }
 }

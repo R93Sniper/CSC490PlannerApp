@@ -1,11 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.ProgressCard.DailyExerciseCard">
-    
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.DailyExerciseCard">
+   <top>
+      <Label text="Daily Exercise Log" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="35.0" prefWidth="400.0">
+               <children>
+                  <RadioButton fx:id="rbCardio" mnemonicParsing="false" onAction="#onCardioSelected" prefHeight="34.0" prefWidth="105.0" selected="true" text="Cardio" />
+                  <RadioButton fx:id="rbWeightLifting" layoutX="171.0" layoutY="10.0" mnemonicParsing="false" onAction="#onWeightLiftingSelected" prefHeight="34.0" prefWidth="105.0" text="WeightLifting" />
+               </children>
+            </HBox>
+            <HBox prefHeight="26.0" prefWidth="389.0">
+               <children>
+                  <Label fx:id="labeltext" prefHeight="26.0" prefWidth="127.0" text="Enter Exercise Name:" />
+                  <TextField fx:id="tfName" prefHeight="25.0" prefWidth="204.0" />
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAdd" prefHeight="25.0" prefWidth="99.0" text="Add" />
+               </children>
+            </HBox>
+            <HBox prefHeight="60.0" prefWidth="400.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="120.0">
+                     <children>
+                        <TextField fx:id="tfSets" prefHeight="30.0" prefWidth="120.0" promptText="# of Sets" />
+                        <TextField fx:id="tfDuration" layoutX="10.0" layoutY="10.0" prefHeight="34.0" prefWidth="100.0" promptText="Duration (min.)">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="120.0">
+                     <children>
+                        <TextField fx:id="tfReps" prefHeight="30.0" prefWidth="128.0" promptText="# of Reps" />
+                        <TextField fx:id="tfDistance" prefHeight="30.0" promptText="Distance" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="210.0" layoutY="10.0" prefHeight="60.0" prefWidth="120.0">
+                     <children>
+                        <TextField fx:id="tfWeight" prefHeight="32.0" prefWidth="116.0" promptText="Weight (lbs)" />
+                        <TextField fx:id="tfCaloriesOut" prefHeight="37.0" prefWidth="120.0" promptText="# of Calories Burned" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="60.0" prefWidth="57.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="225.0" prefWidth="380.0">
+               <children>
+                  <VBox prefHeight="225.0" prefWidth="237.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" />
+                        <ListView fx:id="listView" prefHeight="393.0" prefWidth="235.0" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="225.0" prefWidth="168.0">
+                     <children>
+                        <HBox prefHeight="28.0" />
+                        <HBox layoutX="10.0" layoutY="38.0" prefHeight="28.0" />
+                        <HBox layoutX="10.0" layoutY="178.0" prefHeight="28.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onGoBack" text="Go Back">
+               <VBox.margin>
+                  <Insets left="20.0" top="300.0" />
+               </VBox.margin></Button>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox prefHeight="120.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" text="Clear">
+               <VBox.margin>
+                  <Insets left="10.0" top="40.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSave" text="Save">
+               <VBox.margin>
+                  <Insets left="10.0" top="200.0" />
+               </VBox.margin></Button>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin></VBox>
+   </right>
+</BorderPane>

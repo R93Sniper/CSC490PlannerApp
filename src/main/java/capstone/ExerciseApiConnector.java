@@ -19,13 +19,13 @@ import org.json.JSONObject;
  */
 public class ExerciseApiConnector {
     
-    private final String urlStr = "https://exercisedb.p.rapidapi.com/exercises/bodyPart/chest";
+    private final String urlStr = "https://exercisedb.p.rapidapi.com/exercises/";
     private final String apiHost = "exercisedb.p.rapidapi.com";
     private final String apiKey = "8660709c02msh2c56c97518d8565p104f75jsnd8ee709be868";
     
     public static void main(String[] args){
     ExerciseApiConnector con = new ExerciseApiConnector();
-    String z = con.getJSONFromAPI("chest");
+   String z = con.getJSONFromAPI("chest", "bodyPart");
     Exercise[] ex = con.parseJSON(z);
     for(int i=0; i<ex.length;++i){
     System.out.println("["+i+"] "+ex[i].getName());
@@ -36,12 +36,11 @@ public class ExerciseApiConnector {
     }
     
     
-    public String getJSONFromAPI(String x)
+    public String getJSONFromAPI(String x, String type)
     {
 
-        //String GET_URL = "https://calorieninjas.p.rapidapi.com/v1/nutrition?query=fish";  
-        String str = "https://exercisedb.p.rapidapi.com/exercises/bodyPart/";
-        String queryStr = str+x;   
+        
+        String queryStr = urlStr+type+"/"+x;   
         String result = "";
          try {
                 URL obj = new URL(queryStr);
