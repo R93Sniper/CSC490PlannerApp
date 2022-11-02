@@ -37,7 +37,7 @@ public class PrimaryController {
     
     @FXML
     private void onViewExerciseLookUp() throws IOException {
-    App.setRoot("ExerciseLookUp");
+     App.setRoot("ExerciseLookUp");
     }
     
 }

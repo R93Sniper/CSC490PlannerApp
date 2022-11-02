@@ -19,7 +19,7 @@ import org.json.JSONObject;
  */
 public class ExerciseApiConnector {
     
-    private final String urlStr = "https://exercisedb.p.rapidapi.com/exercises/";
+    private final String urlStr = "https://exercisedb.p.rapidapi.com/exercises";
     private final String apiHost = "exercisedb.p.rapidapi.com";
     private final String apiKey = "8660709c02msh2c56c97518d8565p104f75jsnd8ee709be868";
     
@@ -36,11 +36,14 @@ public class ExerciseApiConnector {
     }
     
     
-    public String getJSONFromAPI(String x, String type)
-    {
-
+    public String getJSONFromAPI(String type, String val)
+    {   
+        //if both arguments are empty strings then it will return all 1300 exercises
+        String queryStr = urlStr;
+        if(!type.equals("") && !val.equals("")){
+            queryStr = queryStr+"/"+type+"/"+val;
+        }
         
-        String queryStr = urlStr+type+"/"+x;   
         String result = "";
          try {
                 URL obj = new URL(queryStr);

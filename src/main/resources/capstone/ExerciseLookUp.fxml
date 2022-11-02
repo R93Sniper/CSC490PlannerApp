@@ -5,6 +5,9 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -12,7 +15,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.ExerciseLookUpController">
    <top>
-      <Label prefHeight="39.0" prefWidth="171.0" text="Exercise Library" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Label prefHeight="39.0" prefWidth="171.0" text="Exercise Lookup" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
@@ -26,9 +29,10 @@
             <VBox prefHeight="351.0" prefWidth="30.0" />
             <VBox prefHeight="361.0" prefWidth="351.0">
                <children>
-                  <ListView fx:id="lvExercises" prefHeight="281.0" prefWidth="351.0" />
+                  <ListView fx:id="lvExercises" prefHeight="281.0" prefWidth="343.0" />
                </children>
             </VBox>
+            <VBox prefHeight="351.0" prefWidth="24.0" />
          </children>
       </HBox>
    </center>
@@ -40,22 +44,9 @@
                   <Font size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets left="5.0" />
-               </VBox.margin>
-            </Label>
-            <Label layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="122.0" text="Body Part">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
             </Label>
-            <ChoiceBox fx:id="cbBodyPart" prefHeight="31.0" prefWidth="154.0">
-               <VBox.margin>
-                  <Insets left="10.0" />
-               </VBox.margin>
-            </ChoiceBox>
             <Label layoutX="10.0" layoutY="142.0" prefHeight="35.0" prefWidth="122.0" text="Target Muscle">
                <font>
                   <Font size="18.0" />
@@ -64,11 +55,45 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Label>
-            <ChoiceBox fx:id="cbTarget" prefHeight="31.0" prefWidth="169.0">
+            <MenuButton fx:id="menu1" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0">
+              <items>
+                  <MenuItem fx:id="item0" mnemonicParsing="false" text="ALL" />
+                  <MenuItem fx:id="item1" mnemonicParsing="false" text="Abs" />
+                  <Menu mnemonicParsing="false" text="Arms">
+                    <items>
+                      <MenuItem fx:id="item2" mnemonicParsing="false" text="Biceps" />
+                        <MenuItem fx:id="item3" mnemonicParsing="false" text="Forearms" />
+                        <MenuItem fx:id="item4" mnemonicParsing="false" text="Triceps" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Back">
+                     <items>
+                        <MenuItem fx:id="item5" mnemonicParsing="false" text="Lats" />
+                        <MenuItem fx:id="item6" mnemonicParsing="false" text="Traps" />
+                        <MenuItem fx:id="item7" mnemonicParsing="false" text="Upper Back" />
+                        <MenuItem fx:id="item8" mnemonicParsing="false" text="Spine" />
+                     </items>
+                  </Menu>
+                  <MenuItem fx:id="item9" mnemonicParsing="false" text="Cardiovascular System" />
+                  <MenuItem fx:id="item10" mnemonicParsing="false" text="Chest" />
+                  <Menu mnemonicParsing="false" text="Legs">
+                     <items>
+                        <MenuItem fx:id="item11" mnemonicParsing="false" text="Abductors" />
+                        <MenuItem fx:id="item12" mnemonicParsing="false" text="Adductors" />
+                        <MenuItem fx:id="item13" mnemonicParsing="false" text="Calves" />
+                        <MenuItem fx:id="item14" mnemonicParsing="false" text="Glutes" />
+                        <MenuItem fx:id="item15" mnemonicParsing="false" text="Hamstrings" />
+                        <MenuItem fx:id="item16" mnemonicParsing="false" text="Quads" />
+                     </items>
+                  </Menu>
+                  <MenuItem fx:id="item17" mnemonicParsing="false" text="Neck" />
+                  <MenuItem fx:id="item18" mnemonicParsing="false" text="Serratus Anterior" />
+                  <MenuItem fx:id="item19" mnemonicParsing="false" text="Shoulders" />
+              </items>
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
-            </ChoiceBox>
+            </MenuButton>
             <Label layoutX="10.0" layoutY="163.0" prefHeight="35.0" prefWidth="127.0" text="Equipment">
                <font>
                   <Font size="18.0" />
@@ -77,17 +102,25 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Label>
-            <ChoiceBox fx:id="cbEquipment" prefHeight="31.0" prefWidth="143.0">
+            <ChoiceBox fx:id="cbEquipment" prefHeight="35.0" prefWidth="120.0">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
             </ChoiceBox>
+            <Button mnemonicParsing="false" onAction="#onReset" prefHeight="30.0" prefWidth="72.0" text="Clear">
+               <VBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
             <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="72.0" text="Back">
                <VBox.margin>
-                  <Insets left="10.0" top="40.0" />
+                  <Insets left="10.0" top="30.0" />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
    </left>
+   <right>
+      <VBox prefHeight="351.0" prefWidth="134.0" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>

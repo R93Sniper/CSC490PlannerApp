@@ -228,7 +228,7 @@ public class dataConnector {
             Statement stmt = conn.createStatement();
             result = stmt.executeQuery("select * from " + tableName
                     + " where User_Name=\'" + userName + "\'");
-
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -238,7 +238,7 @@ public class dataConnector {
 
     public boolean updateColumn(String tableName, String userName, String newStr, String col) {
         try {
-            String sql = "UPDATE " + tableName
+            String sql = "UPDATE" + tableName 
                     + " SET " + col + " = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
 
             Statement stmt = conn.createStatement();

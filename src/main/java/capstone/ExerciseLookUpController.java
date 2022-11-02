@@ -9,18 +9,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
+import java.util.List;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 
 /**
  * FXML Controller class
@@ -28,104 +32,83 @@ import javafx.scene.control.ListView;
  * @author jesus
  */
 public class ExerciseLookUpController {
-    
-    
 
     @FXML
+    private MenuItem item0;
+    @FXML
+    private MenuItem item1;
+    @FXML
+    private MenuItem item2;
+    @FXML
+    private MenuItem item3;
+    @FXML
+    private MenuItem item4;
+    @FXML
+    private MenuItem item5;
+    @FXML
+    private MenuItem item6;
+    @FXML
+    private MenuItem item7;
+    @FXML
+    private MenuItem item8;
+    @FXML
+    private MenuItem item9;
+    @FXML
+    private MenuItem item10;
+    @FXML
+    private MenuItem item11;
+    @FXML
+    private MenuItem item12;
+    @FXML
+    private MenuItem item13;
+    @FXML
+    private MenuItem item14;
+    @FXML
+    private MenuItem item15;
+    @FXML
+    private MenuItem item16;
+    @FXML
+    private MenuItem item17;
+    @FXML
+    private MenuItem item18;
+    @FXML
+    private MenuItem item19;
+
+    private MenuItem[] menuItems;
+    @FXML
     private ChoiceBox<String> cbEquipment;
-    @FXML
-    private ChoiceBox<String> cbBodyPart;
-    @FXML
-    private ChoiceBox<String> cbTarget;
+
     @FXML
     private ListView lvExercises;
     ObservableList<String> obsList = FXCollections.observableArrayList();
     ExerciseDetailModel detailModel = ExerciseDetailModel.getInstance();
-   
+
     private int itemsRowSelected = -1;
+    private String itemIdSelected = "-1";
     Exercise[] items;
-   
-    private String filterValue="";  
-    private String lastSelectedFilter="";
-    private String modelGif="";
-    private String modelName="";
-    private String modelTargetMuscle="";
-    private String modelBodyPart="";
-    private String modelEquipment="";
+    //List<Exercise> exerciseList = new ArrayList();
+
     ArrayList<String> equipmentList;
-      ArrayList<String> bodyPartList;
-        ArrayList<String> targetList;
     
+    ExerciseApiConnector api = new ExerciseApiConnector();
 
     @FXML
     public void initialize() {
         setArrayLists();
         loadChoiceBox();
+        menuItems = new MenuItem[]{item0, item1, item2, item3, item4, item5, item6,
+             item7, item8, item9, item10, item11, item12, item13, item14,
+             item15, item16, item17, item18, item19};
 
+        setUpMenuItemListener();
     }
 
     @FXML
     public void goBack() throws IOException {
         App.setRoot("UserHome");
     }
-    
-    @FXML
-    public void onRunAPI(){
-        obsList.clear();
-        ExerciseApiConnector api = new ExerciseApiConnector();
-        String result = api.getJSONFromAPI(filterValue, lastSelectedFilter);
-        items = api.parseJSON(result);
-        int i=0;
-        for (Exercise item : items) {
-            //System.out.println("["+i+"] "+item.getName());
-            obsList.add(item.getName());
-            i++;
-        }
-       
-        lvExercises.setItems(obsList);
-        lvExercises.getSelectionModel().selectedIndexProperty()
-                .addListener(new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue ov, Number value, Number new_value) {
-                           //System.out.println("index= "+new_value.intValue());
-                           itemsRowSelected = new_value.intValue();
-                        try {
-                            onViewDetailExercise();
-                        } catch (IOException ex) {
-                            Logger.getLogger(ExerciseLookUpController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                });
-       // lvExercises.getSelectionModel().getSelectedItem().
-        
-    
-    }
-  
-    private void setArrayLists(){
-    
-             bodyPartList = new ArrayList<>(Arrays.asList("back", "cardio",
-                "chest", "lower arms", "lower legs", "neck", "shoulders", "upper arms",
-                "upper legs", "waist"));
-         targetList = new ArrayList<>(Arrays.asList(
-                "abductors",
-                "abs",
-                "adductors",
-                "biceps",
-                "calves",
-                "cardiovascular system",
-                "delts",
-                "forearms",
-                "glutes",
-                "hamstrings",
-                "lats",
-                "levator scapulae",
-                "pectorals",
-                "quads",
-                "serratus anterior",
-                "spine",
-                "traps",
-                "triceps",
-                "upper back"));
+
+    private void setArrayLists() {
 
         equipmentList = new ArrayList<>(Arrays.asList(
                 "assisted",
@@ -157,59 +140,154 @@ public class ExerciseLookUpController {
                 "weighted",
                 "wheel roller"
         ));
-    
+
     }
-    
-    
+
     @FXML
     private void loadChoiceBox() {
-
-        
         cbEquipment.setItems(FXCollections.observableArrayList(equipmentList));
         cbEquipment.getSelectionModel().selectedIndexProperty()
                 .addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue ov, Number value, Number new_value) {
-                           filterValue = equipmentList.get(new_value.intValue());
-                           lastSelectedFilter = "equipment";
-                           onRunAPI();
-                    }
-                });
-
-        cbTarget.setItems(FXCollections.observableArrayList(targetList));
-        cbTarget.getSelectionModel().selectedIndexProperty()
-                .addListener(new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue ov, Number value, Number new_value) {
-                        filterValue = targetList.get(new_value.intValue());
-                        lastSelectedFilter = "target";
-                        onRunAPI();
-                    }
-                });
-
-        cbBodyPart.setItems(FXCollections.observableArrayList(bodyPartList));
-        cbBodyPart.getSelectionModel().selectedIndexProperty()
-                .addListener(new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue ov, Number value, Number new_value) {
-                        lastSelectedFilter = "bodyPart";
-                        filterValue = bodyPartList.get(new_value.intValue());
-                        onRunAPI();
+                        
+                        //onRunAPI();
+                        filterListByEquipment(equipmentList.get(new_value.intValue()));
                     }
                 });
 
     }
-        
+
+
+    public void setUpMenuItemListener() {
+        int i = 0;
+        for (MenuItem item : menuItems) {
+            item.setOnAction(event -> {
+                runApi(item.getText());
+            });
+            i++;
+        }
+
+    }
+
     @FXML
-    public void onViewDetailExercise() throws IOException{
-    detailModel.name = items[itemsRowSelected].getName();
-    detailModel.gifURL = items[itemsRowSelected].getGifURL();
-    detailModel.bodyPart = items[itemsRowSelected].getBodyPart();
-    detailModel.targetedMuscle = items[itemsRowSelected].getTarget();
-    detailModel.equipment = items[itemsRowSelected].getEquipment();
+    public void runApi(String queryVal) {
+        String filterType = "target";
+        queryVal = queryVal.toLowerCase();
+        if (queryVal.equals("all")) {
+            queryVal = "";
+            filterType = "";
+        }
+        if (queryVal.equals("chest")) {
+            queryVal = "pectorals";
+        }
+        if (queryVal.equals("neck")) {
+            queryVal = "levator scapulae";
+        }
+        if (queryVal.equals("shoulders")) {
+            queryVal = "delts";
+        }
+
+        //System.out.println("in the onRUNAPI method(str), queryVal="+queryVal);
+        //obsList.clear();
+        String result = api.getJSONFromAPI(filterType, queryVal); ///get all exercises
+        items = api.parseJSON(result);
+
+        int i = 0;
+        for (Exercise item : items) {
+            //System.out.println("["+i+"] "+item.getName());
+            obsList.add("[" + i + "] " + item.getName());
+            i++;
+        }
+        lvExercises.setItems(obsList);
+        lvExercises.getSelectionModel().selectedIndexProperty()
+                .addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue ov, Number value, Number new_value) {
+                        System.out.println("index= "+new_value.intValue());
+                        itemsRowSelected = new_value.intValue(); //obsList index
+                        itemIdSelected = items[itemsRowSelected].getId();
+                        try {
+                            onViewDetailExercise();
+                        } catch (IOException ex) {
+                            Logger.getLogger(ExerciseLookUpController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+
+    }
+
+
+
+    @FXML
+    public void filterListByEquipment(String equip) 
+    {
+        if (obsList.isEmpty()) {
+            return;
+        }
+
+        obsList.clear();
+        
+        int i = 0;
+        List <Exercise> newItems = new ArrayList<>();
+        for (Exercise item : items) {
+            //System.out.println("["+i+"] "+item.getName());
+            if(item.getEquipment().equals(equip)){
+                obsList.add("[" + i + "] " + item.getName());
+                newItems.add(item);
+                i++; 
+            }      
+        }
+
+        //new items array//
+        int j=0;
+        items = new Exercise[newItems.size()];
+        for(Exercise ex: newItems){
+            items[j] = ex;
+            j++;
+        }
+        lvExercises.setItems(obsList);
+        lvExercises.getSelectionModel().selectedIndexProperty()
+                .addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue ov, Number value, Number new_value) {
+                        //System.out.println("index= "+new_value.intValue());
+                        itemsRowSelected = new_value.intValue(); //index of trimmed obsList
+                        try {
+                            onViewDetailExercise();
+                        } catch (IOException ex) {
+                            Logger.getLogger(ExerciseLookUpController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+        
+        
+        
+    }
+
+    
+    
+    @FXML
+    public void onViewDetailExercise() throws IOException {
+        detailModel.name = items[itemsRowSelected].getName();
+        detailModel.name =  items[itemsRowSelected].getName();
+        detailModel.gifURL = items[itemsRowSelected].getGifURL();
+        detailModel.bodyPart = items[itemsRowSelected].getBodyPart();
+        detailModel.targetedMuscle = items[itemsRowSelected].getTarget();
+        detailModel.equipment = items[itemsRowSelected].getEquipment();
 
         App.setRoot("ExerciseDetail");
-    
+
     }
 
-}
+    @FXML
+    public void onReset() {
+        obsList.clear();
+        lvExercises.setItems(obsList);
+       
+
+    }
+    
+    
+    
+    }
