@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -27,35 +28,20 @@ import javafx.scene.control.TextField;
  */
 public class DailyIntakeController {
 
-    @FXML
     private ListView listView;
-    @FXML
     private Label labelCalories;
-    @FXML
     private Label labelCarbs;
-    @FXML
     private Label labelFats;
-    @FXML
     private Label labelProtein;
-    @FXML
     private TextField tfCal;
-    @FXML
     private TextField tfCarb;
-    @FXML
     private TextField tfPro;
-    @FXML
     private TextField tfFat;
-    @FXML
     private TextField tfName;
-    @FXML
     private RadioButton rbFoodApi;
-    @FXML
     private RadioButton rbUserInput;
-    @FXML
     private Button btnAdd;
-        @FXML
     private Button btnAdd2;
-    @FXML
     private Label labeltext;
     
     ObservableList<String> obsList = FXCollections.observableArrayList();
@@ -65,7 +51,6 @@ public class DailyIntakeController {
     DailyIntakeConnector intakeDC = new DailyIntakeConnector();
     ArrayList<Integer> foodLogIds = new ArrayList<>();
     ArrayList<FoodItem> itemsInListView = new ArrayList<>();
-    @FXML
     private TextField tfFoodItem;
     private UserProfileModel usr = UserProfileModel.getInstance();
     private int dailyIntakeID = 0;
@@ -74,12 +59,33 @@ public class DailyIntakeController {
     private double total_Fats = 0;
     private double total_Protein = 0;
     private DecimalFormat df = new DecimalFormat("0.00");
+    @FXML
+    private CheckBox BrokeBone;
+    @FXML
+    private CheckBox Cancer;
+    @FXML
+    private CheckBox Diabeties;
+    @FXML
+    private CheckBox Headache;
+    @FXML
+    private CheckBox Muscle;
+    @FXML
+    private CheckBox Surgury;
+    @FXML
+    private CheckBox BackPain;
+    @FXML
+    private CheckBox KneePain;
+    @FXML
+    private CheckBox NotListed;
+    @FXML
+    private TextField nonListed;
+    @FXML
+    private Button btnSave;
     
 
     /**
      * Initializes the controller class.
      */
-    @FXML
     public void initialize() {
         rbFoodApi.setSelected(true);
         onUseAPIselected();
@@ -137,7 +143,6 @@ public class DailyIntakeController {
 
     // this method will add the food items to the list view and to the foodLog DB
     //, but does not update the dailyItake row, that's the job of the save btn
-    @FXML
     public void onAddFoodItem() {
         FoodItem[] foodArray = foodApi.parseJSON(foodApi.getJSONFromAPI(tfFoodItem.getText()));
         for (FoodItem item : foodArray) {
@@ -153,7 +158,6 @@ public class DailyIntakeController {
 
     }
 
-    @FXML
     public void loadItemList() {
         System.out.println("intake id = " + usr.getDailyIntakeId());
         String foodIds = intakeDC.getFoodLogIds(usr.getDailyIntakeId());
@@ -178,7 +182,6 @@ public class DailyIntakeController {
 
     }
 
-    @FXML
     public void loadTotalValues() {
         DecimalFormat df = new DecimalFormat("0.00");
         labelCalories.setText(String.valueOf(df.format(total_Cals)));
@@ -187,7 +190,6 @@ public class DailyIntakeController {
         labelProtein.setText(String.valueOf(df.format(total_Protein)));
     }
     
-    @FXML
     public void onAddManualInput(){
         FoodItem item = new FoodItem();
         String calories = tfCal.getText().equals("") ? "0.0" : tfCal.getText();
@@ -219,7 +221,6 @@ public class DailyIntakeController {
             
     }
     
-    @FXML
     public void onUseAPIselected(){
     rbUserInput.setSelected(false);
     btnAdd.setVisible(true);
@@ -236,7 +237,6 @@ public class DailyIntakeController {
     
     }
     
-    @FXML
     public void onUserInputselected(){
     rbFoodApi.setSelected(false);
     btnAdd.setVisible(false);
@@ -252,7 +252,6 @@ public class DailyIntakeController {
     
     }
     
-    @FXML
     public void onClear(){
         //need to clear view without saving..
         itemsInListView = new ArrayList<>();
