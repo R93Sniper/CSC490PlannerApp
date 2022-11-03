@@ -284,7 +284,7 @@ public class ExerciseLookUpController {
     public void onReset() {
         obsList.clear();
         lvExercises.setItems(obsList);
-       
+ 
 
     }
     
