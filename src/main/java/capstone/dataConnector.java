@@ -109,7 +109,7 @@ public class dataConnector {
      * @return
      */
     public boolean existingUser(String userName) {
-       
+
         String tableName = "User_Profile";
         String uName = null, uPswd = null;
         try {
@@ -262,11 +262,9 @@ public class dataConnector {
             while (result.next()) {
                 returnStr = result.getString("SecQ_desc");
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
         return returnStr;
     }
 
@@ -285,7 +283,6 @@ public class dataConnector {
     }
 
     public boolean updateUserSecQID(String userName, int qId, String col) {
-
         //String column = col.toString();
         try {
             String sql = "UPDATE " + "User_Profile"
@@ -297,7 +294,6 @@ public class dataConnector {
         } catch (SQLException ex) {
             Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return false;
     }
 
@@ -344,6 +340,67 @@ public class dataConnector {
         return lastRowNum;
     }
 
+    //MEDICAL-CONDITION
+    public String getMedicalCondition(String userName) {
+        String tableName = "Medical_Condition";
+        ResultSet result = null;
+        String returnStr = "";
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where Medical_Conditions_ids= " + userName);
+            while (result.next()) {
+                returnStr = result.getString("Medical_Conditions_ids");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return returnStr;
+    }
+
+    public boolean updateUserMedicalCOnditionID(String userName, int medicalId, String col) {
+        try {
+            String sql = "UPDATE " + "User_Profile"
+                    + " SET " + col + " = " + medicalId + " WHERE User_Name=\'" + userName + "\'";
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    //USER-GOALS
+    public String getUserGoals(String userName) {
+        String tableName = "User_Goals";
+        ResultSet result = null;
+        String returnStr = "";
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where Goals_ids= " + userName);
+            while (result.next()) {
+                returnStr = result.getString("Goals_ids");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return returnStr;
+    }
+
+    public boolean updateUserGoalsID(String userName, int goalId, String col) {
+        try {
+            String sql = "UPDATE " + "User_Goals"
+                    + " SET " + col + " = " + goalId + " WHERE User_Name=\'" + userName + "\'";
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }
 
 enum DB_Col {
@@ -367,6 +424,6 @@ enum DB_Col {
     Weight,
     BodyMeasurement,
     Intake_ID,
-    Excercise_ID
-
+    Excercise_ID,
+    MedicalCondition_ID
 }
