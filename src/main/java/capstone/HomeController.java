@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -59,7 +60,6 @@ public class HomeController implements Initializable {
     private void setGoals() throws IOException {
         App.setRoot("goals");
     }
-    @FXML
     private void loadProfile() {
         //returns resultset matching the given username
         
@@ -117,7 +117,6 @@ public class HomeController implements Initializable {
     }
     
     
-    @FXML
     private void loadProgressCardData() {
         ProgressCardConnector pc = new ProgressCardConnector();
         LocalDate now = LocalDate.now();
@@ -130,6 +129,11 @@ public class HomeController implements Initializable {
             }
         }
         
+    }
+
+    @FXML
+    private void goToMed(ActionEvent event) throws IOException {
+        App.setRoot("MedicalConditions");
     }
     
 }
