@@ -4,8 +4,16 @@
  */
 package capstone;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +28,7 @@ import javafx.scene.control.TextField;
  *
  * @author Nick
  */
-public class MedicalController implements Initializable {
+public class MedicalController {
 
     @FXML
     private Button btnSave;
@@ -31,35 +39,68 @@ public class MedicalController implements Initializable {
     @FXML
     private Button backButton;
     @FXML
-    private ChoiceBox<?> choiceBox;
+    private ChoiceBox<String> choiceBox;
     @FXML
-    private ListView<?> listView;
+    private ListView<String> listView;
 
+     ArrayList<String> medList = new ArrayList<>();
+    ArrayList<Integer> medIDList = new ArrayList<>();
+    
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    
+    public void initialize() {
+        loadChoiceBox();
+        
+        choiceBox.setItems(FXCollections.observableArrayList(medList));
+        
     }    
 
+   
+    private void loadChoiceBox(){
+        
+        dataConnector mdc = MedicalConditionConnector.getInstance();
+        ResultSet allMeds = mdc.getAllMedicalConditions();
+        
+        try{
+            while(allMeds.next()){
+                medIDList.add(allMeds.getInt("ID"));
+                medList.add(allMeds.getString("Medical_Name"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+        
+    }
     @FXML
-    private void onGoBack(ActionEvent event) {
+    private void onGoBack(ActionEvent event) throws IOException {
+        App.setRoot("UserHome");
     }
 
     @FXML
     private void onSave(ActionEvent event) {
+        
     }
 
     @FXML
     private void AddtoListView(ActionEvent event) {
+        
+        ObservableList<String> li = listView.getItems();
+        
+        li.add(choiceBox.getValue());
+        
+        
+        
         
         
     }
 
     @FXML
     private void clearListView(ActionEvent event) {
-        
+        ObservableList<String> li = listView.getItems();
+        li.clear();
         
     }
     
