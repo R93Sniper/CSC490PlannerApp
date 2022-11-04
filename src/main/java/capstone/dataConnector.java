@@ -401,6 +401,18 @@ public class dataConnector {
         }
         return false;
     }
+     public ResultSet getAllMedicalConditions(){
+        
+        ResultSet result = null;
+        
+        try{
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("Select * from " + "Medical_Condition");
+        }catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return result;
+    }
 }
 
 enum DB_Col {
