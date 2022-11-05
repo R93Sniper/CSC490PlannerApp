@@ -73,7 +73,10 @@ public class ExerciseLookUpController {
     private MenuItem item18;
     @FXML
     private MenuItem item19;
-
+    
+    @FXML
+    private MenuButton menuButton;
+    
     private MenuItem[] menuItems;
     @FXML
     private ChoiceBox<String> cbEquipment;
@@ -111,6 +114,7 @@ public class ExerciseLookUpController {
     private void setArrayLists() {
 
         equipmentList = new ArrayList<>(Arrays.asList(
+                "",
                 "assisted",
                 "band",
                 "barbell",
@@ -159,6 +163,7 @@ public class ExerciseLookUpController {
     }
 
 
+    @FXML
     public void setUpMenuItemListener() {
         int i = 0;
         for (MenuItem item : menuItems) {
@@ -172,6 +177,7 @@ public class ExerciseLookUpController {
 
     @FXML
     public void runApi(String queryVal) {
+        menuButton.setText(queryVal);
         String filterType = "target";
         queryVal = queryVal.toLowerCase();
         if (queryVal.equals("all")) {
@@ -222,7 +228,7 @@ public class ExerciseLookUpController {
     @FXML
     public void filterListByEquipment(String equip) 
     {
-        if (obsList.isEmpty()) {
+        if (obsList.isEmpty() || equip.equals("")) {
             return;
         }
 
@@ -284,7 +290,10 @@ public class ExerciseLookUpController {
     public void onReset() {
         obsList.clear();
         lvExercises.setItems(obsList);
- 
+        menuButton.setText("");
+       // cbEquipment.valueProperty().setValue(null);
+       //cbEquipment.getSelectionModel().clearSelection();
+       cbEquipment.setValue("");
 
     }
     

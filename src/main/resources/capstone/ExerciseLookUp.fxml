@@ -55,7 +55,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Label>
-            <MenuButton fx:id="menu1" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0">
+            <MenuButton fx:id="menuButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0">
               <items>
                   <MenuItem fx:id="item0" mnemonicParsing="false" text="ALL" />
                   <MenuItem fx:id="item1" mnemonicParsing="false" text="Abs" />
