@@ -26,6 +26,7 @@ public class UserProfileModel {
     private String birthDate="";
     private int progressCardId = 0;
     private int dailyIntakeId = 0;
+    public int dailyExerciseId = 0;
 
 
     public static UserProfileModel getInstance() {

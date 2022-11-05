@@ -33,9 +33,7 @@ public class dataConnector {
     protected Connection conn;
     protected PreparedStatement preparedStatement;
 
-    //ProgressCard DB
-    public PreparedStatement preparedStatement1;
-    public Connection conn1 = null;
+
 
     /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
@@ -413,6 +411,9 @@ public class dataConnector {
         }
         return result;
     }
+     
+     
+     
 }
 
 enum DB_Col {

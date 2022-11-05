@@ -6,7 +6,7 @@
 package capstone;
 
 /**
- *
+ * Exercise API model
  * @author jesus
  */
 public class Exercise {

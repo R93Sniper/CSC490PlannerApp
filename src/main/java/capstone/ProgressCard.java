@@ -127,12 +127,16 @@ public class ProgressCard {
                     pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), intakeID, 0, "0", "0");
                 }
                 id = pcTable.getLastRow("Progress_Cards");
+                makeAlert("Succefuly created a new Progress Card"
+                        + "\nAnd Saved it to the Database!");
             } else {// row exists in table, so just need to update fields
                 pcTable.updateWeight(id, currentWeight.getText());
                 pcTable.updateDailyIntakeID(id, usr.getDailyIntakeId());
-                
+                pcTable.updateDailyExerciseID(id, usr.dailyExerciseId);
+                makeAlert("Successfuly Updated Today's Progress Card");
             }
             usr.setProgressCardId(id);
+            
         }
         
     }

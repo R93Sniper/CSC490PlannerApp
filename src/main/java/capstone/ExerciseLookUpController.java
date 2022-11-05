@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
@@ -295,6 +296,15 @@ public class ExerciseLookUpController {
        //cbEquipment.getSelectionModel().clearSelection();
        cbEquipment.setValue("");
 
+    }
+    
+    public void makeAlert(String alertText) {
+        
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setTitle("tite");
+        a.setHeaderText(alertText);
+        a.showAndWait();
+        
     }
     
     

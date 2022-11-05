@@ -182,5 +182,19 @@ public class ProgressCardConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
+    
+        public void updateDailyExerciseID(int progressID, int exID) {
+        try {
+            String sql = "UPDATE Progress_cards SET Daily_Exercise_Id=? WHERE ID=?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, exID);
+            preparedStatement.setInt(2, progressID);
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                System.out.println("Row updated for Daily_Exercise_Id in Progress_Card Table");
+            }
+        } catch (SQLException e) {
+        }
+    }
 
 }
