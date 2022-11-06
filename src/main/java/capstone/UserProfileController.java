@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -57,7 +58,6 @@ public class UserProfileController {
     @FXML
     private ChoiceBox<String> choiceBoxGender;
 
-    @FXML
     private ChoiceBox<String> choiceBoxMedical;
     @FXML
     private ChoiceBox<String> choiceBoxBodyType;
@@ -77,7 +77,6 @@ public class UserProfileController {
     public UserProfileController() {
     }
 
-    @FXML
     public void initialize() {
         userDB = dataConnector.getInstance();
         loadProfile();
@@ -85,11 +84,10 @@ public class UserProfileController {
   
     }
      
-    @FXML
     private void loadChoiceBox(){
         ArrayList<String> genderList = new ArrayList<>(Arrays.asList("Male", "Female"));
         ArrayList<String> bodyTypeList = new ArrayList<>(Arrays.asList("Ectomorph","Mesomorph", "Endomorph"));
-        ArrayList<String> medicalList = new ArrayList<>(Arrays.asList("Diabetes", "Asthma", "Low Blood Pressure", "ACL tear"));
+     //   ArrayList<String> medicalList = new ArrayList<>(Arrays.asList("Diabetes", "Asthma", "Low Blood Pressure", "ACL tear"));
 
         choiceBoxGender.setItems(FXCollections.observableArrayList(genderList));
         choiceBoxGender.getSelectionModel().selectedIndexProperty()
@@ -104,6 +102,8 @@ public class UserProfileController {
                     }
                 });
         
+        /*
+        
         choiceBoxMedical.setItems(FXCollections.observableArrayList(medicalList));
         choiceBoxMedical.getSelectionModel().selectedIndexProperty()
                 .addListener(new ChangeListener<Number>() {
@@ -117,6 +117,7 @@ public class UserProfileController {
                     }
                 });
 
+                */
         choiceBoxBodyType.setItems(FXCollections.observableArrayList(bodyTypeList));
         choiceBoxBodyType.getSelectionModel().selectedIndexProperty()
                 .addListener(new ChangeListener<Number>() {
@@ -133,7 +134,6 @@ public class UserProfileController {
     }
 
     //loadProfile for userName in the model
-    @FXML
     private void loadProfile() {
  
         labelPassword.setText(instanceUser.getPassword());
@@ -225,6 +225,11 @@ public class UserProfileController {
     @FXML
     private void changePassword() throws IOException {
         App.setRoot("ChangePassword");
+    }
+
+    @FXML
+    private void OpenMedConditions(ActionEvent event) throws IOException {
+        App.setRoot("MedicalConditions");
     }
 
 }

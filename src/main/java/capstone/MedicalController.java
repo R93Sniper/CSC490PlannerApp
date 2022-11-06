@@ -45,6 +45,8 @@ public class MedicalController {
 
      ArrayList<String> medList = new ArrayList<>();
     ArrayList<Integer> medIDList = new ArrayList<>();
+    ArrayList<Integer> medConSelected = new ArrayList<>();
+   
     
     /**
      * Initializes the controller class.
@@ -76,11 +78,36 @@ public class MedicalController {
     }
     @FXML
     private void onGoBack(ActionEvent event) throws IOException {
-        App.setRoot("UserHome");
+        App.setRoot("Profile");
     }
 
     @FXML
     private void onSave(ActionEvent event) {
+        
+       String str = listView.getItems().toString();
+        System.out.println(str);
+        
+        UserProfileModel md = UserProfileModel.getInstance();
+        
+        dataConnector dc = dataConnector.getInstance();
+        
+        MedicalConditionConnector mdc = new MedicalConditionConnector();
+        for(int i = 0; i <= medList.size(); i++){
+            
+            String medCon = mdc.medicalName(i);
+            
+            if(str.contains(medCon)){
+                medConSelected.add(i);
+            }
+            
+        }
+        medConSelected.remove(0);
+        
+        String finalMedConditions = medConSelected.toString();
+        
+        dc.writeMedicalConditions(finalMedConditions, md.getUserName());
+        
+        
         
     }
 
@@ -89,9 +116,13 @@ public class MedicalController {
         
         ObservableList<String> li = listView.getItems();
         
-        li.add(choiceBox.getValue());
         
         
+        
+        if(!li.contains(choiceBox.getValue())){
+            //maybe make an alert? Stop that add
+            li.add(choiceBox.getValue());
+        }
         
         
         
