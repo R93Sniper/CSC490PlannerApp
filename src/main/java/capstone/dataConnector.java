@@ -414,6 +414,28 @@ public class dataConnector {
      
      
      
+     /**
+      * method to write the medical conditions to the database
+      * @param id
+      * @return 
+      */
+     public boolean writeMedicalConditions(String Conditions, String userName){
+         
+         try{
+             String sql = "UPDATE User_Profile SET MedicalCondition_ids = \'" + Conditions + "\' Where User_Name = \'" + userName + "\'";
+             Statement stmt = conn.createStatement();
+             stmt.executeUpdate(sql);
+             return true;
+             
+             
+         }catch(SQLException e){
+             e.printStackTrace();
+         }
+         
+         
+         
+         return false;
+     }
 }
 
 enum DB_Col {
