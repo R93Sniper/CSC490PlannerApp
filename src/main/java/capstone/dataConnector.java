@@ -406,10 +406,10 @@ public class dataConnector {
         return returnStr;
     }
 
-    public boolean updateUserGoalsID(String userName, int goalId, String col) {
+    public boolean updateUserGoalsID(String userName, String goalIds, String col) {
         try {
             String sql = "UPDATE " + "User_Goals"
-                    + " SET " + col + " = " + goalId + " WHERE User_Name=\'" + userName + "\'";
+                    + " SET " + col + " = \'" + goalIds+ "\' WHERE User_Name=\'" + userName + "\'";
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             return true;
@@ -418,6 +418,8 @@ public class dataConnector {
         }
         return false;
     }
+    
+    
      public ResultSet getAllMedicalConditions(){
         
         ResultSet result = null;
