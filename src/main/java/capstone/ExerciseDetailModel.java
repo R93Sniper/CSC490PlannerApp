@@ -29,5 +29,13 @@ public class ExerciseDetailModel {
         
     }
     
+    public void resetModel(){
+    name="";
+    gifURL = "";
+    bodyPart ="";
+    targetedMuscle="";
+    equipment="";
+    }
+    
     
 }

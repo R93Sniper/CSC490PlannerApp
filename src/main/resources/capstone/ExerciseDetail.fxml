@@ -20,7 +20,7 @@
       </Label>
    </top>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="340.0" prefWidth="381.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fx:id="imgExercise" fitHeight="222.0" fitWidth="341.0" pickOnBounds="true" preserveRatio="true">
                <VBox.margin>
@@ -53,6 +53,13 @@
       </Button>
    </left>
    <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="340.0" prefWidth="138.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnExerciseCard" mnemonicParsing="false" onAction="#addToExerciseLog" text="Add to ExerciseLog">
+               <VBox.margin>
+                  <Insets left="5.0" top="20.0" />
+               </VBox.margin>
+            </Button>
+         </children></VBox>
    </right>
 </BorderPane>

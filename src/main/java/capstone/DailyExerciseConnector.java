@@ -46,15 +46,16 @@ public class DailyExerciseConnector extends dataConnector {
         }
     }
 
-    public void insertNewExerciseLogCardio(String name, String duration, String distance) {
+    public void insertNewExerciseLogCardio(String name, String duration, String distance, String caloriesBurned) {
 
         try {
-            String sql = "INSERT INTO ExerciseLog(Exercise_Name, Duration, Distance) VALUES"
-                    + "(?,?,?)";
+            String sql = "INSERT INTO ExerciseLog(Exercise_Name, Duration, Distance, Calories_Burned) VALUES"
+                    + "(?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, duration);
             preparedStatement.setString(3, distance);
+            preparedStatement.setString(4, caloriesBurned);
 
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
@@ -113,12 +114,13 @@ public class DailyExerciseConnector extends dataConnector {
             
             while(result.next()){
             String name = result.getString("Exercise_Name");
-            String weightLifted = result.getString("Weight_Lifted");
-            String sets = result.getString("Num_Sets");
-            String reps = result.getString("Num_Reps");
-            String duration = result.getString("Duration");
-            String distance = result.getString("Distance");
-            String caloriesBurned = result.getString("Calories_Burned");
+            
+            String weightLifted = result.getString("Weight_Lifted")==null ? "": result.getString("Weight_Lifted");
+            String sets = result.getString("Num_Sets")==null ? "":  result.getString("Num_Sets");
+            String reps = result.getString("Num_Reps")==null ? "":  result.getString("Num_Reps");
+            String duration = result.getString("Duration")==null ? "":  result.getString("Duration");
+            String distance = result.getString("Distance")==null ? "": result.getString("Distance") ;
+            String caloriesBurned = result.getString("Calories_Burned")==null ? "":  result.getString("Calories_Burned");
             item = new ExerciseItem();
             item.name = name;
             item.weightLifted = weightLifted;

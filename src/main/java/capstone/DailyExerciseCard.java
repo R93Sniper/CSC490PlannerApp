@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -48,31 +49,64 @@ public class DailyExerciseCard {
     UserProfileModel user = UserProfileModel.getInstance();
     DailyExerciseConnector dc = new DailyExerciseConnector();
     ArrayList<Integer> exLogIds = new ArrayList<>();
-
+    ExerciseDetailModel exDetailModel = ExerciseDetailModel.getInstance();
+    
     @FXML
     public void initialize() {
-        this.onCardioSelected();
+        
         this.loadExerciseListView();
+       
+        String modelName = exDetailModel.name;
+        if (!modelName.equals("")) {
+            tfName.setText(exDetailModel.name);
+            if (exDetailModel.targetedMuscle.equals("cardiovascular system")) {
+                rbCardio.setSelected(true);
+                onCardioSelected(); 
+            } else {
+                rbWeightLifting.setSelected(true);
+                onWeightLiftingSelected();
+            }
+            exDetailModel.resetModel();
+            
+        }else{ //else if modelName is empty then by default do this
+            rbCardio.setSelected(true);
+            onCardioSelected();
+        }
 
     }
 
     @FXML
     public void loadExerciseListView() {
-        String logIds = dc.getExerciseLogIds(user.dailyExerciseId);
+        
+        String logIds = dc.getExerciseLogIds(user.getDailyExerciseId());
         if (!logIds.equals("")) {
             String[] idArray = logIds.split("-");
             for (int i = 0; i < idArray.length; i++) {
                 ExerciseItem item = dc.getExerciseLogRow(Integer.valueOf(idArray[i]));
                 if (item != null) {
-                    obsList.add("[" + i + "] " + item.name);
+                    String str = "";
+                    str = "[" + obsList.size() + "] " + item.name;
+                    if(item.sets.equals("")){
+                    str += item.distance.equals("") ?"\n Duration: "+item.duration: 
+                    "\n Distance: " +item.distance;                    
+                    str += item.caloriesBurned.equals("") ? "" : "\n Calories Burned: "+ item.caloriesBurned;
+                    
+                    }else{
+                    str += item.sets.equals("")? "" : "\n Sets: "+ item.sets 
+                          +"\n Reps: " + item.reps
+                          +"\n WeightLifted: "+ item.weightLifted; 
+                    }                          
+                    obsList.add(str);      
                     exerciseList.add(item);
                     exLogIds.add(Integer.valueOf(idArray[i]));
+                }
+                    
                 }
 
             }
             listView.setItems(obsList);
         }
-    }
+    
 
     @FXML
     public void onGoBack() throws IOException {
@@ -88,16 +122,16 @@ public class DailyExerciseCard {
                 strIds += "-" + exLogIds.get(i).toString();
             }
         }
-        if (user.dailyExerciseId == 0) {
+        if (user.getDailyExerciseId() == 0) {
             //insert new row in table
             dc.insertNewDailyExerciseCard(strIds);
             //get the id of last inserted row and store it in the userProfileModel, as well as the progress card
             int eid = dc.getLastRow("Daily_Exercise_Cards");
-            user.dailyExerciseId = eid;
+            user.setDailyExerciseId(eid);
 
         } else {
             //update row in table
-            dc.updateExerciseLogIds(user.dailyExerciseId, strIds);
+            dc.updateExerciseLogIds(user.getDailyExerciseId(), strIds);
         }
         String msg = "This DailyExerciseCard Saved\n";
         if (user.getProgressCardId() == 0) {
@@ -118,24 +152,36 @@ public class DailyExerciseCard {
             makeAlert("Text field for Exercise Name is Empty!!");
             return;
         }
-
+        String distance ="";
+        String duration="";
+        String reps = "";
+        String sets ="";
+        String weightLifted="";
+        String caloriesBurned="";
+        String str ="";                
+        str = "[" + obsList.size() + "] " + tfName.getText();
+        caloriesBurned = tfCaloriesOut.getText() == null ? "" : tfCaloriesOut.getText();
         if (rbCardio.isSelected()) {
-            String distance = tfDistance.getText() == null ? "" : tfDistance.getText();
-            String duration = tfDuration.getText() == null ? "" : tfDuration.getText();
+            distance = tfDistance.getText() == null ? "" : tfDistance.getText();
+            duration = tfDuration.getText() == null ? "" : tfDuration.getText();
             //check if any of the textfileds are null and if so return and sent an alert out
             if (distance.equals("") && duration.equals("")) {
                 makeAlert("Need to fill out distance or duration!");
                 return;
             }
-            dc.insertNewExerciseLogCardio(name, duration, distance);
+            dc.insertNewExerciseLogCardio(name, duration, distance, caloriesBurned);
             exLogIds.add(dc.getLastRow("ExerciseLog"));
             tfDistance.setText("");
             tfDuration.setText("");
+            str += distance.equals("") ?"\n Duration: "+duration: 
+                    "\n Distance: " +distance;
+                                  
+            str += caloriesBurned.equals("") ? "" : "\n Calories Burned: "+ caloriesBurned;
 
         } else {
-            String reps = tfReps.getText() == null ? "" : tfReps.getText();
-            String sets = tfSets.getText() == null ? "" : tfSets.getText();
-            String weightLifted = tfWeight.getText() == null ? "" : tfWeight.getText();
+            reps = tfReps.getText() == null ? "" : tfReps.getText();
+            sets = tfSets.getText() == null ? "" : tfSets.getText();
+            weightLifted = tfWeight.getText() == null ? "" : tfWeight.getText();
 
             //check if any of the textfileds are null and if so return and sent an alert out
             if (reps.equals("") || sets.equals("") || weightLifted.equals("")) {
@@ -147,10 +193,14 @@ public class DailyExerciseCard {
             tfReps.setText("");
             tfSets.setText("");
             tfWeight.setText("");
+            exDetailModel.resetModel();
+                                   
+            str += sets.equals("")? "" : "\n Sets: "+ sets 
+                          +"\n Reps: " + reps
+                          +"\n WeightLifted: "+ weightLifted; 
         }
-
-        obsList.add("[" + obsList.size() + "] " + tfName.getText());
-
+                           
+        obsList.add(str);
         listView.setItems(obsList);
         tfName.setText("");
 
@@ -191,6 +241,12 @@ public class DailyExerciseCard {
         a.setHeaderText(alertText);
         a.show();
 
+    }
+
+    @FXML
+    public void onExerciseLookup() throws IOException {
+
+        App.setRoot("ExerciseLookup");
     }
 
 }

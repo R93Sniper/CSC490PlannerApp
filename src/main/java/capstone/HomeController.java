@@ -23,7 +23,7 @@ import javafx.fxml.Initializable;
  *
  * @author jesus
  */
-public class HomeController implements Initializable {
+public class HomeController{
     private DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private UserProfileModel instanceUser = UserProfileModel.getInstance();
     private dataConnector userDB = dataConnector.getInstance();
@@ -32,8 +32,8 @@ public class HomeController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    @FXML
+    public void initialize() {
         loadProfile();
         loadProgressCardData();
         // TODO
@@ -121,11 +121,18 @@ public class HomeController implements Initializable {
         ProgressCardConnector pc = new ProgressCardConnector();
         LocalDate now = LocalDate.now();
         int progressID = pc.getProgressID(instanceUser.getUserName(), dt.format(now));
+        System.out.println("Progess Card ID ="+progressID);
         if (progressID != -1) {
             instanceUser.setProgressCardId(progressID);
             int intakeID = pc.getDailyIntakeID(progressID);
+            int exerciseID = pc.getDailyExerciseID(progressID);
+            System.out.println("intake Card ID ="+progressID);
+            System.out.println("exercise Card ID ="+exerciseID);
             if (intakeID != -1) {
                 instanceUser.setDailyIntakeId(intakeID);
+            }
+            if(exerciseID != -1){
+                instanceUser.setDailyExerciseId(exerciseID);
             }
         }
         

@@ -86,6 +86,7 @@ public class DailyIntakeController {
     /**
      * Initializes the controller class.
      */
+    @FXML
     public void initialize() {
         rbFoodApi.setSelected(true);
         onUseAPIselected();
@@ -143,6 +144,7 @@ public class DailyIntakeController {
 
     // this method will add the food items to the list view and to the foodLog DB
     //, but does not update the dailyItake row, that's the job of the save btn
+    @FXML
     public void onAddFoodItem() {
         FoodItem[] foodArray = foodApi.parseJSON(foodApi.getJSONFromAPI(tfFoodItem.getText()));
         for (FoodItem item : foodArray) {
@@ -157,7 +159,7 @@ public class DailyIntakeController {
         tfFoodItem.setText("");
 
     }
-
+    @FXML
     public void loadItemList() {
         System.out.println("intake id = " + usr.getDailyIntakeId());
         String foodIds = intakeDC.getFoodLogIds(usr.getDailyIntakeId());
@@ -181,7 +183,7 @@ public class DailyIntakeController {
         }
 
     }
-
+    @FXML
     public void loadTotalValues() {
         DecimalFormat df = new DecimalFormat("0.00");
         labelCalories.setText(String.valueOf(df.format(total_Cals)));
@@ -189,7 +191,7 @@ public class DailyIntakeController {
         labelFats.setText(String.valueOf(df.format(total_Fats)));
         labelProtein.setText(String.valueOf(df.format(total_Protein)));
     }
-    
+    @FXML
     public void onAddManualInput(){
         FoodItem item = new FoodItem();
         String calories = tfCal.getText().equals("") ? "0.0" : tfCal.getText();
@@ -220,7 +222,7 @@ public class DailyIntakeController {
             tfName.setText("");
             
     }
-    
+    @FXML
     public void onUseAPIselected(){
     rbUserInput.setSelected(false);
     btnAdd.setVisible(true);
@@ -236,7 +238,7 @@ public class DailyIntakeController {
     
     
     }
-    
+    @FXML
     public void onUserInputselected(){
     rbFoodApi.setSelected(false);
     btnAdd.setVisible(false);
@@ -251,7 +253,7 @@ public class DailyIntakeController {
     btnAdd2.setVisible(true);
     
     }
-    
+    @FXML
     public void onClear(){
         //need to clear view without saving..
         itemsInListView = new ArrayList<>();

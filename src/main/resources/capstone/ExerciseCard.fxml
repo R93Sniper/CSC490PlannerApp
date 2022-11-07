@@ -32,7 +32,7 @@
                <children>
                   <Label fx:id="labeltext" prefHeight="26.0" prefWidth="127.0" text="Enter Exercise Name:" />
                   <TextField fx:id="tfName" prefHeight="25.0" prefWidth="204.0" />
-                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAdd" prefHeight="25.0" prefWidth="99.0" text="Add" />
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#onAdd" prefHeight="25.0" prefWidth="76.0" text="Add" />
                </children>
             </HBox>
             <HBox prefHeight="60.0" prefWidth="400.0">
@@ -93,14 +93,19 @@
       </VBox>
    </left>
    <right>
-      <VBox prefHeight="120.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="365.0" prefWidth="123.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Clear">
+            <Button fx:id="btnExerciseLookup" mnemonicParsing="false" onAction="#onExerciseLookup" prefHeight="33.0" prefWidth="97.0" text="Search Exercise">
+               <VBox.margin>
+                  <Insets left="5.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="63.0" text="Clear">
                <VBox.margin>
                   <Insets left="10.0" top="40.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSave" text="Save">
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onSave" prefHeight="25.0" prefWidth="55.0" text="Save">
                <VBox.margin>
                   <Insets left="10.0" top="200.0" />
                </VBox.margin></Button>

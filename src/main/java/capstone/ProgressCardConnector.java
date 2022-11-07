@@ -151,6 +151,23 @@ public class ProgressCardConnector extends dataConnector {
         }
         return id;
     }
+    
+        public int getDailyExerciseID(int pID) {
+
+        String tableName = "Progress_Cards";
+        int id = -1;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + pID + " ;");
+
+            while (result.next()) {
+                id = result.getInt("Daily_Exercise_Id");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return id;
+    }
 
     public int getWeight(int id) {
 

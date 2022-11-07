@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,12 +22,13 @@ import javafx.scene.image.ImageView;
  */
 public class ExerciseDetailController{
     @FXML
+    private Button btnExerciseCard;
+    @FXML
     private Label labelTarget;
     @FXML
     private Label labelEquipment;
     @FXML
     private Label labelBodyPart;
-         
     @FXML
     private Label labelName;
     @FXML
@@ -43,12 +45,23 @@ public class ExerciseDetailController{
 
     Image img = new Image(theModel.gifURL);
     imgExercise.setImage(img);
+    if(UserProfileModel.getInstance().getUserName().equals(""))
+        btnExerciseCard.setVisible(false);
+    
     }
   
     @FXML
     public void onGoBack() throws IOException{
        // theMod
+       theModel.resetModel();
         App.setRoot("ExerciseLookUp");
+    }
+    
+    @FXML
+    public void addToExerciseLog() throws IOException{
+    
+    
+        App.setRoot("ExerciseCard");
     }
     
 }
