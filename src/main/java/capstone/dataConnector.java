@@ -337,6 +337,25 @@ public class dataConnector {
         }
         return lastRowNum;
     }
+    
+       public int getLastID(String tableName){
+        ResultSet result = null;
+        int idFound = -1;
+        try {
+           
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("SELECT TOP 1 * FROM " +tableName + " ORDER BY ID DESC");
+            while(result.next()){
+            idFound = result.getInt("ID");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return idFound;
+
+    }
 
     //MEDICAL-CONDITION
     public String getMedicalCondition(String userName) {
@@ -436,6 +455,14 @@ public class dataConnector {
          
          return false;
      }
+     
+     public static void main(String[] args){
+     
+     dataConnector dc =dataConnector.getInstance();
+     System.out.println("Last ID = "+dc.getLastID("User_Profile"));
+     }
+     
+     
 }
 
 enum DB_Col {

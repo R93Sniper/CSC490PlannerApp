@@ -5,7 +5,9 @@
  */
 package capstone;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -13,23 +15,26 @@ import java.sql.SQLException;
  */
 public class UserGoalsConnector extends dataConnector {
 
-    public void userGoals(String goaltype, String targetDate, String dailyCalorieTarget, String dietPlan,
-            String workoutPlan) {
+    private void userGoals(String goaltype, String targetDate, String targetWeight, String dateCreated, String sizeGoalID,
+            String strengthGoalID) {
         try {
-            String sql = "INSERT INTO User_Goals(Goal_Type, Target_Date, Daily_Calorie_Target,"
-                    + "Diet_Plan, Workout_Plan) VALUES"
-                    + "(?,?,?,?,?)";
+            String sql = "INSERT INTO User_Goals(Goal_Type, Target_Date, Target_Weight, Date_Created, SizeGoal_id"
+                    + "StrengthGoal_id) VALUES"
+                    + "(?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, goaltype);
             preparedStatement.setString(2, targetDate);
-            preparedStatement.setString(3, dailyCalorieTarget);
-            preparedStatement.setString(4, dietPlan);
-            preparedStatement.setString(5, workoutPlan);
+            preparedStatement.setString(3, targetWeight);
+            preparedStatement.setString(4, dateCreated);
+            preparedStatement.setString(5, sizeGoalID);
+            preparedStatement.setString(6, strengthGoalID);
+            
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted into User Goals Table");
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -61,7 +66,7 @@ public class UserGoalsConnector extends dataConnector {
         }
     }
 
-    public void updateDailyCalorieTarget(int id, String dailyCalorieTarget) {
+    private void updateDailyCalorieTarget(int id, String dailyCalorieTarget) {
         try {
             String sql = "UPDATE User_Goals SET Daily_Calorie_Target=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -75,7 +80,7 @@ public class UserGoalsConnector extends dataConnector {
         }
     }
 
-    public void updateDietPlan(int id, String dietPlan) {
+    private void updateDietPlan(int id, String dietPlan) {
         try {
             String sql = "UPDATE User_Goals SET Diet_Plan=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -89,7 +94,7 @@ public class UserGoalsConnector extends dataConnector {
         }
     }
 
-    public void updateWorkoutPlan(int id, String workoutPlan) {
+    private void updateWorkoutPlan(int id, String workoutPlan) {
         try {
             String sql = "UPDATE User_Goals SET Workout_Plan=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -102,5 +107,61 @@ public class UserGoalsConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
+
+    public void saveSizeGoalCard(String Neck_Target, String Arms_Target, String Waist_Target, String Hips_Target, String Legs_Target
+                            , String goalType, String targetDate, String dateCreated) {
+        int rowID = -1;
+        try {
+            String sql = "INSERT INTO SizeGoals( insert column names here  ) VALUES"
+                    + "(?,?,?,?,?,?,?)";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, "temp");
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                System.out.println("Row inserted into Size Goals Table");
+                rowID = this.getLastID("SizeGoals");
+                this.userGoals(goalType, targetDate, "", dateCreated, Integer.toString(rowID), "0");
+            }else{
+            System.out.println("FAILED to save Size Goal Card");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    public void saveStrengthGoalCard(String BenchPress_Target, String DeadLift_Target, String Squats_Target
+                , String LegPress_Target, String ShoulderPress_Target, String goalType, String targetDate, String dateCreated) {
+        int rowID = -1;
+        try {
+            String sql = "INSERT INTO StrengthGoals( insert column names here  ) VALUES"
+                    + "(?,?,?,?,?,?,?)";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, "temp");
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                System.out.println("Row inserted into Strength Goals Table");
+                rowID = this.getLastID("SizeGoals");
+                this.userGoals(goalType, targetDate, "", dateCreated, "0", Integer.toString(rowID));
+            }else{
+            System.out.println("FAILED to save Strength goals Card");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+     
+    public void saveWeightGoalCard(String Goal_Type, String Target_Date, String Target_Weight, String Date_Created){
+        
+        this.userGoals(Goal_Type, Target_Date, Target_Weight, Date_Created, "0", "0");
+    
+    }
+
+
+    
 
 }
