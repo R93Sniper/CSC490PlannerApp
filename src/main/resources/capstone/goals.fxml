@@ -41,27 +41,92 @@
             <RadioButton fx:id="rbMain" layoutX="150.0" layoutY="28.0" mnemonicParsing="false" text="Maintain" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sizeA" disable="true" layoutX="88.0" layoutY="108.0" prefHeight="368.0" prefWidth="269.0" visible="false">
+      <AnchorPane fx:id="sizeA" disable="true" layoutX="92.0" layoutY="108.0" prefHeight="368.0" prefWidth="288.0" visible="false">
          <children>
-            <TextField fx:id="armsTF" layoutX="29.0" layoutY="76.0" prefHeight="34.0" prefWidth="149.0" promptText="insert ideal arms" />
-            <TextField fx:id="waistTF" layoutX="29.0" layoutY="122.0" prefHeight="34.0" prefWidth="149.0" promptText="insert ideal waist" />
-            <TextField fx:id="hipsTF" layoutX="29.0" layoutY="167.0" prefHeight="34.0" prefWidth="149.0" promptText="insert ideal hips" />
-            <TextField fx:id="neckTF" layoutX="29.0" layoutY="32.0" prefHeight="34.0" prefWidth="149.0" promptText="insert ideal neck" />
-            <TextField fx:id="legsTF" layoutX="29.0" layoutY="211.0" prefHeight="34.0" prefWidth="149.0" promptText="insert ideal legs" />
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="strengthA" disable="true" layoutX="111.0" layoutY="110.0" prefHeight="379.0" prefWidth="288.0" visible="false">
-         <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Target lift weight goals:">
+            <ToolBar layoutX="6.0" layoutY="58.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="neckTF" prefHeight="34.0" prefWidth="115.0" promptText="neck" />
+                  <TextField fx:id="neckg" prefHeight="34.0" prefWidth="122.0" promptText="neck" />
+               </items>
+            </ToolBar>
+            <Label layoutX="14.0" layoutY="31.0" text="Current ">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="benchTF" layoutX="14.0" layoutY="82.0" prefHeight="34.0" prefWidth="149.0" promptText="Bench press" />
-            <TextField fx:id="deadliftTF" layoutX="14.0" layoutY="128.0" prefHeight="34.0" prefWidth="149.0" promptText="Deadlift " />
-            <TextField fx:id="squatsTF" layoutX="14.0" layoutY="177.0" prefHeight="34.0" prefWidth="149.0" promptText="Squats" />
-            <TextField fx:id="legpressTF" layoutX="14.0" layoutY="223.0" prefHeight="34.0" prefWidth="149.0" promptText="Leg press" />
-            <TextField fx:id="spressTF" layoutX="14.0" layoutY="267.0" prefHeight="34.0" prefWidth="149.0" promptText="Shoulder press" />
+            <Label layoutX="188.0" layoutY="31.0" text="Target">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ToolBar layoutX="6.0" layoutY="102.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="armsTF" prefHeight="34.0" prefWidth="133.0" promptText="arms" />
+                  <TextField fx:id="armsg" prefHeight="34.0" prefWidth="102.0" promptText="arms" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="6.0" layoutY="146.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="waistTF" prefHeight="34.0" prefWidth="135.0" promptText="waist" />
+                  <TextField fx:id="waistg" prefHeight="34.0" prefWidth="102.0" promptText="waist" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="6.0" layoutY="190.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="hipsTF" prefHeight="34.0" prefWidth="134.0" promptText="hips" />
+                  <TextField fx:id="hipsg" prefHeight="34.0" prefWidth="102.0" promptText="hips" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="6.0" layoutY="234.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="legsTF" prefHeight="34.0" prefWidth="129.0" promptText="legs" />
+                  <TextField fx:id="legsg" prefHeight="34.0" prefWidth="102.0" promptText="legs" />
+               </items>
+            </ToolBar>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="strengthA" layoutX="92.0" layoutY="110.0" prefHeight="379.0" prefWidth="288.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Current Max">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="136.0" layoutY="14.0" text="Target Max Goal">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ToolBar layoutX="8.0" layoutY="47.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="benchTF" prefHeight="34.0" prefWidth="122.0" promptText="Bench press" />
+                  <TextField fx:id="benchg" prefHeight="34.0" prefWidth="122.0" promptText="bench press goal" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="3.0" layoutY="91.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="spressTF" prefHeight="34.0" prefWidth="117.0" promptText="Shoulder press" />
+                  <TextField fx:id="spressg" prefHeight="34.0" prefWidth="129.0" promptText="shoulder press goal" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="3.0" layoutY="136.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="deadliftTF" prefHeight="34.0" prefWidth="126.0" promptText="Deadlift " />
+                  <TextField fx:id="deadliftg" prefHeight="34.0" prefWidth="117.0" promptText="deadlift goal" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="3.0" layoutY="180.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="squatsTF" prefHeight="34.0" prefWidth="129.0" promptText="Squats" />
+                  <TextField fx:id="squatsg" prefHeight="34.0" prefWidth="120.0" promptText="squats goal" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="3.0" layoutY="224.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="legpressTF" prefHeight="34.0" prefWidth="129.0" promptText="Leg press" />
+                  <TextField fx:id="lpressg" prefHeight="34.0" prefWidth="122.0" promptText="leg press goal" />
+               </items>
+            </ToolBar>
          </children>
       </AnchorPane>
       <Button layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#goBack" prefHeight="34.0" prefWidth="81.0" text="Back" />
