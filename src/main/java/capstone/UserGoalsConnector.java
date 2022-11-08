@@ -108,7 +108,7 @@ public class UserGoalsConnector extends dataConnector {
         }
     }
 
-    public void saveSizeGoalCard(String Neck_Target, String Arms_Target, String Waist_Target, String Hips_Target, String Legs_Target
+    public void saveSizeGoal(String Neck_Target, String Arms_Target, String Waist_Target, String Hips_Target, String Legs_Target
                             , String goalType, String targetDate, String dateCreated) {
         int rowID = -1;
         try {
@@ -131,7 +131,7 @@ public class UserGoalsConnector extends dataConnector {
 
     }
     
-    public void saveStrengthGoalCard(String BenchPress_Target, String DeadLift_Target, String Squats_Target
+    public void saveStrengthGoal(String BenchPress_Target, String DeadLift_Target, String Squats_Target
                 , String LegPress_Target, String ShoulderPress_Target, String goalType, String targetDate, String dateCreated) {
         int rowID = -1;
         try {
@@ -155,7 +155,7 @@ public class UserGoalsConnector extends dataConnector {
     }
     
      
-    public void saveWeightGoalCard(String Goal_Type, String Target_Date, String Target_Weight, String Date_Created){
+    public void saveWeightGoal(String Goal_Type, String Target_Date, String Target_Weight, String Date_Created){
         
         this.userGoals(Goal_Type, Target_Date, Target_Weight, Date_Created, "0", "0");
     

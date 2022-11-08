@@ -27,21 +27,37 @@ import javafx.scene.control.TextField;
  * @author jesus
  */
 public class DailyIntakeController {
-
+    @FXML
     private ListView listView;
+    @FXML
     private Label labelCalories;
+    @FXML
     private Label labelCarbs;
+   @FXML
     private Label labelFats;
+    @FXML 
     private Label labelProtein;
+    @FXML
     private TextField tfCal;
+    @FXML
     private TextField tfCarb;
+    @FXML
     private TextField tfPro;
+    @FXML
     private TextField tfFat;
+    @FXML
     private TextField tfName;
+    @FXML
+    private TextField tfFoodItem;
+    @FXML
     private RadioButton rbFoodApi;
+    @FXML
     private RadioButton rbUserInput;
+    @FXML
     private Button btnAdd;
+    @FXML
     private Button btnAdd2;
+    @FXML
     private Label labeltext;
     
     ObservableList<String> obsList = FXCollections.observableArrayList();
@@ -51,7 +67,6 @@ public class DailyIntakeController {
     DailyIntakeConnector intakeDC = new DailyIntakeConnector();
     ArrayList<Integer> foodLogIds = new ArrayList<>();
     ArrayList<FoodItem> itemsInListView = new ArrayList<>();
-    private TextField tfFoodItem;
     private UserProfileModel usr = UserProfileModel.getInstance();
     private int dailyIntakeID = 0;
     private double total_Cals = 0;
@@ -59,28 +74,6 @@ public class DailyIntakeController {
     private double total_Fats = 0;
     private double total_Protein = 0;
     private DecimalFormat df = new DecimalFormat("0.00");
-    @FXML
-    private CheckBox BrokeBone;
-    @FXML
-    private CheckBox Cancer;
-    @FXML
-    private CheckBox Diabeties;
-    @FXML
-    private CheckBox Headache;
-    @FXML
-    private CheckBox Muscle;
-    @FXML
-    private CheckBox Surgury;
-    @FXML
-    private CheckBox BackPain;
-    @FXML
-    private CheckBox KneePain;
-    @FXML
-    private CheckBox NotListed;
-    @FXML
-    private TextField nonListed;
-    @FXML
-    private Button btnSave;
     
 
     /**
