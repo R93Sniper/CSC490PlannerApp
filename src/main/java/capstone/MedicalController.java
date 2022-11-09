@@ -17,6 +17,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -53,12 +55,43 @@ public class MedicalController {
      */
     
     public void initialize() {
+        preloadListView();
         loadChoiceBox();
         
         choiceBox.setItems(FXCollections.observableArrayList(medList));
         
     }    
 
+    private void preloadListView(){
+        ObservableList<String> li = listView.getItems();
+        dataConnector dc = dataConnector.getInstance();
+        MedicalConditionConnector mdc = new MedicalConditionConnector();
+        
+        UserProfileModel upm = UserProfileModel.getInstance();
+        String medCons = dc.getMedConFromProfile(upm.getUserName());
+        
+        char[] arr = medCons.toCharArray();
+        if(medCons == null){
+            
+            //then do nothing
+        } else {
+            for(int i = 0; i < arr.length; i++){
+                int conditionID = Character.getNumericValue(arr[i]);
+                
+                
+                //System.out.println(arr[i]);
+                
+               if(conditionID != -1){
+               li.add(mdc.medicalName(conditionID));
+               }
+            }
+        }
+        
+        
+        
+        
+        
+    }
    
     private void loadChoiceBox(){
         

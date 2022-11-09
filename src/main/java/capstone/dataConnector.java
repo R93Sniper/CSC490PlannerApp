@@ -433,7 +433,29 @@ public class dataConnector {
         return result;
     }
      
-     
+     public String getMedConFromProfile(String userName){
+         
+         String str = "";
+         
+         String SQL = "SELECT MedicalCondition_ids FROM User_Profile WHERE User_Name = \'" + userName + "\'";
+         
+         ResultSet r = null;
+         
+         try{
+             Statement stmt = conn.createStatement();
+             r = stmt.executeQuery(SQL);
+             
+             while(r.next()){
+                 str = r.getString("MedicalCondition_ids");
+             }
+             
+         } catch (SQLException e){
+             e.printStackTrace();
+         }
+         
+         
+         return str;
+     }
      
      /**
       * method to write the medical conditions to the database
