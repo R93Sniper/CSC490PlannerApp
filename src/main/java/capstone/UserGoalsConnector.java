@@ -161,8 +161,13 @@ public class UserGoalsConnector extends dataConnector {
 
     }
 
-    public void saveStrengthGoal(String BenchPress_Target, String DeadLift_Target, String Squats_Target,
-             String LegPress_Target, String ShoulderPress_Target, String goalType, String targetDate, String dateCreated) {
+    /*
+    * 
+    * String BenchPress_Target, String DeadLift_Target, String Squats_Target,String LegPress_Target, String ShoulderPress_Target, 
+    * String BenchPress_current, String DeadLift_current, String Squats_current, String LegPress_current, String ShoulderPress_current,
+    * String goalType, String targetDate, String dateCreated
+    */
+    public void saveStrengthGoal(GoalObject goal) {
         int rowID = -1;
         try {
             String sql = "INSERT INTO StrengthGoals( insert column names here  ) VALUES"
@@ -173,7 +178,7 @@ public class UserGoalsConnector extends dataConnector {
             if (row > 0) {
                 System.out.println("Row inserted into Strength Goals Table");
                 rowID = this.getLastID("SizeGoals");
-                this.userGoals(goalType, targetDate, "", dateCreated, "0", Integer.toString(rowID));
+                //this.userGoals(goalType, targetDate, "", dateCreated, "0", Integer.toString(rowID));
             } else {
                 System.out.println("FAILED to save Strength goals Card");
             }
@@ -184,19 +189,25 @@ public class UserGoalsConnector extends dataConnector {
 
     }
 
-    public void saveWeightGoal(GoalObject goal,String Goal_Type, String Target_Date, String Target_Weight, String Date_Created) {
+    /*
+    * To use this method need to pass in a GoalObject with that contain valid string values for 
+    * String Goal_Type, String Target_Date, String Target_Weight, String Date_Created
+    */
+    public void saveWeightGoal(GoalObject goal) {
 
         this.userGoals(goal.getGoalType(), goal.getDateTarget(), goal.getWeightTarget(), goal.getDateCreated(), "0", "0");
 
     }
 
     public static void main(String[] args) {
-        dataConnector d = dataConnector.getInstance();
+        //dataConnector d = dataConnector.getInstance();
         
-        UserGoalsConnector dc = new UserGoalsConnector();
+        dataConnector dc = UserGoalsConnector.getInstance();
+       
         UserProfileModel usr = UserProfileModel.getInstance();
         usr.setUserName("johndoe");
-        dc.saveWeightGoal("Weight-Gain", "1/20/2023", "175", "11/8/2022");
+        
+        //dc.saveWeightGoal("Weight-Gain", "1/20/2023", "175", "11/8/2022");
 
     }
 ;
