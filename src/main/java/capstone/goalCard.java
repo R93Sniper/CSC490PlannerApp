@@ -183,8 +183,7 @@ public class goalCard {
     private void runGains() {
         int g1 = Integer.parseInt(currentTF.getText());
         int g2 = Integer.parseInt(targetTF.getText());
-        checkEmptyTERM(g1, g2);
-        checkMoreThanCurrent(g1, g2);
+        compareValues(g1, g2);
         //Checked if it's empty, check
         // Checked if target is greater than current, check
         // save to DB
@@ -197,8 +196,7 @@ public class goalCard {
     private void runLoss() {
         int l1 = Integer.parseInt(currentTF.getText());
         int l2 = Integer.parseInt(targetTF.getText());
-        checkEmptyTERM(l1, l2); // Checked if empty
-        checkLessThanCurrent(l1, l2); // Checks if target is less than current
+        compareValues(l1, l2); // Checked if empty
         LocalDate tDate = targetDate.getValue();
         saveWeightGoal(l1, l2, tDate); // SAVES TO DB
     }
@@ -208,8 +206,7 @@ public class goalCard {
         // current and target must be the same
         int m1 = Integer.parseInt(currentTF.getText());
         int m2 = Integer.parseInt(targetTF.getText());
-        checkEmptyTERM(m1, m2); // Checks for empties
-        checkSameAsCurrent(m1, m2); // Checks for equals
+        compareValues(m1, m2); // Checks for empties
         LocalDate tDate = targetDate.getValue();
         saveWeightGoal(m1, m2, tDate); // SAVES TO DB
     }
@@ -226,52 +223,121 @@ public class goalCard {
         int h2 = Integer.parseInt(hipsg.getText()); // target hips
         int l1 = Integer.parseInt(legsTF.getText()); // current legs
         int l2 = Integer.parseInt(legsg.getText()); // target leg goal
-        
+
         compareValues(n1, n2); // Neck
         compareValues(a1, a2); // Arms
         compareValues(w1, w2); // Waist
         compareValues(h1, h2); // Hip
         compareValues(l1, l2); //Leg
-        
+
         LocalDate tDate = targetDate.getValue();
         // Compare values checks if any one is zero, if not then it gets whether its dec or inc
-        saveSizeGoal(n1, n2, a1, a2, w1, w2, h1, h2, l1, l2, tDate);
+        saveSizeGoal(n2, a2, w2, h2, l2, tDate);
     }
 
     private void runStrength() {
-        int r1 = Integer.parseInt(benchTF.getText());
-        int r2 = Integer.parseInt(deadliftTF.getText());
-        int r3 = Integer.parseInt(squatsTF.getText());
-        int r4 = Integer.parseInt(legpressTF.getText());
-        int r5 = Integer.parseInt(spressTF.getText());
+        int s1 = Integer.parseInt(benchTF.getText());
+        int s2 = Integer.parseInt(benchg.getText());
 
-    }
+        int s3 = Integer.parseInt(deadliftTF.getText());
+        int s4 = Integer.parseInt(deadliftg.getText());
 
-    private void checkEmptyTERM(int x, int y) {
-        // Check if it's empty
-        if (x == 0 && y == 0) {
-            System.out.println("This is an error, one or more fields are blank.. fill the necessary fields");
-            System.exit(1);
-        } else if (x != 0 && y != 0) {
-            System.out.println("Current and target are both filled, congrats..");
-        }
+        int s5 = Integer.parseInt(squatsTF.getText());
+        int s6 = Integer.parseInt(squatsg.getText());
+
+        int s7 = Integer.parseInt(legpressTF.getText());
+        int s8 = Integer.parseInt(legpressg.getText());
+
+        int s9 = Integer.parseInt(spressTF.getText());
+        int s10 = Integer.parseInt(spressg.getText());
+
+        compareValues(s1, s2);
+        compareValues(s3, s4);
+        compareValues(s5, s6);
+        compareValues(s7, s8);
+        compareValues(s9, s10);
+        // Look into compareValues... we need both fields to be filled but if they aren't and one is then perhaps set those fields to 0?
+        LocalDate tDate = targetDate.getValue();
+        
+        saveStrengthGoal(s2, s4, s6, s8, s10, tDate);
+
     }
 
     private void compareValues(int x, int y) {
         //See if current is bigger or target is bigger..
-        if (x != 0 && y != 0) {
-            if (x > y) {
-                loseSize();
-            } else if (y > x) {
-                gainSize();
-            } else {
-                System.out.println("what is your goal?.. cant be the same..");
-            }
-        }
-        else {
-            System.out.println("NO ONE VALUE BETWEEN CURRENT AND TARGET CAN BE 0/NULL");
-        }
+        if (weightRB.isSelected()) {
+            // Check if it's empty
+            if (x == 0 && y == 0) {
+                System.out.println("This is an error, one or more fields are blank.. fill the necessary fields");
+                //System.exit(1);
+                return; // breaks method? 
+            } else if (x != 0 && y != 0) {
+                System.out.println("Current and target are both filled, congrats..");
+                if (rbGain.isSelected()) {
+                    if (x > y) {
+                        System.out.println("ERROR, target can't be less than current due to GAIN button");
+                        //System.exit(1); // Terminates unsuccessfully
+                        return;
+                    } else if (y > x) {
+                        System.out.println("Target checks out, it's greater than current");
+                    } else if (x == y) {
+                        System.out.println("Can't be the same..");
+                        return;
+                    }
+                } else if (rbLose.isSelected()) {
+                    if (x > y) {
+                        System.out.println("Target is less than current, checks out");
+                    } else if (y > x) {
+                        System.out.println("ERROR, target can't be MORE than current due to LOSS button");
+                        return;
+                    } else if (x == y) {
+                        System.out.println("Can't be the same..");
+                        return;
+                    }
+                } else if (rbMain.isSelected()) {
+                    if (x > y) {
+                        System.out.println("error, fields not the same, MAINTAIN = SAME");
+                        //System.exit(1); // Terminates unsuccessfully
+                        return;
+                    } else if (y > x) {
+                        System.out.println("ERROR, fields not the same.. MAINTAIN = SAME");
+                        return;
+                    } else if (x == y) {
+                        System.out.println("CHECKS OUT!, maintain will progress...");
+                       
+                    }
+                }
 
+            }
+        } else if (sizeRB.isSelected()) {
+            if (x != 0 && y != 0) {
+                if (x > y) {
+                    loseSize();
+                } else if (y > x) {
+                    gainSize();
+                } else {
+                    System.out.println("what is your goal?.. cant be the same..");
+                }
+            } else if (x == 0 && y != 0 || x != 0 && y == 0) {
+                System.out.println("Either of these fields cannot be empty.. ");
+                // Pop up to let user change it or remake the field??????? UPDATE THIS..........
+            }
+
+        } else if (strengthRB.isSelected()) {
+            if (x != 0 && y != 0) {
+                if (x < y) {
+                    System.out.println("Get Stronger..");
+                } else {
+                    System.out.println("ERROR, current MAX can't be bigger than target MAX");
+                }
+            } else if (x == 0 && y != 0 || x != 0 && y == 0) {
+                System.out.println("Either of these fields cannot be empty.. ");
+                // Pop up to let user change it or remake the field??????? UPDATE THIS.......
+            } else if (x == 0 && y == 0) {
+                System.out.println("These were left blank on purpose..");
+            }
+
+        }
     }
 
     private void loseSize() {
@@ -282,46 +348,18 @@ public class goalCard {
         System.out.println("Gain size");
     }
 
-    private void checkMoreThanCurrent(int x, int y) {
-        //Checks logic based on condition
-        // Assuming current is x, makes sure y is greater
-        if (x > y) {
-            System.out.println("Error, current is higher than target goal, which doesn't make sense... Target must be higher.");
-            System.exit(1); // Terminates unsuccessfully
-        } else if (y > x) {
-            System.out.println("Target checks out, it's greater than current");
-        }
-    }
-
-    private void checkLessThanCurrent(int x, int y) {
-        // Checks logic based on if target is less than current
-        // Assumes current is x
-        if (x > y) {
-            System.out.println("Target is less than current, checks out");
-        } else if (x < y) {
-            System.out.println("Target is more than current, ERROR");
-            System.exit(1);
-        }
-    }
-
-    private void checkSameAsCurrent(int x, int y) {
-        if (x == y) {
-            System.out.println("Congrats its the same, continue..");
-        } else {
-            System.out.println("These are not the same, THEY HAVE TO BE, ABORT ABORT");
-            System.exit(1);
-        }
-    }
 
     private void saveWeightGoal(int x, int y, LocalDate d) {
         // This should save all data from specific weight goal card to DB
     }
 
-    private void saveSizeGoal(int n1, int n2, int a1, int a2, int w1, int w2, int h1, int h2, int l1, int l2, LocalDate d) {
+    private void saveSizeGoal(int n2, int a2, int w2, int h2, int l2, LocalDate d) {
         // This should save all data from size current and targets to DB
+        // Shoudn't we save current as well??...
     }
 
-    private void saveStrengthGoal() {
-
+    private void saveStrengthGoal(int s2, int s4, int s6, int s8, int s10, LocalDate tDate) {
+        // This should save data to DB
+        //Shouldn't we save current as well?.... 
     }
 }
