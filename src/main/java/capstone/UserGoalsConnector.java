@@ -18,7 +18,7 @@ public class UserGoalsConnector extends dataConnector {
     private void userGoals(String goaltype, String targetDate, String targetWeight, String dateCreated, String sizeGoalID,
             String strengthGoalID) {
         try {
-            String sql = "INSERT INTO User_Goals(Goal_Type, Target_Date, Target_Weight, Date_Created, SizeGoal_id"
+            String sql = "INSERT INTO User_Goals(Goal_Type, Target_Date, Target_Weight, Date_Created, SizeGoal_id, "
                     + "StrengthGoal_id) VALUES"
                     + "(?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
@@ -28,14 +28,44 @@ public class UserGoalsConnector extends dataConnector {
             preparedStatement.setString(4, dateCreated);
             preparedStatement.setString(5, sizeGoalID);
             preparedStatement.setString(6, strengthGoalID);
-            
+
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted into User Goals Table");
+                int id = dataConnector.getInstance().getLastID("User_Goals");
+                this.saveGoalToUserProfile(id);
+            } else {
+                System.out.println("Failed to insert Row into User Goals Table");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void saveGoalToUserProfile(int id) {
+        UserProfileModel user = UserProfileModel.getInstance();
+        String userName = user.getUserName();
+        System.out.println("username = "+userName);
+        if (userName.equals("")) {
+            System.out.println("FAILED to save goals_ids to User_Profile: Username is empty");
+            return;
+        }
+
+        String goalsIds = "";
+        goalsIds = this.getUserGoals(userName);
+        if (goalsIds.equals("")) {
+            goalsIds = Integer.toString(id);
+        } else {
+            goalsIds = goalsIds + "-" + Integer.toString(id);
+        }
+        System.out.println("goals ids = "+goalsIds);
+        
+        if (this.updateColumn("User_Profile", userName, goalsIds, "Goals_ids")) {
+            System.out.println("SUCCESS: updated goals_ids in User Profile table");
+        } else {
+            System.out.println("FAILED to update goals_ids in User Profile table");
+        }
+
     }
 
     public void updateGoalType(int id, String goaltype) {
@@ -108,8 +138,8 @@ public class UserGoalsConnector extends dataConnector {
         }
     }
 
-    public void saveSizeGoal(String Neck_Target, String Arms_Target, String Waist_Target, String Hips_Target, String Legs_Target
-                            , String goalType, String targetDate, String dateCreated) {
+    public void saveSizeGoal(String Neck_Target, String Arms_Target, String Waist_Target, String Hips_Target, String Legs_Target,
+             String goalType, String targetDate, String dateCreated) {
         int rowID = -1;
         try {
             String sql = "INSERT INTO SizeGoals( insert column names here  ) VALUES"
@@ -121,18 +151,18 @@ public class UserGoalsConnector extends dataConnector {
                 System.out.println("Row inserted into Size Goals Table");
                 rowID = this.getLastID("SizeGoals");
                 this.userGoals(goalType, targetDate, "", dateCreated, Integer.toString(rowID), "0");
-            }else{
-            System.out.println("FAILED to save Size Goal Card");
+            } else {
+                System.out.println("FAILED to save Size Goal Card");
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-    
-    public void saveStrengthGoal(String BenchPress_Target, String DeadLift_Target, String Squats_Target
-                , String LegPress_Target, String ShoulderPress_Target, String goalType, String targetDate, String dateCreated) {
+
+    public void saveStrengthGoal(String BenchPress_Target, String DeadLift_Target, String Squats_Target,
+             String LegPress_Target, String ShoulderPress_Target, String goalType, String targetDate, String dateCreated) {
         int rowID = -1;
         try {
             String sql = "INSERT INTO StrengthGoals( insert column names here  ) VALUES"
@@ -144,24 +174,31 @@ public class UserGoalsConnector extends dataConnector {
                 System.out.println("Row inserted into Strength Goals Table");
                 rowID = this.getLastID("SizeGoals");
                 this.userGoals(goalType, targetDate, "", dateCreated, "0", Integer.toString(rowID));
-            }else{
-            System.out.println("FAILED to save Strength goals Card");
+            } else {
+                System.out.println("FAILED to save Strength goals Card");
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-    
-     
-    public void saveWeightGoal(String Goal_Type, String Target_Date, String Target_Weight, String Date_Created){
-        
-        this.userGoals(Goal_Type, Target_Date, Target_Weight, Date_Created, "0", "0");
-    
+
+    public void saveWeightGoal(GoalObject goal,String Goal_Type, String Target_Date, String Target_Weight, String Date_Created) {
+
+        this.userGoals(goal.getGoalType(), goal.getDateTarget(), goal.getWeightTarget(), goal.getDateCreated(), "0", "0");
+
     }
 
+    public static void main(String[] args) {
+        dataConnector d = dataConnector.getInstance();
+        
+        UserGoalsConnector dc = new UserGoalsConnector();
+        UserProfileModel usr = UserProfileModel.getInstance();
+        usr.setUserName("johndoe");
+        dc.saveWeightGoal("Weight-Gain", "1/20/2023", "175", "11/8/2022");
 
-    
+    }
+;
 
 }

@@ -236,7 +236,7 @@ public class dataConnector {
 
     public boolean updateColumn(String tableName, String userName, String newStr, String col) {
         try {
-            String sql = "UPDATE" + tableName 
+            String sql = "UPDATE " + tableName 
                     + " SET " + col + " = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
 
             Statement stmt = conn.createStatement();
@@ -390,7 +390,7 @@ public class dataConnector {
 
     //USER-GOALS
     public String getUserGoals(String userName) {
-        String tableName = "User_Goals";
+        String tableName = "User_Profile";
         ResultSet result = null;
         String returnStr = "";
         try {
