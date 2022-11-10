@@ -396,7 +396,7 @@ public class dataConnector {
         try {
             Statement stmt = conn.createStatement();
             result = stmt.executeQuery("select * from " + tableName
-                    + " where Goals_ids= " + userName);
+                    + " where User_Name= \'" + userName+ "\'");
             while (result.next()) {
                 returnStr = result.getString("Goals_ids");
             }

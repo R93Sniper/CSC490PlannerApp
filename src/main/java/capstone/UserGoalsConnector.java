@@ -138,19 +138,32 @@ public class UserGoalsConnector extends dataConnector {
         }
     }
 
-    public void saveSizeGoal(String Neck_Target, String Arms_Target, String Waist_Target, String Hips_Target, String Legs_Target,
-             String goalType, String targetDate, String dateCreated) {
+    /*
+    * To use this method: pass in GoalObject refrence after setting it with 
+    * the proper string values by calling the .setSizeGoal on the GoalObject
+    */
+    public void saveSizeGoal(GoalObject goal) {
         int rowID = -1;
         try {
-            String sql = "INSERT INTO SizeGoals( insert column names here  ) VALUES"
-                    + "(?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO SizeGoals( Neck_Target, Arms_Target, Waist_Target, Hips_Target, Legs_Target"
+                    + ",  Neck_Initial, Arms_Initial, Waist_Initial, Hips_Initial, Legs_Initial ) VALUES"
+                    + "(?,?,?,?,?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, "temp");
+            preparedStatement.setString(1, goal.getNeckTarget());
+            preparedStatement.setString(2, goal.getArmsTarget());
+            preparedStatement.setString(3, goal.getWaistTarget());
+            preparedStatement.setString(4, goal.getHipsTarget());
+            preparedStatement.setString(5, goal.getLegsTarget());
+            preparedStatement.setString(6, goal.getNeckCurrent());
+            preparedStatement.setString(7, goal.getArmsCurrent());
+            preparedStatement.setString(8, goal.getWaistCurrent());
+            preparedStatement.setString(9, goal.getHipsCurrent());
+            preparedStatement.setString(10, goal.getLegsCurrent());
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted into Size Goals Table");
                 rowID = this.getLastID("SizeGoals");
-                this.userGoals(goalType, targetDate, "", dateCreated, Integer.toString(rowID), "0");
+                this.userGoals(goal.getGoalType(), goal.getDateTarget(), "", goal.getDateCreated(), Integer.toString(rowID), "0");
             } else {
                 System.out.println("FAILED to save Size Goal Card");
             }
@@ -162,23 +175,32 @@ public class UserGoalsConnector extends dataConnector {
     }
 
     /*
-    * 
-    * String BenchPress_Target, String DeadLift_Target, String Squats_Target,String LegPress_Target, String ShoulderPress_Target, 
-    * String BenchPress_current, String DeadLift_current, String Squats_current, String LegPress_current, String ShoulderPress_current,
-    * String goalType, String targetDate, String dateCreated
+    * To use this method: pass in GoalObject refrence after setting it with 
+    * the proper string values by calling the .setStrengthGoal on the GoalObject
     */
     public void saveStrengthGoal(GoalObject goal) {
         int rowID = -1;
         try {
-            String sql = "INSERT INTO StrengthGoals( insert column names here  ) VALUES"
-                    + "(?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO StrengthGoals(BenchPress_Target,Deadlift_Target,Squats_Target,"
+                    + "LegPress_Target,ShoulderPress_Target,"
+                    + "BenchPress_InitialMax, Deadlift_InitialMax, Squats_InitialMax, LegPress_InitialMax, ShoulderPress_InitialMax) VALUES"
+                    + "(?,?,?,?,?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, "temp");
+            preparedStatement.setString(1, goal.getBenchPressTargetMax());
+            preparedStatement.setString(2, goal.getDeadliftTargetMax());
+            preparedStatement.setString(3, goal.getSquatsTargetMax());
+            preparedStatement.setString(4, goal.getLegPressTargetMax());
+            preparedStatement.setString(5, goal.getShoulderPressTargetMax());
+            preparedStatement.setString(6, goal.getBenchPressCurrentMax());
+            preparedStatement.setString(7, goal.getDeadliftCurrentMax());
+            preparedStatement.setString(8, goal.getSquatsCurrentMax());
+            preparedStatement.setString(9, goal.getLegPressCurrentMax());
+            preparedStatement.setString(10, goal.getShoulderPressCurrentMax());
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted into Strength Goals Table");
-                rowID = this.getLastID("SizeGoals");
-                //this.userGoals(goalType, targetDate, "", dateCreated, "0", Integer.toString(rowID));
+                rowID = this.getLastID("StrengthGoals");
+                this.userGoals(goal.getGoalType(), goal.getDateTarget(), "", goal.getDateCreated(), "0", Integer.toString(rowID));
             } else {
                 System.out.println("FAILED to save Strength goals Card");
             }
@@ -190,23 +212,27 @@ public class UserGoalsConnector extends dataConnector {
     }
 
     /*
-    * To use this method need to pass in a GoalObject with that contain valid string values for 
-    * String Goal_Type, String Target_Date, String Target_Weight, String Date_Created
+    * To use this method: pass in GoalObject refrence after setting it with 
+    * the proper string values by calling the .setWeightGoal on the GoalObject
     */
     public void saveWeightGoal(GoalObject goal) {
-
         this.userGoals(goal.getGoalType(), goal.getDateTarget(), goal.getWeightTarget(), goal.getDateCreated(), "0", "0");
-
     }
 
     public static void main(String[] args) {
-        //dataConnector d = dataConnector.getInstance();
+        dataConnector d = dataConnector.getInstance();
         
-        dataConnector dc = UserGoalsConnector.getInstance();
+        UserGoalsConnector dc = new UserGoalsConnector();
        
         UserProfileModel usr = UserProfileModel.getInstance();
         usr.setUserName("johndoe");
-        
+        GoalObject goal = new GoalObject();
+        //goal.setSizeGoal("10","11", "12", "13", "14", "20", "21", "22", "23", "24", "SizeGoal", "1/3/2023", "11/9/2022");
+        //dc.saveSizeGoal(goal);
+         goal.setStrengthGoal("100","110", "120", "130", "140", "50", "51", "52", "53", "54", "StrengthGoal", "1/30/2023", "11/9/2022");
+         dc.saveStrengthGoal(goal);
+        //goal.setWeightGoal("Weight-Loss", "1/10/2023","175", "11/9/22");
+        //dc.saveWeightGoal(goal);
         //dc.saveWeightGoal("Weight-Gain", "1/20/2023", "175", "11/8/2022");
 
     }

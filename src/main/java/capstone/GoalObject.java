@@ -35,19 +35,67 @@ public class GoalObject {
     private String legsCurrent = "";
 
     private String benchPressTargetMax = "";
-    private String benchPressCurrentMx = "";
+    private String benchPressCurrentMax = "";
 
     private String deadliftTargetMax = "";
-    private String deadliftCurrentMx = "";
+    private String deadliftCurrentMax = "";
 
     private String squatsTargetMax = "";
-    private String squatsCurrentMx = "";
+    private String squatsCurrentMax = "";
 
     private String legPressTargetMax = "";
-    private String legPressCurrentMx = "";
-    
+    private String legPressCurrentMax = "";
+
     private String shoulderPressTargetMax = "";
-    private String shoulderPressCurrentMx = "";
+    private String shoulderPressCurrentMax = "";
+
+    public void setWeightGoal(String Goal_Type, String Target_Date, String Target_Weight, String Date_Created) {
+        goalType = Goal_Type;
+        dateTarget = Target_Date;
+        weightTarget = Target_Weight;
+        dateCreated = Date_Created;
+    }
+
+    public void setSizeGoal(String Neck_Target, String Arms_Target, String Waist_Target, String Hips_Target, String Legs_Target,
+            String neckInitial, String armsInitial, String waistInitial, String hipsInitial, String legsInitial,
+            String goalType, String targetDate, String dateCreated) {
+        
+        neckTarget = Neck_Target;
+        neckCurrent = neckInitial;
+        armsTarget = Arms_Target;
+        armsCurrent = armsInitial;
+        waistTarget = Waist_Target;
+        waistCurrent = waistInitial;
+        hipsTarget = Hips_Target;
+        hipsCurrent = hipsInitial;
+        legsTarget = Legs_Target;
+        legsCurrent = legsInitial;
+        this.goalType = goalType;
+        this.dateTarget = targetDate;
+        this.dateCreated = dateCreated;
+    }
+
+    public void setStrengthGoal(String BenchPress_Target, String DeadLift_Target, String Squats_Target, String LegPress_Target, String ShoulderPress_Target,
+            String BenchPress_current, String DeadLift_current, String Squats_current, String LegPress_current, String ShoulderPress_current,
+            String goalType, String targetDate, String dateCreated) {
+        this.goalType = goalType;
+        this.dateTarget = targetDate;
+        this.dateCreated = dateCreated;
+
+        benchPressTargetMax = BenchPress_Target;
+        benchPressCurrentMax = BenchPress_current;
+
+        deadliftTargetMax = DeadLift_Target;
+        deadliftCurrentMax = DeadLift_current;
+        squatsTargetMax = Squats_Target;
+        squatsCurrentMax = Squats_current;
+
+        legPressTargetMax = LegPress_Target;
+        legPressCurrentMax = LegPress_current;
+        shoulderPressTargetMax = ShoulderPress_Target;
+        shoulderPressCurrentMax = ShoulderPress_current;
+
+    }
 
     public String getGoalType() {
         return goalType;
@@ -185,12 +233,12 @@ public class GoalObject {
         this.benchPressTargetMax = benchPressTargetMax;
     }
 
-    public String getBenchPressCurrentMx() {
-        return benchPressCurrentMx;
+    public String getBenchPressCurrentMax() {
+        return benchPressCurrentMax;
     }
 
-    public void setBenchPressCurrentMx(String benchPressCurrentMx) {
-        this.benchPressCurrentMx = benchPressCurrentMx;
+    public void setBenchPressCurrentMax(String benchPressCurrentMx) {
+        this.benchPressCurrentMax = benchPressCurrentMx;
     }
 
     public String getDeadliftTargetMax() {
@@ -201,12 +249,12 @@ public class GoalObject {
         this.deadliftTargetMax = deadliftTargetMax;
     }
 
-    public String getDeadliftCurrentMx() {
-        return deadliftCurrentMx;
+    public String getDeadliftCurrentMax() {
+        return deadliftCurrentMax;
     }
 
     public void setDeadliftCurrentMx(String deadliftCurrentMx) {
-        this.deadliftCurrentMx = deadliftCurrentMx;
+        this.deadliftCurrentMax = deadliftCurrentMx;
     }
 
     public String getSquatsTargetMax() {
@@ -217,12 +265,12 @@ public class GoalObject {
         this.squatsTargetMax = squatsTargetMax;
     }
 
-    public String getSquatsCurrentMx() {
-        return squatsCurrentMx;
+    public String getSquatsCurrentMax() {
+        return squatsCurrentMax;
     }
 
-    public void setSquatsCurrentMx(String squatsCurrentMx) {
-        this.squatsCurrentMx = squatsCurrentMx;
+    public void setSquatsCurrentMax(String squatsCurrentMx) {
+        this.squatsCurrentMax = squatsCurrentMx;
     }
 
     public String getLegPressTargetMax() {
@@ -233,12 +281,12 @@ public class GoalObject {
         this.legPressTargetMax = legPressTargetMax;
     }
 
-    public String getLegPressCurrentMx() {
-        return legPressCurrentMx;
+    public String getLegPressCurrentMax() {
+        return legPressCurrentMax;
     }
 
-    public void setLegPressCurrentMx(String legPressCurrentMx) {
-        this.legPressCurrentMx = legPressCurrentMx;
+    public void setLegPressCurrentMax(String legPressCurrentMx) {
+        this.legPressCurrentMax = legPressCurrentMx;
     }
 
     public String getShoulderPressTargetMax() {
@@ -249,12 +297,12 @@ public class GoalObject {
         this.shoulderPressTargetMax = shoulderPressTargetMax;
     }
 
-    public String getShoulderPressCurrentMx() {
-        return shoulderPressCurrentMx;
+    public String getShoulderPressCurrentMax() {
+        return shoulderPressCurrentMax;
     }
 
-    public void setShoulderPressCurrentMx(String shoulderPressCurrentMx) {
-        this.shoulderPressCurrentMx = shoulderPressCurrentMx;
+    public void setShoulderPressCurrentMax(String shoulderPressCurrentMx) {
+        this.shoulderPressCurrentMax = shoulderPressCurrentMx;
     }
 
 }
