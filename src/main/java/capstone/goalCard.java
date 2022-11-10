@@ -12,11 +12,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Optional;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -26,7 +29,7 @@ import javafx.scene.layout.AnchorPane;
 public class goalCard {
 
     @FXML
-    private AnchorPane weightA, sizeA, strengthA;
+    private AnchorPane main, weightA, sizeA, strengthA;
     @FXML
     private Label tdLabel, L2;
     @FXML
@@ -38,37 +41,8 @@ public class goalCard {
     private TextField targetTF, currentTF, armsTF, armsg, waistTF, waistg, hipsTF, hipsg, neckTF, neckg, legsTF, legsg, benchTF, benchg, deadliftTF, deadliftg, squatsTF,
             squatsg, legpressTF, legpressg, spressTF, spressg;
 
-    //Planner DB
-    protected Connection conn;
-    protected PreparedStatement preparedStatement;
-
-    private static dataConnector instance = null;
-    private final String accessConnStr = "jdbc:ucanaccess://.//SeniorProjectDB.accdb";
-    private final String connectionStr = "jdbc:sqlserver://fitnessappserver.database.windows.net:1433;"
-            + "database=FitnessAppDB;"
-            + "user=alvaj29@fitnessappserver;"
-            + "password=Seniorproject1;"
-            + "encrypt=true;"
-            + "trustServerCertificate=false;"
-            + "hostNameInCertificate=*.database.windows.net;"
-            + "loginTimeout=30;";
-
-    protected goalCard() {
-        getConnectionDB();
-    }
-
-    private void getConnectionDB() {
-        try {
-            conn = DriverManager.getConnection(accessConnStr);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    public void closeConnectionDB() throws SQLException {
-        conn.close();
-    }
+    private TextInputDialog d = new TextInputDialog();
+    private TextInputDialog e = new TextInputDialog();
 
     @FXML
     private void goBack() throws IOException {
@@ -181,6 +155,7 @@ public class goalCard {
 
     // Wishing to gain
     private void runGains() {
+        notEmpty();
         int g1 = Integer.parseInt(currentTF.getText());
         int g2 = Integer.parseInt(targetTF.getText());
         compareValues(g1, g2);
@@ -232,7 +207,7 @@ public class goalCard {
 
         LocalDate tDate = targetDate.getValue();
         // Compare values checks if any one is zero, if not then it gets whether its dec or inc
-        saveSizeGoal(n2, a2, w2, h2, l2, tDate);
+        saveSizeGoal(n1, n2, a1, a2, w1, w2, h1, h2, l1, l2, tDate);
     }
 
     private void runStrength() {
@@ -258,12 +233,13 @@ public class goalCard {
         compareValues(s9, s10);
         // Look into compareValues... we need both fields to be filled but if they aren't and one is then perhaps set those fields to 0?
         LocalDate tDate = targetDate.getValue();
-        
-        saveStrengthGoal(s2, s4, s6, s8, s10, tDate);
+
+        saveStrengthGoal(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, tDate);
 
     }
 
     private void compareValues(int x, int y) {
+        d.setTitle("Input required fields..");
         //See if current is bigger or target is bigger..
         if (weightRB.isSelected()) {
             // Check if it's empty
@@ -304,7 +280,7 @@ public class goalCard {
                         return;
                     } else if (x == y) {
                         System.out.println("CHECKS OUT!, maintain will progress...");
-                       
+
                     }
                 }
 
@@ -320,7 +296,19 @@ public class goalCard {
                 }
             } else if (x == 0 && y != 0 || x != 0 && y == 0) {
                 System.out.println("Either of these fields cannot be empty.. ");
-                // Pop up to let user change it or remake the field??????? UPDATE THIS..........
+                if(x == 0) {
+                    // Do this if x is 0
+                    d.setHeaderText("ERROR: Current can't be 0");
+                    d.setContentText("Current: ");
+                    Optional<String> result = d.showAndWait();
+                    result.ifPresent(current -> {
+                        currentTF.setText(current);
+                       System.out.println("Current result is saved to currentTF");
+                    }); // LEFT OFF HERE .. DEALING WITH NULLS WHICH IS FINISHED NOW DEAL WITH 0's ...
+                }
+                else if (y == 0){
+                    // Do this if y is 0
+                }
             }
 
         } else if (strengthRB.isSelected()) {
@@ -348,18 +336,126 @@ public class goalCard {
         System.out.println("Gain size");
     }
 
+    private void notEmpty() {
+        d.setTitle("Input required field/s..");
+        // This methods checks the string to make sure it's not null... NULL ONLY, 0 is in later methods
+        if (weightRB.isSelected()) {
+            if (rbGain.isSelected() || sizeRB.isSelected() || strengthRB.isSelected()) {
+                if (currentTF.getText().isEmpty() && targetTF.getText().isEmpty()) {
+                    System.out.println("Please enter both fields...");
+                    d.setHeaderText("Enter for current weight");
+                    d.setContentText("Weight: ");
+                    Optional<String> result = d.showAndWait();
+                    result.ifPresent(weight -> {
+                        currentTF.setText(weight);
+                    });
+                    d.setHeaderText("Enter for target weight");
+                    d.setContentText("Target: ");
+                    Optional<String> r = d.showAndWait();
+                    r.ifPresent(target -> {
+                        targetTF.setText(target);
+                    });
+                    System.out.println("This should save your responses");
+                } else if (currentTF.getText().isEmpty() && !targetTF.getText().isEmpty()) {
+                    System.out.println("Please enter for current");
+                    d.setHeaderText("Enter for current weight");
+                    d.setContentText("Weight: ");
+                    Optional<String> result = d.showAndWait();
+                    result.ifPresent(current -> {
+                        currentTF.setText(current);
+                    });
+                    System.out.println("This should save current");
+                } else if (!currentTF.getText().isEmpty() && targetTF.getText().isEmpty()) {
+                    System.out.println("Please enter input for target");
+                    d.setHeaderText("Enter for target weight");
+                    d.setContentText("Target: ");
+                    Optional<String> result = d.showAndWait();
+                    result.ifPresent(target -> {
+                        targetTF.setText(target);
+
+                    });
+                    System.out.println("Target should be saved..");
+                }
+            }
+
+        } else if (sizeRB.isSelected()) {
+                // Check empties for size
+        } else if (strengthRB.isSelected()) {
+                // Check empties for strength
+        }
+    }
 
     private void saveWeightGoal(int x, int y, LocalDate d) {
         // This should save all data from specific weight goal card to DB
+        System.out.println("savedWeight Successful!");
     }
 
-    private void saveSizeGoal(int n2, int a2, int w2, int h2, int l2, LocalDate d) {
+    private void saveSizeGoal(int n1, int n2, int a1, int a2, int w1, int w2, int h1, int h2, int l1, int l2, LocalDate d) {
         // This should save all data from size current and targets to DB
         // Shoudn't we save current as well??...
+        System.out.println("savedSize Successful!");
     }
 
-    private void saveStrengthGoal(int s2, int s4, int s6, int s8, int s10, LocalDate tDate) {
+    private void saveStrengthGoal(int s1, int s2, int s3, int s4, int s5, int s6, int s7, int s8, int s9, int s10, LocalDate tDate) {
         // This should save data to DB
         //Shouldn't we save current as well?.... 
+        System.out.println("savedStrength Successful!");
+    }
+
+    @FXML
+    private void resetButton() {
+        // Reset everything
+        weightA.setDisable(true);
+        weightA.setVisible(false);
+
+        sizeA.setDisable(true);
+        sizeA.setVisible(false);
+
+        strengthA.setDisable(true);
+        strengthA.setVisible(false);
+
+        targetDate.getEditor().clear();
+        targetDate.setValue(null);
+
+        weightRB.setSelected(false);
+        sizeRB.setSelected(false);
+        strengthRB.setSelected(false);
+
+        for (Node node : weightA.getChildren()) {
+
+            if (node instanceof TextField) {
+                // Clear textfield
+                ((TextField) node).setText("");
+                //((TextField)node).getText().
+            } else if (node instanceof RadioButton) {
+                // unselect nodes
+                ((RadioButton) node).setSelected(false);
+            }
+        }
+        System.out.println("cleaning up nodes from weightA");
+        for (Node node : sizeA.getChildren()) {
+
+            if (node instanceof TextField) {
+                // Clear textfield
+                ((TextField) node).setText("");
+                //((TextField)node).getText().
+            } else if (node instanceof RadioButton) {
+                // unselect nodes
+                ((RadioButton) node).setSelected(false);
+            }
+        }
+        System.out.println("cleaning up nodes from sizeA");
+        for (Node node : strengthA.getChildren()) {
+
+            if (node instanceof TextField) {
+                // Clear textfield
+                ((TextField) node).setText("");
+                //((TextField)node).getText().
+            } else if (node instanceof RadioButton) {
+                // unselect nodes
+                ((RadioButton) node).setSelected(false);
+            }
+        }
+        System.out.println("cleaning up nodes from strengthA");
     }
 }
