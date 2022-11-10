@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="main" prefHeight="501.0" prefWidth="501.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.goalCard">
+   <children>
+      <Label layoutX="185.0" layoutY="14.0" text="Goals">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Button layoutX="399.0" layoutY="442.0" mnemonicParsing="false" onAction="#whichToSave" prefHeight="34.0" prefWidth="81.0" text="Save" />
+      <Label layoutX="14.0" layoutY="99.0" />
+      <ToolBar layoutX="92.0" layoutY="68.0" prefHeight="40.0" prefWidth="288.0">
+         <items>
+            <RadioButton fx:id="weightRB" mnemonicParsing="false" onAction="#chosenWeight" text="Weight">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="sizeRB" mnemonicParsing="false" onAction="#chosenSize" text="Size">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="strengthRB" mnemonicParsing="false" onAction="#chosenStrength" text="Strength">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </RadioButton>
+         </items>
+      </ToolBar>
+      <AnchorPane fx:id="weightA" disable="true" layoutX="87.0" layoutY="110.0" prefHeight="379.0" prefWidth="277.0" visible="false">
+         <children>
+            <TextField fx:id="targetTF" layoutX="32.0" layoutY="131.0" prefHeight="34.0" prefWidth="213.0" promptText="Enter target weight" />
+            <TextField fx:id="currentTF" layoutX="32.0" layoutY="67.0" prefHeight="34.0" prefWidth="213.0" promptText="Enter current weight" />
+            <RadioButton fx:id="rbGain" layoutX="32.0" layoutY="28.0" mnemonicParsing="false" text="Gain" />
+            <RadioButton fx:id="rbLose" layoutX="93.0" layoutY="28.0" mnemonicParsing="false" text="Lose" />
+            <RadioButton fx:id="rbMain" layoutX="150.0" layoutY="28.0" mnemonicParsing="false" text="Maintain" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="sizeA" disable="true" layoutX="92.0" layoutY="108.0" prefHeight="368.0" prefWidth="288.0" visible="false">
+         <children>
+            <ToolBar layoutX="6.0" layoutY="58.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="neckTF" prefHeight="34.0" prefWidth="115.0" promptText="neck" />
+                  <TextField fx:id="neckg" prefHeight="34.0" prefWidth="122.0" promptText="neck" />
+               </items>
+            </ToolBar>
+            <Label layoutX="14.0" layoutY="31.0" text="Current ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="188.0" layoutY="31.0" text="Target">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ToolBar layoutX="6.0" layoutY="102.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="armsTF" prefHeight="34.0" prefWidth="133.0" promptText="arms" />
+                  <TextField fx:id="armsg" prefHeight="34.0" prefWidth="102.0" promptText="arms" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="6.0" layoutY="146.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="waistTF" prefHeight="34.0" prefWidth="135.0" promptText="waist" />
+                  <TextField fx:id="waistg" prefHeight="34.0" prefWidth="102.0" promptText="waist" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="6.0" layoutY="190.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="hipsTF" prefHeight="34.0" prefWidth="134.0" promptText="hips" />
+                  <TextField fx:id="hipsg" prefHeight="34.0" prefWidth="102.0" promptText="hips" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="6.0" layoutY="234.0" prefHeight="40.0" prefWidth="277.0">
+               <items>
+                  <TextField fx:id="legsTF" prefHeight="34.0" prefWidth="129.0" promptText="legs" />
+                  <TextField fx:id="legsg" prefHeight="34.0" prefWidth="102.0" promptText="legs" />
+               </items>
+            </ToolBar>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="strengthA" disable="true" layoutX="92.0" layoutY="110.0" prefHeight="379.0" prefWidth="288.0" visible="false">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Current Max">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="136.0" layoutY="14.0" text="Target Max Goal">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ToolBar layoutX="8.0" layoutY="47.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="benchTF" prefHeight="34.0" prefWidth="122.0" promptText="Bench press" />
+                  <TextField fx:id="benchg" prefHeight="34.0" prefWidth="122.0" promptText="bench press goal" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="3.0" layoutY="91.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="spressTF" prefHeight="34.0" prefWidth="117.0" promptText="Shoulder press" />
+                  <TextField fx:id="spressg" prefHeight="34.0" prefWidth="129.0" promptText="shoulder press goal" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="3.0" layoutY="136.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="deadliftTF" prefHeight="34.0" prefWidth="126.0" promptText="Deadlift " />
+                  <TextField fx:id="deadliftg" prefHeight="34.0" prefWidth="117.0" promptText="deadlift goal" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="3.0" layoutY="180.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="squatsTF" prefHeight="34.0" prefWidth="129.0" promptText="Squats" />
+                  <TextField fx:id="squatsg" prefHeight="34.0" prefWidth="120.0" promptText="squats goal" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="3.0" layoutY="224.0" prefHeight="40.0" prefWidth="267.0">
+               <items>
+                  <TextField fx:id="legpressTF" prefHeight="34.0" prefWidth="129.0" promptText="Leg press" />
+                  <TextField fx:id="legpressg" prefHeight="34.0" prefWidth="122.0" promptText="leg press goal" />
+               </items>
+            </ToolBar>
+         </children>
+      </AnchorPane>
+      <Button layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#goBack" prefHeight="34.0" prefWidth="81.0" text="Back" />
+      <DatePicker fx:id="targetDate" disable="true" layoutX="320.0" layoutY="387.0" prefHeight="27.0" prefWidth="174.0" visible="false" />
+      <Label fx:id="tdLabel" layoutX="399.0" layoutY="370.0" text="Target Date" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="L2" disable="true" layoutX="386.0" layoutY="93.0" prefHeight="34.0" prefWidth="108.0" text="Unit of measure:" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="usRB" disable="true" layoutX="391.0" layoutY="155.0" mnemonicParsing="false" text="US" visible="false" />
+      <RadioButton fx:id="metricRB" disable="true" layoutX="391.0" layoutY="127.0" mnemonicParsing="false" text="Metric" visible="false" />
+      <Button layoutX="14.0" layoutY="393.0" mnemonicParsing="false" onAction="#resetButton" prefHeight="34.0" prefWidth="81.0" text="Reset" />
+   </children>
+</AnchorPane>

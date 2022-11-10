@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.UserProfileController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.UserProfileController">
    <center>
       <HBox prefHeight="349.0" prefWidth="746.0" BorderPane.alignment="CENTER">
          <children>
@@ -124,7 +124,7 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </Label>
-                        <ChoiceBox fx:id="choiceBoxMedical" prefHeight="30.0" prefWidth="115.0" />
+                        <Button mnemonicParsing="false" onAction="#OpenMedConditions" prefHeight="25.0" prefWidth="254.0" text="Add Medical Conditions" />
                      </children>
                   </HBox>
                </children>

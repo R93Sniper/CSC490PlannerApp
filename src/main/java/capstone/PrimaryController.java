@@ -35,5 +35,10 @@ public class PrimaryController {
        // App.setRoot("userProfile");
     }
     
+    @FXML
+    private void onViewExerciseLookUp() throws IOException {
+     App.setRoot("ExerciseLookUp");
+    }
+    
 }
 

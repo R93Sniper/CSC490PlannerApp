@@ -25,7 +25,8 @@ public class UserProfileModel {
     private String height="";
     private String birthDate="";
     private int progressCardId = 0;
-    private int dailyIntakeId = 0;
+    private static int dailyIntakeId = 0;
+    private static int dailyExerciseId = 0;
 
 
     public static UserProfileModel getInstance() {
@@ -68,6 +69,7 @@ public class UserProfileModel {
     }
     public int getProgressCardId(){ return progressCardId;}
     public int getDailyIntakeId(){ return dailyIntakeId;}
+     public int getDailyExerciseId(){ return dailyExerciseId;}
     
     public void setFullName(String name) {
         fullName = name;
@@ -102,6 +104,7 @@ public class UserProfileModel {
     }
     public void setProgressCardId(int id){progressCardId = id;}
     public void setDailyIntakeId(int id){dailyIntakeId = id;}
+    public void setDailyExerciseId(int id){dailyExerciseId = id;}
     public void resetModel() {
         instance = null;
     }

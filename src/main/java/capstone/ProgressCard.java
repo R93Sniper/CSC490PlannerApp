@@ -121,18 +121,20 @@ public class ProgressCard {
             //if id returned is -1, then it does not exist yet and need to add new row in table
             if (id == -1) {
                 int intakeID = usr.getDailyIntakeId();
-                if (intakeID == 0) {
-                    pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), 0, 0, "0", "0");
-                } else {
-                    pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), intakeID, 0, "0", "0");
-                }
+                int exID = usr.getDailyExerciseId();
+                pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), intakeID, exID, "0", "0");
+
                 id = pcTable.getLastRow("Progress_Cards");
+                makeAlert("Succefuly created a new Progress Card"
+                        + "\nAnd Saved it to the Database!");
             } else {// row exists in table, so just need to update fields
                 pcTable.updateWeight(id, currentWeight.getText());
                 pcTable.updateDailyIntakeID(id, usr.getDailyIntakeId());
-                
+                pcTable.updateDailyExerciseID(id, usr.getDailyExerciseId());
+                makeAlert("Successfuly Updated Today's Progress Card");
             }
             usr.setProgressCardId(id);
+            
         }
         
     }
@@ -158,7 +160,7 @@ public class ProgressCard {
     
     @FXML
     public void goToExercise() throws IOException {
-        makeAlert("Error feature not yet implemented");
-        //App.setRoot("ExerciseCard");
+       // makeAlert("Error feature not yet implemented");
+        App.setRoot("ExerciseCard");
     }
 }

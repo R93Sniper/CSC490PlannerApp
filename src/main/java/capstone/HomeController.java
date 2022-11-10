@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -22,7 +23,7 @@ import javafx.fxml.Initializable;
  *
  * @author jesus
  */
-public class HomeController implements Initializable {
+public class HomeController{
     private DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private UserProfileModel instanceUser = UserProfileModel.getInstance();
     private dataConnector userDB = dataConnector.getInstance();
@@ -31,8 +32,8 @@ public class HomeController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    @FXML
+    public void initialize() {
         loadProfile();
         loadProgressCardData();
         // TODO
@@ -55,8 +56,10 @@ public class HomeController implements Initializable {
     private void onCalcWater() throws IOException {
         App.setRoot("Calculators");
     }
-    
     @FXML
+    private void setGoals() throws IOException {
+        App.setRoot("goals");
+    }
     private void loadProfile() {
         //returns resultset matching the given username
         
@@ -108,19 +111,36 @@ public class HomeController implements Initializable {
         App.setRoot("progresscard");
     }
     
-    @FXML
+      @FXML
+    private void onExerciseLookup() throws IOException {
+        App.setRoot("ExerciseLookUp");
+    }
+    
+    
     private void loadProgressCardData() {
         ProgressCardConnector pc = new ProgressCardConnector();
         LocalDate now = LocalDate.now();
         int progressID = pc.getProgressID(instanceUser.getUserName(), dt.format(now));
+        System.out.println("Progess Card ID ="+progressID);
         if (progressID != -1) {
             instanceUser.setProgressCardId(progressID);
             int intakeID = pc.getDailyIntakeID(progressID);
+            int exerciseID = pc.getDailyExerciseID(progressID);
+            System.out.println("intake Card ID ="+progressID);
+            System.out.println("exercise Card ID ="+exerciseID);
             if (intakeID != -1) {
                 instanceUser.setDailyIntakeId(intakeID);
             }
+            if(exerciseID != -1){
+                instanceUser.setDailyExerciseId(exerciseID);
+            }
         }
         
+    }
+
+    @FXML
+    private void goToMed(ActionEvent event) throws IOException {
+        App.setRoot("MedicalConditions");
     }
     
 }

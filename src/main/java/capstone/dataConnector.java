@@ -33,9 +33,7 @@ public class dataConnector {
     protected Connection conn;
     protected PreparedStatement preparedStatement;
 
-    //ProgressCard DB
-    public PreparedStatement preparedStatement1;
-    public Connection conn1 = null;
+
 
     /**
      * getConnectionDB: retrieve data from the database using a JDBC connector.
@@ -109,7 +107,7 @@ public class dataConnector {
      * @return
      */
     public boolean existingUser(String userName) {
-       
+
         String tableName = "User_Profile";
         String uName = null, uPswd = null;
         try {
@@ -228,7 +226,7 @@ public class dataConnector {
             Statement stmt = conn.createStatement();
             result = stmt.executeQuery("select * from " + tableName
                     + " where User_Name=\'" + userName + "\'");
-
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -238,7 +236,7 @@ public class dataConnector {
 
     public boolean updateColumn(String tableName, String userName, String newStr, String col) {
         try {
-            String sql = "UPDATE " + tableName
+            String sql = "UPDATE " + tableName 
                     + " SET " + col + " = \'" + newStr + "\' WHERE User_Name=\'" + userName + "\'";
 
             Statement stmt = conn.createStatement();
@@ -262,11 +260,9 @@ public class dataConnector {
             while (result.next()) {
                 returnStr = result.getString("SecQ_desc");
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
         return returnStr;
     }
 
@@ -285,7 +281,6 @@ public class dataConnector {
     }
 
     public boolean updateUserSecQID(String userName, int qId, String col) {
-
         //String column = col.toString();
         try {
             String sql = "UPDATE " + "User_Profile"
@@ -297,7 +292,6 @@ public class dataConnector {
         } catch (SQLException ex) {
             Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return false;
     }
 
@@ -343,7 +337,156 @@ public class dataConnector {
         }
         return lastRowNum;
     }
+    
+       public int getLastID(String tableName){
+        ResultSet result = null;
+        int idFound = -1;
+        try {
+           
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("SELECT TOP 1 * FROM " +tableName + " ORDER BY ID DESC");
+            while(result.next()){
+            idFound = result.getInt("ID");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+        return idFound;
+
+    }
+
+    //MEDICAL-CONDITION
+    public String getMedicalCondition(String userName) {
+        String tableName = "Medical_Condition";
+        ResultSet result = null;
+        String returnStr = "";
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where Medical_Conditions_ids= " + userName);
+            while (result.next()) {
+                returnStr = result.getString("Medical_Conditions_ids");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return returnStr;
+    }
+
+    public boolean updateUserMedicalCOnditionID(String userName, int medicalId, String col) {
+        try {
+            String sql = "UPDATE " + "User_Profile"
+                    + " SET " + col + " = " + medicalId + " WHERE User_Name=\'" + userName + "\'";
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    //USER-GOALS
+    public String getUserGoals(String userName) {
+        String tableName = "User_Profile";
+        ResultSet result = null;
+        String returnStr = "";
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where User_Name= \'" + userName+ "\'");
+            while (result.next()) {
+                returnStr = result.getString("Goals_ids");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return returnStr;
+    }
+
+    public boolean updateUserGoalsID(String userName, String goalIds, String col) {
+        try {
+            String sql = "UPDATE " + "User_Goals"
+                    + " SET " + col + " = \'" + goalIds+ "\' WHERE User_Name=\'" + userName + "\'";
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(dataConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    
+     public ResultSet getAllMedicalConditions(){
+        
+        ResultSet result = null;
+        
+        try{
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("Select * from " + "Medical_Condition");
+        }catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return result;
+    }
+     
+     public String getMedConFromProfile(String userName){
+         
+         String str = "";
+         
+         String SQL = "SELECT MedicalCondition_ids FROM User_Profile WHERE User_Name = \'" + userName + "\'";
+         
+         ResultSet r = null;
+         
+         try{
+             Statement stmt = conn.createStatement();
+             r = stmt.executeQuery(SQL);
+             
+             while(r.next()){
+                 str = r.getString("MedicalCondition_ids");
+             }
+             
+         } catch (SQLException e){
+             e.printStackTrace();
+         }
+         
+         
+         return str;
+     }
+     
+     /**
+      * method to write the medical conditions to the database
+      * @param id
+      * @return 
+      */
+     public boolean writeMedicalConditions(String Conditions, String userName){
+         
+         try{
+             String sql = "UPDATE User_Profile SET MedicalCondition_ids = \'" + Conditions + "\' Where User_Name = \'" + userName + "\'";
+             Statement stmt = conn.createStatement();
+             stmt.executeUpdate(sql);
+             return true;
+             
+             
+         }catch(SQLException e){
+             e.printStackTrace();
+         }
+         
+         
+         
+         return false;
+     }
+     
+     public static void main(String[] args){
+     
+     dataConnector dc =dataConnector.getInstance();
+     System.out.println("Last ID = "+dc.getLastID("User_Profile"));
+     }
+     
+     
 }
 
 enum DB_Col {
@@ -367,6 +510,6 @@ enum DB_Col {
     Weight,
     BodyMeasurement,
     Intake_ID,
-    Excercise_ID
-
+    Excercise_ID,
+    MedicalCondition_ID
 }

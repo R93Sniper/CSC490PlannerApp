@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -26,16 +27,15 @@ import javafx.scene.control.TextField;
  * @author jesus
  */
 public class DailyIntakeController {
-
     @FXML
     private ListView listView;
     @FXML
     private Label labelCalories;
     @FXML
     private Label labelCarbs;
-    @FXML
+   @FXML
     private Label labelFats;
-    @FXML
+    @FXML 
     private Label labelProtein;
     @FXML
     private TextField tfCal;
@@ -48,12 +48,14 @@ public class DailyIntakeController {
     @FXML
     private TextField tfName;
     @FXML
+    private TextField tfFoodItem;
+    @FXML
     private RadioButton rbFoodApi;
     @FXML
     private RadioButton rbUserInput;
     @FXML
     private Button btnAdd;
-        @FXML
+    @FXML
     private Button btnAdd2;
     @FXML
     private Label labeltext;
@@ -65,8 +67,6 @@ public class DailyIntakeController {
     DailyIntakeConnector intakeDC = new DailyIntakeConnector();
     ArrayList<Integer> foodLogIds = new ArrayList<>();
     ArrayList<FoodItem> itemsInListView = new ArrayList<>();
-    @FXML
-    private TextField tfFoodItem;
     private UserProfileModel usr = UserProfileModel.getInstance();
     private int dailyIntakeID = 0;
     private double total_Cals = 0;
@@ -152,7 +152,6 @@ public class DailyIntakeController {
         tfFoodItem.setText("");
 
     }
-
     @FXML
     public void loadItemList() {
         System.out.println("intake id = " + usr.getDailyIntakeId());
@@ -177,7 +176,6 @@ public class DailyIntakeController {
         }
 
     }
-
     @FXML
     public void loadTotalValues() {
         DecimalFormat df = new DecimalFormat("0.00");
@@ -186,7 +184,6 @@ public class DailyIntakeController {
         labelFats.setText(String.valueOf(df.format(total_Fats)));
         labelProtein.setText(String.valueOf(df.format(total_Protein)));
     }
-    
     @FXML
     public void onAddManualInput(){
         FoodItem item = new FoodItem();
@@ -218,7 +215,6 @@ public class DailyIntakeController {
             tfName.setText("");
             
     }
-    
     @FXML
     public void onUseAPIselected(){
     rbUserInput.setSelected(false);
@@ -235,7 +231,6 @@ public class DailyIntakeController {
     
     
     }
-    
     @FXML
     public void onUserInputselected(){
     rbFoodApi.setSelected(false);
@@ -251,7 +246,6 @@ public class DailyIntakeController {
     btnAdd2.setVisible(true);
     
     }
-    
     @FXML
     public void onClear(){
         //need to clear view without saving..

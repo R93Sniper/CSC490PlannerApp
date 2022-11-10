@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.HomeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.HomeController">
    <top>
       <Label text="My Fitness App" BorderPane.alignment="CENTER">
          <font>
@@ -21,6 +21,9 @@
             <Button mnemonicParsing="false" onAction="#onViewProfile" prefHeight="35.0" prefWidth="126.0" text="View Profile" />
             <Button layoutX="10.0" layoutY="45.0" mnemonicParsing="false" onAction="#onCalcWater" prefHeight="35.0" prefWidth="126.0" text="Calculator" />
             <Button mnemonicParsing="false" onAction="#goToPCard" prefHeight="35.0" prefWidth="126.0" text="Progress Card" />
+            <Button layoutX="10.0" layoutY="80.0" mnemonicParsing="false" onAction="#onExerciseLookup" prefHeight="35.0" prefWidth="126.0" text="Exercise LookUp" />
+            <Button mnemonicParsing="false" onAction="#setGoals" prefHeight="37.0" prefWidth="126.0" text="Goals" />
+            <Button mnemonicParsing="false" onAction="#goToMed" prefHeight="37.0" prefWidth="130.0" text="Medical Conditions" />
          </children>
          <BorderPane.margin>
             <Insets right="10.0" />

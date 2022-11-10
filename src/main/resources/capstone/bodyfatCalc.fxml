@@ -14,7 +14,7 @@
       <ToolBar layoutX="12.0" layoutY="134.0" prefHeight="35.0" prefWidth="353.0">
          <items>
             <Label text="Gender: " />
-            <RadioButton fx:id="rbMale" mnemonicParsing="false" text="Male" />
+            <RadioButton fx:id="rbMale" mnemonicParsing="false" onAction="#ifMale" text="Male" />
             <RadioButton fx:id="rbFemale" mnemonicParsing="false" onAction="#ifChoiceFemale" text="Female" />
          </items>
       </ToolBar>

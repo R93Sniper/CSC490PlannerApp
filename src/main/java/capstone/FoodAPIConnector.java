@@ -37,26 +37,7 @@ public class FoodAPIConnector {
     }
        
     public FoodAPIConnector(){
-        /*
-        FoodLogDataConnector con = new FoodLogDataConnector();
-        con.updateFoodLogData(2, "Protein", 7.2);
-        con.updateFoodLogData(2, "Serving_Size", 20.4);
-        
-        try {
-            FoodLogDataConnector log = new FoodLogDataConnector();
-            ResultSet result = log.getFoodLogRow(4);
-            String name = "";
-            while (result.next()) {
-                //id = result.getInt("ID");
-               name = result.getString("Food_Name");
-               System.out.println("name= "+name);
-            }
-           
-         } catch (SQLException ex) {
-            Logger.getLogger(FoodAPIConnector.class.getName()).log(Level.SEVERE, null, ex);
-        }
-*/
-    
+
     }
     
     

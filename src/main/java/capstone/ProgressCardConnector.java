@@ -11,14 +11,9 @@ import java.sql.Statement;
 
 /**
  *
- * @author jesus and simran
+ * @author jesus and Simranjit
  */
 public class ProgressCardConnector extends dataConnector {
-    
-    public static void main(String[] args){
-    ProgressCardConnector pc = new ProgressCardConnector();
-    
-    }
 
     public void userProgressCard(String userName, String dateOfCard, String weight, int intakeID,
             int excerciseID, String neckInches, String waistInches) {
@@ -156,6 +151,23 @@ public class ProgressCardConnector extends dataConnector {
         }
         return id;
     }
+    
+        public int getDailyExerciseID(int pID) {
+
+        String tableName = "Progress_Cards";
+        int id = -1;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + pID + " ;");
+
+            while (result.next()) {
+                id = result.getInt("Daily_Exercise_Id");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return id;
+    }
 
     public int getWeight(int id) {
 
@@ -173,7 +185,7 @@ public class ProgressCardConnector extends dataConnector {
         }
         return w;
     }
-    
+
     public void updateDailyIntakeID(int progressID, int intakeID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Intake_Id=? WHERE ID=?";
@@ -183,6 +195,20 @@ public class ProgressCardConnector extends dataConnector {
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row updated for Daily_Intake_Id in Progress_Card Table");
+            }
+        } catch (SQLException e) {
+        }
+    }
+    
+        public void updateDailyExerciseID(int progressID, int exID) {
+        try {
+            String sql = "UPDATE Progress_cards SET Daily_Exercise_Id=? WHERE ID=?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, exID);
+            preparedStatement.setInt(2, progressID);
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                System.out.println("Row updated for Daily_Exercise_Id in Progress_Card Table");
             }
         } catch (SQLException e) {
         }
