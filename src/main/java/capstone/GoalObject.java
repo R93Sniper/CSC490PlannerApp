@@ -14,6 +14,7 @@ public class GoalObject {
     private String goalType = "";
     private String dateTarget = "";
     private String dateCreated = "";
+    private String weightInitial = "";
 
     private String weightTarget = "";
     private String sizeGoalId = "0";
@@ -49,10 +50,11 @@ public class GoalObject {
     private String shoulderPressTargetMax = "";
     private String shoulderPressCurrentMax = "";
 
-    public void setWeightGoal(String Goal_Type, String Target_Date, String Target_Weight, String Date_Created) {
+    public void setWeightGoal(String Goal_Type, String initialWeight, String Target_Weight, String Target_Date, String Date_Created) {
         goalType = Goal_Type;
         dateTarget = Target_Date;
         weightTarget = Target_Weight;
+        weightInitial = initialWeight;
         dateCreated = Date_Created;
     }
 
@@ -303,6 +305,14 @@ public class GoalObject {
 
     public void setShoulderPressCurrentMax(String shoulderPressCurrentMx) {
         this.shoulderPressCurrentMax = shoulderPressCurrentMx;
+    }
+    
+    public String getWeightInitial() {
+        return weightInitial;
+    }
+
+    public void setWeightInitial(String weightInitial) {
+        this.weightInitial = weightInitial;
     }
 
 }

@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -43,6 +44,8 @@ public class goalCard {
 
     private TextInputDialog d = new TextInputDialog();
     private TextInputDialog e = new TextInputDialog();
+    private LocalDate todayDate = LocalDate.now();
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     @FXML
     private void goBack() throws IOException {
@@ -141,6 +144,7 @@ public class goalCard {
         }
     }
 
+    @FXML
     private void runWeight() {
         if (rbGain.isSelected()) {
             runGains();
@@ -154,6 +158,7 @@ public class goalCard {
     }
 
     // Wishing to gain
+    @FXML
     private void runGains() {
         notEmpty();
         int g1 = Integer.parseInt(currentTF.getText());
@@ -168,6 +173,7 @@ public class goalCard {
     }
 
     // Wishing to lose weight
+    @FXML
     private void runLoss() {
         int l1 = Integer.parseInt(currentTF.getText());
         int l2 = Integer.parseInt(targetTF.getText());
@@ -177,6 +183,7 @@ public class goalCard {
     }
 
     // Wishing to maintain weight
+    @FXML
     private void maintain() {
         // current and target must be the same
         int m1 = Integer.parseInt(currentTF.getText());
@@ -186,6 +193,7 @@ public class goalCard {
         saveWeightGoal(m1, m2, tDate); // SAVES TO DB
     }
 
+    @FXML
     private void runSize() {
         // Get my values, these are calculated regardless if all are picked but one must be
         int n1 = Integer.parseInt(neckTF.getText()); // Current neck
@@ -210,6 +218,7 @@ public class goalCard {
         saveSizeGoal(n1, n2, a1, a2, w1, w2, h1, h2, l1, l2, tDate);
     }
 
+    @FXML
     private void runStrength() {
         int s1 = Integer.parseInt(benchTF.getText());
         int s2 = Integer.parseInt(benchg.getText());
@@ -238,6 +247,7 @@ public class goalCard {
 
     }
 
+    @FXML
     private void compareValues(int x, int y) {
         d.setTitle("Input required fields..");
         //See if current is bigger or target is bigger..
@@ -296,17 +306,16 @@ public class goalCard {
                 }
             } else if (x == 0 && y != 0 || x != 0 && y == 0) {
                 System.out.println("Either of these fields cannot be empty.. ");
-                if(x == 0) {
+                if (x == 0) {
                     // Do this if x is 0
                     d.setHeaderText("ERROR: Current can't be 0");
                     d.setContentText("Current: ");
                     Optional<String> result = d.showAndWait();
                     result.ifPresent(current -> {
                         currentTF.setText(current);
-                       System.out.println("Current result is saved to currentTF");
+                        System.out.println("Current result is saved to currentTF");
                     }); // LEFT OFF HERE .. DEALING WITH NULLS WHICH IS FINISHED NOW DEAL WITH 0's ...
-                }
-                else if (y == 0){
+                } else if (y == 0) {
                     // Do this if y is 0
                 }
             }
@@ -327,15 +336,15 @@ public class goalCard {
 
         }
     }
-
+    @FXML
     private void loseSize() {
         System.out.println("lose size");
     }
-
+    @FXML
     private void gainSize() {
         System.out.println("Gain size");
     }
-
+    @FXML
     private void notEmpty() {
         d.setTitle("Input required field/s..");
         // This methods checks the string to make sure it's not null... NULL ONLY, 0 is in later methods
@@ -379,26 +388,61 @@ public class goalCard {
             }
 
         } else if (sizeRB.isSelected()) {
-                // Check empties for size
+            // Check empties for size
         } else if (strengthRB.isSelected()) {
-                // Check empties for strength
+            // Check empties for strength
         }
     }
 
-    private void saveWeightGoal(int x, int y, LocalDate d) {
+    @FXML
+    private void saveWeightGoal(int x, int y, LocalDate tDate) {
         // This should save all data from specific weight goal card to DB
+        String currentWeight = String.valueOf(x);
+        String targetWeight = String.valueOf(y);
+        String goalType = "";
+        if (weightRB.isSelected()) {
+            if (y > x) {
+                goalType = "Weight-Gain";
+            }
+            if (y < x) {
+                goalType = "Weight-Loss";
+            }
+            if (y == x) {
+                goalType = "Weight-Maintain";
+            }
+        }
+        GoalObject goal = new GoalObject();
+        goal.setWeightGoal(goalType, currentWeight, targetWeight, dateFormatter.format(tDate), dateFormatter.format(todayDate));
+        UserGoalsConnector connector = new UserGoalsConnector();
+        connector.saveWeightGoal(goal);
         System.out.println("savedWeight Successful!");
     }
-
+    @FXML
     private void saveSizeGoal(int n1, int n2, int a1, int a2, int w1, int w2, int h1, int h2, int l1, int l2, LocalDate d) {
         // This should save all data from size current and targets to DB
         // Shoudn't we save current as well??...
+        
+        GoalObject goal = new GoalObject();
+        goal.setSizeGoal(String.valueOf(n2), String.valueOf(a2), String.valueOf(w2), String.valueOf(h2), String.valueOf(l2)
+                , String.valueOf(n1), String.valueOf(a1), String.valueOf(w1), String.valueOf(h1), String.valueOf(l1), "Size",
+                dateFormatter.format(d), dateFormatter.format(todayDate));
+        
+        UserGoalsConnector connector = new UserGoalsConnector();
+        connector.saveSizeGoal(goal);
         System.out.println("savedSize Successful!");
     }
 
+    @FXML
     private void saveStrengthGoal(int s1, int s2, int s3, int s4, int s5, int s6, int s7, int s8, int s9, int s10, LocalDate tDate) {
         // This should save data to DB
         //Shouldn't we save current as well?.... 
+  
+        GoalObject goal = new GoalObject();
+        goal.setStrengthGoal(String.valueOf(s2), String.valueOf(s4), String.valueOf(s6), String.valueOf(s8), String.valueOf(s10), 
+                String.valueOf(s1), String.valueOf(s3), String.valueOf(s5), String.valueOf(s7), String.valueOf(s9), "Strength", dateFormatter.format(tDate), dateFormatter.format(todayDate));
+         UserGoalsConnector connector = new UserGoalsConnector();
+         connector.saveStrengthGoal(goal);
+        
         System.out.println("savedStrength Successful!");
     }
 

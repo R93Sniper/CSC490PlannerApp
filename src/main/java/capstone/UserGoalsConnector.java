@@ -16,11 +16,11 @@ import java.sql.Statement;
 public class UserGoalsConnector extends dataConnector {
 
     private void userGoals(String goaltype, String targetDate, String targetWeight, String dateCreated, String sizeGoalID,
-            String strengthGoalID) {
+            String strengthGoalID, String initialWeight) {
         try {
             String sql = "INSERT INTO User_Goals(Goal_Type, Target_Date, Target_Weight, Date_Created, SizeGoal_id, "
-                    + "StrengthGoal_id) VALUES"
-                    + "(?,?,?,?,?,?)";
+                    + "StrengthGoal_id, Initial_Weight) VALUES"
+                    + "(?,?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, goaltype);
             preparedStatement.setString(2, targetDate);
@@ -28,6 +28,7 @@ public class UserGoalsConnector extends dataConnector {
             preparedStatement.setString(4, dateCreated);
             preparedStatement.setString(5, sizeGoalID);
             preparedStatement.setString(6, strengthGoalID);
+            preparedStatement.setString(7, initialWeight);
 
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
@@ -51,13 +52,14 @@ public class UserGoalsConnector extends dataConnector {
             return;
         }
 
-        String goalsIds = "";
-        goalsIds = this.getUserGoals(userName);
-        if (goalsIds.equals("")) {
+        String goalsIds = this.getUserGoals(userName);
+        if(goalsIds==null)
+        {
             goalsIds = Integer.toString(id);
-        } else {
-            goalsIds = goalsIds + "-" + Integer.toString(id);
+        }else{
+            goalsIds= goalsIds + "-" + Integer.toString(id);
         }
+
         System.out.println("goals ids = "+goalsIds);
         
         if (this.updateColumn("User_Profile", userName, goalsIds, "Goals_ids")) {
@@ -163,7 +165,7 @@ public class UserGoalsConnector extends dataConnector {
             if (row > 0) {
                 System.out.println("Row inserted into Size Goals Table");
                 rowID = this.getLastID("SizeGoals");
-                this.userGoals(goal.getGoalType(), goal.getDateTarget(), "", goal.getDateCreated(), Integer.toString(rowID), "0");
+                this.userGoals(goal.getGoalType(), goal.getDateTarget(), "", goal.getDateCreated(), Integer.toString(rowID), "0", "");
             } else {
                 System.out.println("FAILED to save Size Goal Card");
             }
@@ -200,7 +202,7 @@ public class UserGoalsConnector extends dataConnector {
             if (row > 0) {
                 System.out.println("Row inserted into Strength Goals Table");
                 rowID = this.getLastID("StrengthGoals");
-                this.userGoals(goal.getGoalType(), goal.getDateTarget(), "", goal.getDateCreated(), "0", Integer.toString(rowID));
+                this.userGoals(goal.getGoalType(), goal.getDateTarget(), "", goal.getDateCreated(), "0", Integer.toString(rowID), "");
             } else {
                 System.out.println("FAILED to save Strength goals Card");
             }
@@ -216,7 +218,7 @@ public class UserGoalsConnector extends dataConnector {
     * the proper string values by calling the .setWeightGoal on the GoalObject
     */
     public void saveWeightGoal(GoalObject goal) {
-        this.userGoals(goal.getGoalType(), goal.getDateTarget(), goal.getWeightTarget(), goal.getDateCreated(), "0", "0");
+        this.userGoals(goal.getGoalType(), goal.getDateTarget(), goal.getWeightTarget(), goal.getDateCreated(), "0", "0", goal.getWeightInitial());
     }
 
     public static void main(String[] args) {
@@ -229,11 +231,12 @@ public class UserGoalsConnector extends dataConnector {
         GoalObject goal = new GoalObject();
         //goal.setSizeGoal("10","11", "12", "13", "14", "20", "21", "22", "23", "24", "SizeGoal", "1/3/2023", "11/9/2022");
         //dc.saveSizeGoal(goal);
-         goal.setStrengthGoal("100","110", "120", "130", "140", "50", "51", "52", "53", "54", "StrengthGoal", "1/30/2023", "11/9/2022");
-         dc.saveStrengthGoal(goal);
-        //goal.setWeightGoal("Weight-Loss", "1/10/2023","175", "11/9/22");
+         //goal.setStrengthGoal("100","110", "120", "130", "140", "50", "51", "52", "53", "54", "StrengthGoal", "1/30/2023", "11/9/2022");
+         //dc.saveStrengthGoal(goal);
+        goal.setWeightGoal("Weight-Gain", "160", "190", "5/8/2023", "11/9/2022");
         //dc.saveWeightGoal(goal);
         //dc.saveWeightGoal("Weight-Gain", "1/20/2023", "175", "11/8/2022");
+        dc.saveWeightGoal(goal);
 
     }
 ;
