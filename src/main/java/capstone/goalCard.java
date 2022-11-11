@@ -16,6 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -43,7 +45,8 @@ public class goalCard {
             squatsg, legpressTF, legpressg, spressTF, spressg;
 
     private TextInputDialog d = new TextInputDialog();
-    private TextInputDialog e = new TextInputDialog();
+    private Alert a = new Alert(AlertType.INFORMATION);
+
     private LocalDate todayDate = LocalDate.now();
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
@@ -240,7 +243,7 @@ public class goalCard {
         compareValues(s5, s6);
         compareValues(s7, s8);
         compareValues(s9, s10);
-        // Look into compareValues... we need both fields to be filled but if they aren't and one is then perhaps set those fields to 0?
+       
         LocalDate tDate = targetDate.getValue();
 
         saveStrengthGoal(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, tDate);
@@ -250,44 +253,107 @@ public class goalCard {
     @FXML
     private void compareValues(int x, int y) {
         d.setTitle("Input required fields..");
+        a.setTitle("CAUTION");
         //See if current is bigger or target is bigger..
         if (weightRB.isSelected()) {
             // Check if it's empty
             if (x == 0 && y == 0) {
                 System.out.println("This is an error, one or more fields are blank.. fill the necessary fields");
-                //System.exit(1);
-                return; // breaks method? 
+                //FIX IT... with correct parameters
+                a.setHeaderText("Please fix...");
+                a.setContentText("Fix your values for current and target, they can't be 0");
+                a.showAndWait();
+                d.setHeaderText("ERROR: Current can't be 0");
+                d.setContentText("Current: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(current -> {
+                    currentTF.setText(current);
+                });
+                d.setHeaderText("ERROR: Target can't be 0");
+                d.setContentText("Current: ");
+                Optional<String> r2 = d.showAndWait();
+                result.ifPresent(target -> {
+                    targetTF.setText(target);
+                });
             } else if (x != 0 && y != 0) {
                 System.out.println("Current and target are both filled, congrats..");
                 if (rbGain.isSelected()) {
                     if (x > y) {
-                        System.out.println("ERROR, target can't be less than current due to GAIN button");
+                        System.out.println("ERROR: target can't be less than current due to GAIN button");
                         //System.exit(1); // Terminates unsuccessfully
-                        return;
+                        a.setHeaderText("Please fix...");
+                        a.setContentText("Fix your target weight value, it can't be less than current due to GAIN option");
+                        a.showAndWait();
+                        d.setHeaderText("ERROR: Target can't be less than current");
+                        d.setContentText("Target: ");
+                        Optional<String> result = d.showAndWait();
+                        result.ifPresent(target -> {
+                            targetTF.setText(target);
+                        });
                     } else if (y > x) {
                         System.out.println("Target checks out, it's greater than current");
                     } else if (x == y) {
                         System.out.println("Can't be the same..");
-                        return;
+                        a.setHeaderText("Please fix...");
+                        a.setContentText("Fix your target weight value, it can't be the same as current due to GAIN option");
+                        a.showAndWait();
+                        d.setHeaderText("ERROR: Target can't be the same as current");
+                        d.setContentText("Target: ");
+                        Optional<String> result = d.showAndWait();
+                        result.ifPresent(target -> {
+                            targetTF.setText(target);
+                        });
                     }
                 } else if (rbLose.isSelected()) {
                     if (x > y) {
                         System.out.println("Target is less than current, checks out");
                     } else if (y > x) {
-                        System.out.println("ERROR, target can't be MORE than current due to LOSS button");
-                        return;
+                        System.out.println("ERROR: target can't be MORE than current due to LOSS button");
+                        a.setHeaderText("Please fix...");
+                        a.setContentText("Fix your target weight value, it can't be MORE than current due to LOSE option");
+                        a.showAndWait();
+                        d.setHeaderText("ERROR: Target can't be more than current");
+                        d.setContentText("Target: ");
+                        Optional<String> result = d.showAndWait();
+                        result.ifPresent(target -> {
+                            targetTF.setText(target);
+                        });
                     } else if (x == y) {
                         System.out.println("Can't be the same..");
-                        return;
+                        a.setHeaderText("Please fix...");
+                        a.setContentText("Fix your target weight value, it can't be MORE than current due to LOSE option");
+                        a.showAndWait();
+                        d.setHeaderText("ERROR: Target can't be the same as current");
+                        d.setContentText("Target: ");
+                        Optional<String> result = d.showAndWait();
+                        result.ifPresent(target -> {
+                            targetTF.setText(target);
+                        });
                     }
                 } else if (rbMain.isSelected()) {
                     if (x > y) {
                         System.out.println("error, fields not the same, MAINTAIN = SAME");
                         //System.exit(1); // Terminates unsuccessfully
-                        return;
+                        a.setHeaderText("Please fix...");
+                        a.setContentText("Fix your target weight value, it has to be the same as current due to MAINTAIN option");
+                        a.showAndWait();
+                        d.setHeaderText("ERROR: Target can't be more/less than current");
+                        d.setContentText("Target: ");
+                        Optional<String> result = d.showAndWait();
+                        result.ifPresent(target -> {
+                            targetTF.setText(target);
+                        });
                     } else if (y > x) {
                         System.out.println("ERROR, fields not the same.. MAINTAIN = SAME");
-                        return;
+                        a.setHeaderText("Please fix...");
+                        a.setContentText("Fix your target weight value, it has to be the same as current due to MAINTAIN option");
+                        a.showAndWait();
+                        d.setHeaderText("ERROR: Target can't be more/less than current");
+                        d.setContentText("Target: ");
+                        Optional<String> result = d.showAndWait();
+                        result.ifPresent(target -> {
+                            targetTF.setText(target);
+                        });
                     } else if (x == y) {
                         System.out.println("CHECKS OUT!, maintain will progress...");
 
@@ -303,21 +369,30 @@ public class goalCard {
                     gainSize();
                 } else {
                     System.out.println("what is your goal?.. cant be the same..");
+                    return; // Get out
                 }
+            } else if (x == 0 && y == 0) {
+                System.out.println("Intentionally left 0");
             } else if (x == 0 && y != 0 || x != 0 && y == 0) {
-                System.out.println("Either of these fields cannot be empty.. ");
-                if (x == 0) {
-                    // Do this if x is 0
-                    d.setHeaderText("ERROR: Current can't be 0");
-                    d.setContentText("Current: ");
-                    Optional<String> result = d.showAndWait();
-                    result.ifPresent(current -> {
-                        currentTF.setText(current);
-                        System.out.println("Current result is saved to currentTF");
-                    }); // LEFT OFF HERE .. DEALING WITH NULLS WHICH IS FINISHED NOW DEAL WITH 0's ...
-                } else if (y == 0) {
-                    // Do this if y is 0
-                }
+                System.out.println("Either of these fields cannot be 0 ");
+                a.setHeaderText("NO VALUE CAN BE 0");
+                a.setContentText("CHANGE YOUR VALUES");
+                return;
+                /**
+                 * THIS IS SUPPOSE TO MAKE THE VALUE INTO X THEN PASSED, doesn't work..
+                 *
+                 * if (x == 0) { // Do this if x is 0 d.setHeaderText("ERROR:
+                 * value 0"); d.setContentText("Current: "); Optional<String>
+                 * result = d.showAndWait(); result.ifPresent(current -> { x =
+                 * Integer.valueOf(current); System.out.println("Saved"); }); }
+                 * else if (y == 0) { // Do this if y is 0
+                 * d.setHeaderText("ERROR: value can't be 0");
+                 * d.setContentText("Target: "); Optional<String> result =
+                 * d.showAndWait(); result.ifPresent(target -> { x =
+                 * Integer.parseInt(target); System.out.println("target result
+                 * is saved to targetTF"); }); } 
+                *
+                 */
             }
 
         } else if (strengthRB.isSelected()) {
@@ -326,24 +401,32 @@ public class goalCard {
                     System.out.println("Get Stronger..");
                 } else {
                     System.out.println("ERROR, current MAX can't be bigger than target MAX");
+                    //x = 0;
+                    //y = 0;
+                    return;
                 }
             } else if (x == 0 && y != 0 || x != 0 && y == 0) {
                 System.out.println("Either of these fields cannot be empty.. ");
-                // Pop up to let user change it or remake the field??????? UPDATE THIS.......
+                return; 
             } else if (x == 0 && y == 0) {
-                System.out.println("These were left blank on purpose..");
+                System.out.println("These were left on 0 on purpose..");
             }
 
         }
     }
+
     @FXML
     private void loseSize() {
+        //What to do to lose Size
         System.out.println("lose size");
     }
+
     @FXML
     private void gainSize() {
+        //What to do to gain size
         System.out.println("Gain size");
     }
+
     @FXML
     private void notEmpty() {
         d.setTitle("Input required field/s..");
@@ -389,8 +472,272 @@ public class goalCard {
 
         } else if (sizeRB.isSelected()) {
             // Check empties for size
+            // We are assuming if both current and target are left blank, DON'T NEED THEM
+
+            // NECK PART
+            if (neckTF.getText().isEmpty() && neckg.getText().isEmpty()) {
+                // Both empty
+                System.out.println("neck was left empty.");
+            } else if (neckTF.getText().isEmpty() && !neckg.getText().isEmpty()) {
+                // Current is empty, target isn't
+                // Get c neck value
+                d.setHeaderText("Enter for current neck size");
+                d.setContentText("Neck: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(cneck -> {
+                    neckTF.setText(cneck);
+                });
+                System.out.println("This should save current");
+            } else if (!neckTF.getText().isEmpty() && neckg.getText().isEmpty()) {
+                //Target is empty, current isn't
+                // Get t neck value
+                d.setHeaderText("Enter for target neck size");
+                d.setContentText("Neck: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(tneck -> {
+                    neckg.setText(tneck);
+                });
+                System.out.println("This should save target");
+            } else if (!neckTF.getText().isEmpty() && !neckg.getText().isEmpty()) {
+                //Both neck sizes are there...
+                System.out.println("Neck sizes are not empty.");
+            }
+            //ARMS PART
+            if (armsTF.getText().isEmpty() && armsg.getText().isEmpty()) {
+                // Both arms are empty...
+                System.out.println("arms was left empty.");
+            } else if (!armsTF.getText().isEmpty() && !armsg.getText().isEmpty()) {
+                // Both arms are there...
+                System.out.println("arms wasn't left empty.");
+            } else if (armsTF.getText().isEmpty() && !armsg.getText().isEmpty()) {
+                //current arm is empty, target is there
+                System.out.println("Get current arm");
+                d.setHeaderText("Enter for current arm size");
+                d.setContentText("Arm: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(carm -> {
+                    armsTF.setText(carm);
+                });
+                System.out.println("This should save current");
+            } else if (!armsTF.getText().isEmpty() && armsg.getText().isEmpty()) {
+                // Current is there, target is empty...
+                //Get target arm size
+                d.setHeaderText("Enter for target arm size");
+                d.setContentText("Arm: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(tarm -> {
+                    armsg.setText(tarm);
+                });
+                System.out.println("This should save target");
+            }
+            // WAIST PART
+            if (waistTF.getText().isEmpty() && waistg.getText().isEmpty()) {
+                //Both are left empty
+                System.out.println("Waist was left empty....");
+            } else if (!waistTF.getText().isEmpty() && !waistg.getText().isEmpty()) {
+                //Both are NOT empty
+                System.out.println("Waist is there..");
+            } else if (waistTF.getText().isEmpty() && !waistg.getText().isEmpty()) {
+                //Current is there, target isn't
+                d.setHeaderText("Enter for target waist size");
+                d.setContentText("Waist: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(twaist -> {
+                    waistg.setText(twaist);
+                });
+                System.out.println("This should save target");
+            } else if (!waistTF.getText().isEmpty() && waistg.getText().isEmpty()) {
+                //Current is empty, target is NOT
+                d.setHeaderText("Enter for current waist size");
+                d.setContentText("Waist: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(cwaist -> {
+                    waistTF.setText(cwaist);
+                });
+                System.out.println("This should save current");
+            }
+            //HIPS PART
+            if (hipsTF.getText().isEmpty() && hipsg.getText().isEmpty()) {
+                //HIPS LEFT EMPTY
+                System.out.println("hips was left empty.");
+            } else if (!hipsTF.getText().isEmpty() && !hipsg.getText().isEmpty()) {
+                //HIPS LEFT FILLED
+                System.out.println("hips was isn't empty.");
+            } else if (hipsTF.getText().isEmpty() && !hipsg.getText().isEmpty()) {
+                //Current is empty
+                System.out.println("current hips is empty.");
+                d.setHeaderText("Enter for current hip size");
+                d.setContentText("Hip: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(chip -> {
+                    hipsTF.setText(chip);
+                });
+                System.out.println("This should save current");
+            } else if (!hipsTF.getText().isEmpty() && hipsg.getText().isEmpty()) {
+                //Target is empty
+                System.out.println("target hips is empty.");
+                d.setHeaderText("Enter for target hip size");
+                d.setContentText("Hip: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(thip -> {
+                    hipsg.setText(thip);
+                });
+                System.out.println("This should save target");
+            }
+            //LEGS PART
+            if (legsTF.getText().isEmpty() && legsg.getText().isEmpty()) {
+                System.out.println("legs was left empty.");
+            } else if (!legsTF.getText().isEmpty() && !legsg.getText().isEmpty()) {
+                System.out.println("legs wasn't left empty.");
+            } else if (legsTF.getText().isEmpty() && !legsg.getText().isEmpty()) {
+                System.out.println("current leg was left empty.");
+                //Current is empty
+                System.out.println("current leg is empty.");
+                d.setHeaderText("Enter for current leg size");
+                d.setContentText("Leg: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(cleg -> {
+                    legsTF.setText(cleg);
+                });
+                System.out.println("This should save current");
+            } else if (!legsTF.getText().isEmpty() && legsg.getText().isEmpty()) {
+                System.out.println("target leg was left empty.");
+                System.out.println("target legs is empty.");
+                d.setHeaderText("Enter for target leg size");
+                d.setContentText("Leg: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(tleg -> {
+                    legsg.setText(tleg);
+                });
+                System.out.println("This should save target");
+            }
         } else if (strengthRB.isSelected()) {
             // Check empties for strength
+            //BENCH
+            if(benchTF.getText().isEmpty() && benchg.getText().isEmpty()){
+                System.out.println("Bench was left empty.");
+            } else if(!benchTF.getText().isEmpty() && !benchg.getText().isEmpty()){
+                System.out.println("Bench wasn't left empty.");
+            } else if(benchTF.getText().isEmpty() && !benchg.getText().isEmpty()){
+                System.out.println("Current bench was left empty.");
+                d.setHeaderText("Enter for current MAX bench");
+                d.setContentText("Bench: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(cbench -> {
+                    benchTF.setText(cbench);
+                });
+                System.out.println("This should save current");
+            } else if(!benchTF.getText().isEmpty() && benchg.getText().isEmpty()){
+                System.out.println("Target bench was left empty.");
+                d.setHeaderText("Enter for target MAX bench");
+                d.setContentText("Bench: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(tbench -> {
+                    benchg.setText(tbench);
+                });
+                System.out.println("This should save target");
+            }
+            
+            //SHOULDER PRESS
+            if(spressTF.getText().isEmpty() && spressg.getText().isEmpty()){
+                System.out.println("Shoulder press was left empty.");
+            } else if(!spressTF.getText().isEmpty() && !spressg.getText().isEmpty()){
+                System.out.println("Shoulder press wasn't left empty.");
+            } else if(spressTF.getText().isEmpty() && !spressg.getText().isEmpty()){
+                System.out.println("Current shoulder press was left empty.");
+                d.setHeaderText("Enter for current MAX shoulder press");
+                d.setContentText("Shoulder Press: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(cspress -> {
+                    spressTF.setText(cspress);
+                });
+                System.out.println("This should save current");
+            } else if(!spressTF.getText().isEmpty() && spressg.getText().isEmpty()){
+                System.out.println("Target shoulder press was left empty.");
+                d.setHeaderText("Enter for target MAX shoulder press");
+                d.setContentText("Shoulder Press: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(tspress -> {
+                    spressg.setText(tspress);
+                });
+                System.out.println("This should save target");
+            }
+            
+            //DEADLIFT
+            if(deadliftTF.getText().isEmpty() && deadliftg.getText().isEmpty()){
+                System.out.println("Deadlift was left empty.");
+            } else if(!deadliftTF.getText().isEmpty() && !deadliftg.getText().isEmpty()){
+                System.out.println("Deadlift wasn't left empty.");
+            } else if(deadliftTF.getText().isEmpty() && !deadliftg.getText().isEmpty()){
+                System.out.println("Current deadlift was left empty.");
+                d.setHeaderText("Enter for current MAX Deadlift");
+                d.setContentText("Deadlift: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(cdeadlift -> {
+                    deadliftTF.setText(cdeadlift);
+                });
+                System.out.println("This should save current");
+            } else if(!deadliftTF.getText().isEmpty() && deadliftg.getText().isEmpty()){
+                System.out.println("Target deadlift was left empty.");
+                d.setHeaderText("Enter for target MAX deadlift");
+                d.setContentText("Deadlift: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(tdeadlift -> {
+                    deadliftg.setText(tdeadlift);
+                });
+                System.out.println("This should save target");
+            }
+            
+            //SQUATs
+            if(squatsTF.getText().isEmpty() && squatsg.getText().isEmpty()){
+                System.out.println("Squats was left empty.");
+            } else if(!squatsTF.getText().isEmpty() && !squatsg.getText().isEmpty()){
+                System.out.println("Squats wasn't left empty.");
+            } else if(squatsTF.getText().isEmpty() && !squatsg.getText().isEmpty()){
+                System.out.println("Current squats was left empty.");
+                d.setHeaderText("Enter for current MAX Squats");
+                d.setContentText("Squats: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(csquats -> {
+                    squatsTF.setText(csquats);
+                });
+                System.out.println("This should save current");
+            } else if(!squatsTF.getText().isEmpty() && squatsg.getText().isEmpty()){
+                System.out.println("Target squats was left empty.");
+                d.setHeaderText("Enter for target MAX Squats");
+                d.setContentText("Squats: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(tsquats -> {
+                    squatsg.setText(tsquats);
+                });
+                System.out.println("This should save target");
+            }
+            
+            // LEG PRESS
+            if(legpressTF.getText().isEmpty() && legpressg.getText().isEmpty()){
+                System.out.println("Leg Press was left empty.");
+            } else if(!legpressTF.getText().isEmpty() && !legpressg.getText().isEmpty()){
+                System.out.println("Leg Press wasn't left empty.");
+            } else if(legpressTF.getText().isEmpty() && !legpressg.getText().isEmpty()){
+                System.out.println("Current leg Press was left empty.");
+                d.setHeaderText("Enter for current MAX Leg Press");
+                d.setContentText("Leg Press: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(clpress -> {
+                    legpressTF.setText(clpress);
+                });
+                System.out.println("This should save current");
+            } else if(!legpressTF.getText().isEmpty() && legpressg.getText().isEmpty()){
+                System.out.println("Target leg Press was left empty.");
+                d.setHeaderText("Enter for target MAX Leg Press");
+                d.setContentText("Leg Press: ");
+                Optional<String> result = d.showAndWait();
+                result.ifPresent(tlpress -> {
+                    legpressg.setText(tlpress);
+                });
+                System.out.println("This should save target");
+            }
+            
         }
     }
 
@@ -417,16 +764,17 @@ public class goalCard {
         connector.saveWeightGoal(goal);
         System.out.println("savedWeight Successful!");
     }
+
     @FXML
     private void saveSizeGoal(int n1, int n2, int a1, int a2, int w1, int w2, int h1, int h2, int l1, int l2, LocalDate d) {
         // This should save all data from size current and targets to DB
         // Shoudn't we save current as well??...
-        
+
         GoalObject goal = new GoalObject();
-        goal.setSizeGoal(String.valueOf(n2), String.valueOf(a2), String.valueOf(w2), String.valueOf(h2), String.valueOf(l2)
-                , String.valueOf(n1), String.valueOf(a1), String.valueOf(w1), String.valueOf(h1), String.valueOf(l1), "Size",
+        goal.setSizeGoal(String.valueOf(n2), String.valueOf(a2), String.valueOf(w2), String.valueOf(h2), String.valueOf(l2),
+                String.valueOf(n1), String.valueOf(a1), String.valueOf(w1), String.valueOf(h1), String.valueOf(l1), "Size",
                 dateFormatter.format(d), dateFormatter.format(todayDate));
-        
+
         UserGoalsConnector connector = new UserGoalsConnector();
         connector.saveSizeGoal(goal);
         System.out.println("savedSize Successful!");
@@ -436,13 +784,13 @@ public class goalCard {
     private void saveStrengthGoal(int s1, int s2, int s3, int s4, int s5, int s6, int s7, int s8, int s9, int s10, LocalDate tDate) {
         // This should save data to DB
         //Shouldn't we save current as well?.... 
-  
+
         GoalObject goal = new GoalObject();
-        goal.setStrengthGoal(String.valueOf(s2), String.valueOf(s4), String.valueOf(s6), String.valueOf(s8), String.valueOf(s10), 
+        goal.setStrengthGoal(String.valueOf(s2), String.valueOf(s4), String.valueOf(s6), String.valueOf(s8), String.valueOf(s10),
                 String.valueOf(s1), String.valueOf(s3), String.valueOf(s5), String.valueOf(s7), String.valueOf(s9), "Strength", dateFormatter.format(tDate), dateFormatter.format(todayDate));
-         UserGoalsConnector connector = new UserGoalsConnector();
-         connector.saveStrengthGoal(goal);
-        
+        UserGoalsConnector connector = new UserGoalsConnector();
+        connector.saveStrengthGoal(goal);
+
         System.out.println("savedStrength Successful!");
     }
 
