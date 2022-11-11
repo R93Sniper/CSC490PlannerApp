@@ -8,6 +8,7 @@ package capstone;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -89,7 +90,7 @@ public class ProgressCardConnector extends dataConnector {
             preparedStatement.setString(2, uName);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
-                System.out.println("Row updated");
+                System.out.println("Row ");
             }
         } catch (SQLException e) {
         }
@@ -151,8 +152,8 @@ public class ProgressCardConnector extends dataConnector {
         }
         return id;
     }
-    
-        public int getDailyExerciseID(int pID) {
+
+    public int getDailyExerciseID(int pID) {
 
         String tableName = "Progress_Cards";
         int id = -1;
@@ -169,21 +170,39 @@ public class ProgressCardConnector extends dataConnector {
         return id;
     }
 
-    public int getWeight(int id) {
+    public double getWeight(int id) {
 
         String tableName = "Progress_Cards";
-        int w = -1;
+        double w = -1;
         try {
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
 
             while (result.next()) {
-                w = result.getInt("Weight");
+                w = result.getDouble("Weight");
             }
         } catch (SQLException except) {
             except.printStackTrace();
         }
         return w;
+    }
+
+    public String getDateOfCard(int id) {
+
+        String tableName = "Progress_Cards";
+        String date = "";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                date = result.getString("Date_Of_Card");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return date;
     }
 
     public void updateDailyIntakeID(int progressID, int intakeID) {
@@ -199,8 +218,8 @@ public class ProgressCardConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
-    
-        public void updateDailyExerciseID(int progressID, int exID) {
+
+    public void updateDailyExerciseID(int progressID, int exID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Exercise_Id=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -212,6 +231,66 @@ public class ProgressCardConnector extends dataConnector {
             }
         } catch (SQLException e) {
         }
+    }
+
+    /*
+    * return an integer arraylist of a User's progress ids  in ascending order by dateOfCard 
+     */
+    public ArrayList<Integer> getAllProgressIds(String userName) {
+
+        String tableName = "Progress_Cards";
+        ArrayList<Integer> ids = new ArrayList<>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\' ORDER BY Date_Of_Card ASC;");
+            while (result.next()) {
+                ids.add(result.getInt("ID"));
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return ids;
+
+    }
+
+    /*
+    * return an integer arraylist of a User's progress ids for cards between the given start and end dates
+    *in ascending order by dateOfCard 
+     */
+    public ArrayList<Integer> getAllProgressIds(String userName, String startDate, String endDate) {
+        String tableName = "Progress_Cards";
+        ArrayList<Integer> ids = new ArrayList<>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\'"
+                    + " AND Date_Of_Card >= \'" + startDate + "\' AND Date_Of_Card <= \'" + endDate + "\'"
+                    + " ORDER BY Date_Of_Card ASC;");
+            while (result.next()) {
+                ids.add(result.getInt("ID"));
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return ids;
+
+    }
+
+    public static void main(String[] args) {
+
+        ProgressCardConnector pc = new ProgressCardConnector();
+
+        ArrayList<Integer> ans = pc.getAllProgressIds("testUser", "5/12/2022", "6/11/2022");
+        String str = "";
+        for (Integer i : ans) {
+            str += String.valueOf(i) + ",";
+            System.out.println("Weight= " + pc.getWeight(i));
+            System.out.println("Day= " + pc.getDateOfCard(i));
+
+        }
+        System.out.println("ids = " + str);
+
     }
 
 }

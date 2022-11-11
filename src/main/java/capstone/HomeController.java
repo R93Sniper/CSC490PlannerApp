@@ -143,4 +143,9 @@ public class HomeController{
         App.setRoot("MedicalConditions");
     }
     
+    @FXML
+    public void goToReports(ActionEvent event) throws IOException {
+        App.setRoot("ProgressReport");
+    }
+    
 }
