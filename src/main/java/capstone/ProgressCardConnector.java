@@ -16,20 +16,20 @@ import java.util.ArrayList;
  */
 public class ProgressCardConnector extends dataConnector {
 
-    public void userProgressCard(String userName, String dateOfCard, String weight, int intakeID,
-            int excerciseID, String neckInches, String waistInches) {
+    public void userProgressCard(String userName, String dateOfCard, String weight, String intakeID,
+            String excerciseID, String sizeID, String strengthID) {
         try {
             String sql = "INSERT INTO Progress_Cards(User_Name, Date_Of_Card, Weight,"
-                    + "Daily_Intake_Id, Daily_Exercise_Id,Neck_Inches,Waist_Inches) VALUES"
+                    + " Daily_Intake_Id, Daily_Exercise_Id, Daily_Measurements_Id, Daily_Strength_Id) VALUES"
                     + "(?,?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, dateOfCard);
             preparedStatement.setString(3, weight);
-            preparedStatement.setInt(4, intakeID);
-            preparedStatement.setInt(5, excerciseID);
-            preparedStatement.setString(6, neckInches);
-            preparedStatement.setString(7, waistInches);
+            preparedStatement.setString(4, intakeID);
+            preparedStatement.setString(5, excerciseID);
+            preparedStatement.setString(6, sizeID);
+            preparedStatement.setString(7, strengthID);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
                 System.out.println("Row inserted into Progress Card Table");
@@ -76,46 +76,6 @@ public class ProgressCardConnector extends dataConnector {
         }
     }
 
-    /**
-     * updateNeckInches
-     *
-     * @param uName
-     * @param neckInches
-     */
-    public void updateNeckInches(String uName, String neckInches) {
-        try {
-            String sql = "UPDATE Progress_cards SET Neck_Inches=? WHERE User_Name=?";
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, neckInches);
-            preparedStatement.setString(2, uName);
-            int row = preparedStatement.executeUpdate();
-            if (row > 0) {
-                System.out.println("Row ");
-            }
-        } catch (SQLException e) {
-        }
-    }
-
-    /**
-     * updateWaistInches
-     *
-     * @param uName
-     * @param waistInches
-     */
-    public void updateWaistInches(String uName, String waistInches) {
-        try {
-            String sql = "UPDATE Progress_cards SET Waist_Inches=? WHERE User_Name=?";
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, waistInches);
-            preparedStatement.setString(2, uName);
-            int row = preparedStatement.executeUpdate();
-            if (row > 0) {
-                System.out.println("Row updated");
-            }
-        } catch (SQLException e) {
-        }
-    }
-
     public int getProgressID(String userName, String targetDate) {
 
         String tableName = "Progress_Cards";
@@ -136,16 +96,16 @@ public class ProgressCardConnector extends dataConnector {
         return id;
     }
 
-    public int getDailyIntakeID(int pID) {
+    public String getDailyIntakeID(int pID) {
 
         String tableName = "Progress_Cards";
-        int id = -1;
+        String id = null;
         try {
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + pID + " ;");
 
             while (result.next()) {
-                id = result.getInt("Daily_Intake_Id");
+                id = result.getString("Daily_Intake_Id");
             }
         } catch (SQLException except) {
             except.printStackTrace();
@@ -153,16 +113,16 @@ public class ProgressCardConnector extends dataConnector {
         return id;
     }
 
-    public int getDailyExerciseID(int pID) {
+    public String getDailyExerciseID(int pID) {
 
         String tableName = "Progress_Cards";
-        int id = -1;
+        String id = null;
         try {
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + pID + " ;");
 
             while (result.next()) {
-                id = result.getInt("Daily_Exercise_Id");
+                id = result.getString("Daily_Exercise_Id");
             }
         } catch (SQLException except) {
             except.printStackTrace();
@@ -170,21 +130,22 @@ public class ProgressCardConnector extends dataConnector {
         return id;
     }
 
-    public double getWeight(int id) {
+    public Double getWeight(int id) {
 
         String tableName = "Progress_Cards";
-        double w = -1;
+        String w = null;
         try {
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
 
             while (result.next()) {
-                w = result.getDouble("Weight");
+                w = result.getString("Weight");
+                return Double.valueOf(w);
             }
         } catch (SQLException except) {
             except.printStackTrace();
         }
-        return w;
+        return null;
     }
 
     public String getDateOfCard(int id) {
@@ -205,11 +166,11 @@ public class ProgressCardConnector extends dataConnector {
         return date;
     }
 
-    public void updateDailyIntakeID(int progressID, int intakeID) {
+    public void updateDailyIntakeID(int progressID, String intakeID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Intake_Id=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, intakeID);
+            preparedStatement.setString(1, intakeID);
             preparedStatement.setInt(2, progressID);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
@@ -219,11 +180,11 @@ public class ProgressCardConnector extends dataConnector {
         }
     }
 
-    public void updateDailyExerciseID(int progressID, int exID) {
+    public void updateDailyExerciseID(int progressID, String exID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Exercise_Id=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, exID);
+            preparedStatement.setString(1, exID);
             preparedStatement.setInt(2, progressID);
             int row = preparedStatement.executeUpdate();
             if (row > 0) {
@@ -280,16 +241,8 @@ public class ProgressCardConnector extends dataConnector {
     public static void main(String[] args) {
 
         ProgressCardConnector pc = new ProgressCardConnector();
-
-        ArrayList<Integer> ans = pc.getAllProgressIds("testUser", "5/12/2022", "6/11/2022");
-        String str = "";
-        for (Integer i : ans) {
-            str += String.valueOf(i) + ",";
-            System.out.println("Weight= " + pc.getWeight(i));
-            System.out.println("Day= " + pc.getDateOfCard(i));
-
-        }
-        System.out.println("ids = " + str);
+        
+        pc.userProgressCard("BillyBob", "1/01/2020", "120", "0", "0", "0", "0");
 
     }
 

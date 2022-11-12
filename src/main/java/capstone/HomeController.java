@@ -222,16 +222,18 @@ public class HomeController {
         System.out.println("Progess Card ID =" + progressID);
         if (progressID != -1) {
             instanceUser.setProgressCardId(progressID);
-            int intakeID = pc.getDailyIntakeID(progressID);
-            int exerciseID = pc.getDailyExerciseID(progressID);
+            String intakeID = pc.getDailyIntakeID(progressID);
+            if(intakeID != null)
+            {
+                instanceUser.setDailyIntakeId(Integer.valueOf(intakeID));
+            }
+            String exerciseID = pc.getDailyExerciseID(progressID);
+            if(exerciseID != null)
+            {
+                instanceUser.setDailyExerciseId(Integer.valueOf(exerciseID));
+            }
             System.out.println("intake Card ID =" + progressID);
             System.out.println("exercise Card ID =" + exerciseID);
-            if (intakeID != -1) {
-                instanceUser.setDailyIntakeId(intakeID);
-            }
-            if (exerciseID != -1) {
-                instanceUser.setDailyExerciseId(exerciseID);
-            }
         }
 
     }

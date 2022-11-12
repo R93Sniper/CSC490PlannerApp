@@ -117,23 +117,27 @@ public class ProgressCard {
         //if valid entry then add row to Progress Table;
         if (validateEntry()) {
             //check to see if progressID already exists for user 
-            int id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
+            int id = usr.getProgressCardId();
+            if(id==0 || id==-1){
+                id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
+                System.out.println("pId="+id +"  ,date="+dt.format(now));
+            }  
             //if id returned is -1, then it does not exist yet and need to add new row in table
-            if (id == -1) {
-                int intakeID = usr.getDailyIntakeId();
-                int exID = usr.getDailyExerciseId();
+            if (id == -1 || id==0) {
+                String intakeID = String.valueOf(usr.getDailyIntakeId());
+                String exID = String.valueOf(usr.getDailyExerciseId());
                 pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), intakeID, exID, "0", "0");
-
                 id = pcTable.getLastRow("Progress_Cards");
                 makeAlert("Succefuly created a new Progress Card"
                         + "\nAnd Saved it to the Database!");
+                usr.setProgressCardId(id);
             } else {// row exists in table, so just need to update fields
                 pcTable.updateWeight(id, currentWeight.getText());
-                pcTable.updateDailyIntakeID(id, usr.getDailyIntakeId());
-                pcTable.updateDailyExerciseID(id, usr.getDailyExerciseId());
+                pcTable.updateDailyIntakeID(id, String.valueOf(usr.getDailyIntakeId()));
+                pcTable.updateDailyExerciseID(id, String.valueOf(usr.getDailyExerciseId()));
                 makeAlert("Successfuly Updated Today's Progress Card");
             }
-            usr.setProgressCardId(id);
+            
             
         }
         

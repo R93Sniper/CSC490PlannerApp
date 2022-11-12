@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -15,6 +16,7 @@
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0" text="size report" />
             <Button layoutX="10.0" layoutY="53.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0" text="strength report" />
             <Button layoutX="10.0" layoutY="96.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0" text="diet report" />
+            <ComboBox fx:id="monthsCB" prefHeight="38.0" prefWidth="100.0" />
             <Button layoutX="10.0" layoutY="96.0" mnemonicParsing="false" onAction="#onGoBack" prefHeight="43.0" prefWidth="99.0" text="Back" />
          </children>
       </VBox>

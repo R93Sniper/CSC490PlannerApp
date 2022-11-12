@@ -50,6 +50,7 @@ public class DailyExerciseCard {
     DailyExerciseConnector dc = new DailyExerciseConnector();
     ArrayList<Integer> exLogIds = new ArrayList<>();
     ExerciseDetailModel exDetailModel = ExerciseDetailModel.getInstance();
+    private ProgressCardConnector pcTable = new ProgressCardConnector();
     
     @FXML
     public void initialize() {
@@ -114,7 +115,7 @@ public class DailyExerciseCard {
     }
 
     @FXML
-    public void onSave() {
+    public void onSave() throws IOException {
         String strIds = "";
         if (exLogIds.size() > 0) {
             strIds = exLogIds.get(0).toString();
@@ -122,25 +123,28 @@ public class DailyExerciseCard {
                 strIds += "-" + exLogIds.get(i).toString();
             }
         }
-        if (user.getDailyExerciseId() == 0) {
+        if (user.getDailyExerciseId() == 0 || user.getDailyExerciseId()== -1) {
             //insert new row in table
             dc.insertNewDailyExerciseCard(strIds);
             //get the id of last inserted row and store it in the userProfileModel, as well as the progress card
             int eid = dc.getLastRow("Daily_Exercise_Cards");
             user.setDailyExerciseId(eid);
-
         } else {
             //update row in table
             dc.updateExerciseLogIds(user.getDailyExerciseId(), strIds);
         }
-        String msg = "This DailyExerciseCard Saved\n";
-        if (user.getProgressCardId() == 0) {
-            msg = msg + "\nWARNING!: Need to Create and Save a Progress Card,"
+        String msg ="";
+        if (user.getProgressCardId() == 0 ||user.getProgressCardId()==-1) {
+            msg = msg + "WARNING!: Need to Create and Save a Progress Card,"
                     + "\nOtherwise this DailyExerciseCard will be lost and,"
                     + "\nNot be saved to Profile, when User logs out.";
-        }
-
-        makeAlert(msg);
+            makeAlert(msg);
+            onGoBack();
+        }else{ 
+            msg = "This DailyExerciseCard Saved!! \n";
+            makeAlert(msg);
+            pcTable.updateDailyExerciseID(user.getProgressCardId(), String.valueOf(user.getDailyExerciseId()));
+        } 
 
     }
 
