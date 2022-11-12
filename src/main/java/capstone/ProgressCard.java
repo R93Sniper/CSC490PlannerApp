@@ -19,9 +19,11 @@ import javafx.scene.text.Text;
 /**
  *
  * @author Wahab Quazi
+ * Jesus Alvarado
+ * Nick
  */
 public class ProgressCard {
-    
+
     @FXML
     private TextField currentWeight;
     @FXML
@@ -49,9 +51,9 @@ public class ProgressCard {
      */
     @FXML
     public void initialize() {
-        
+
         currentDate.setText(dt.format(now));
-       
+
         loadWeight();
     }
 
@@ -59,7 +61,7 @@ public class ProgressCard {
      * method to validate data collected from the user
      */
     public boolean validateEntry() {
-        
+
         if (currentWeight.getText().equals("")) {//if the person enters nothing
             makeAlert("Error, you did not enter a weight");
             return false;
@@ -88,7 +90,7 @@ public class ProgressCard {
                 makeAlert("Error, not sure how you got here but good job");
             }
         }
-        
+
         return false;
     }
 
@@ -98,32 +100,32 @@ public class ProgressCard {
      * @param alertText
      */
     public void makeAlert(String alertText) {
-        
+
         Alert a = new Alert(AlertType.ERROR);
         a.setTitle("Error");
         a.setHeaderText(alertText);
         a.showAndWait();
-        
+
     }
-    
+
     @FXML
     public void goBack() throws IOException {
         App.setRoot("UserHome");
     }
-    
+
     @FXML
     public void saveCard() throws IOException {
-        
+
         //if valid entry then add row to Progress Table;
         if (validateEntry()) {
             //check to see if progressID already exists for user 
             int id = usr.getProgressCardId();
-            if(id==0 || id==-1){
+            if (id == 0 || id == -1) {
                 id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
-                System.out.println("pId="+id +"  ,date="+dt.format(now));
-            }  
+                System.out.println("pId=" + id + "  ,date=" + dt.format(now));
+            }
             //if id returned is -1, then it does not exist yet and need to add new row in table
-            if (id == -1 || id==0) {
+            if (id == -1 || id == 0) {
                 String intakeID = String.valueOf(usr.getDailyIntakeId());
                 String exID = String.valueOf(usr.getDailyExerciseId());
                 pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), intakeID, exID, "0", "0");
@@ -137,12 +139,11 @@ public class ProgressCard {
                 pcTable.updateDailyExerciseID(id, String.valueOf(usr.getDailyExerciseId()));
                 makeAlert("Successfuly Updated Today's Progress Card");
             }
-            
-            
+
         }
-        
+
     }
-    
+
     @FXML
     public void loadWeight() {
         int id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
@@ -150,21 +151,26 @@ public class ProgressCard {
             currentWeight.setText(String.valueOf(pcTable.getWeight(id)));
         }
     }
-    
+
     @FXML
     public void goToMeasure() throws IOException {
         makeAlert("Error, feature not yet implemented");
         //App.setRoot("MeasureCard");
     }
-    
+
     @FXML
     public void goToIntake() throws IOException {
         App.setRoot("dailyIntake");
     }
-    
+
     @FXML
     public void goToExercise() throws IOException {
-       // makeAlert("Error feature not yet implemented");
+        // makeAlert("Error feature not yet implemented");
         App.setRoot("ExerciseCard");
+    }
+
+    @FXML
+    public void goToStrength() throws IOException {
+        App.setRoot("StrengthCard");
     }
 }

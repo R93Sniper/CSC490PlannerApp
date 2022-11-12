@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="main" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.StrengthCard">
+   <children>
+      <Button layoutX="399.0" layoutY="442.0" mnemonicParsing="false" onAction="#saveCard" prefHeight="34.0" prefWidth="81.0" text="Save" />
+      <Label layoutX="14.0" layoutY="99.0" />
+      <AnchorPane fx:id="strengthA" focusTraversable="true" layoutX="100.0" layoutY="50.0" prefHeight="300.0" prefWidth="300.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Max Strength">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="75.0" />
+               </padding>
+            </Label>
+            <ToolBar layoutX="5.0" layoutY="47.0" prefHeight="40.0" prefWidth="275.0">
+               <items>
+                  <TextField fx:id="text_Bench" prefHeight="35.0" promptText="Bench press" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="5.0" layoutY="91.0" prefHeight="40.0" prefWidth="275.0">
+               <items>
+                  <TextField fx:id="text_Shoulder" prefHeight="35.0" promptText="Shoulder press" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="5.0" layoutY="136.0" prefHeight="40.0" prefWidth="275.0">
+               <items>
+                  <TextField fx:id="text_Deadlift" prefHeight="35.0" promptText="Deadlift " />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="5.0" layoutY="180.0" prefHeight="40.0" prefWidth="275.0">
+               <items>
+                  <TextField fx:id="text_Squat" prefHeight="35.0" promptText="Squats" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+               </items>
+            </ToolBar>
+            <ToolBar layoutX="5.0" layoutY="224.0" prefHeight="40.0" prefWidth="275.0">
+               <items>
+                  <TextField fx:id="text_Leg" prefHeight="35.0" promptText="Leg press" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+               </items>
+            </ToolBar>
+         </children>
+      </AnchorPane>
+      <Button layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#goBack" prefHeight="34.0" prefWidth="81.0" text="Back" />
+      <Button layoutX="14.0" layoutY="393.0" mnemonicParsing="false" onAction="#clearCard" prefHeight="34.0" prefWidth="81.0" text="Reset" />
+      <Text fx:id="statusText" layoutX="239.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+   </children>
+</AnchorPane>
