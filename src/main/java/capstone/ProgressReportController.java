@@ -159,7 +159,7 @@ public class ProgressReportController {
         String initialWeight =  result.getString("Initial_Weight");
         String dateCreated =  result.getString("Date_Created") +"(Goal Start)";
         data = new Data<>(dateCreated, Double.valueOf(initialWeight));
-        Button btn = new B
+        Button btn = new Button();
         data.setNode(new Button(String.valueOf(initialWeight)));       
         data.getNode().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
