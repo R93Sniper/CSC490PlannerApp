@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" fx:id="main" prefHeight="501.0" prefWidth="501.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.goalCard">
+<AnchorPane id="AnchorPane" fx:id="main" prefHeight="502.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.goalCard">
    <children>
       <Label layoutX="185.0" layoutY="14.0" text="Goals">
          <font>
@@ -39,11 +34,20 @@
       </ToolBar>
       <AnchorPane fx:id="weightA" disable="true" layoutX="87.0" layoutY="110.0" prefHeight="379.0" prefWidth="277.0" visible="false">
          <children>
-            <TextField fx:id="targetTF" layoutX="32.0" layoutY="131.0" prefHeight="34.0" prefWidth="213.0" promptText="Enter target weight" />
-            <TextField fx:id="currentTF" layoutX="32.0" layoutY="67.0" prefHeight="34.0" prefWidth="213.0" promptText="Enter current weight" />
-            <RadioButton fx:id="rbGain" layoutX="32.0" layoutY="28.0" mnemonicParsing="false" text="Gain" />
-            <RadioButton fx:id="rbLose" layoutX="93.0" layoutY="28.0" mnemonicParsing="false" text="Lose" />
-            <RadioButton fx:id="rbMain" layoutX="150.0" layoutY="28.0" mnemonicParsing="false" text="Maintain" />
+            <TextField fx:id="targetTF" layoutX="32.0" layoutY="131.0" prefHeight="44.0" prefWidth="213.0" promptText="Enter target weight" />
+            <TextField fx:id="currentTF" layoutX="32.0" layoutY="67.0" prefHeight="44.0" prefWidth="213.0" promptText="Enter current weight" />
+            <RadioButton fx:id="rbGain" layoutX="32.0" layoutY="28.0" mnemonicParsing="false" onAction="#only1RB" text="Gain">
+               <font>
+                  <Font size="14.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="rbLose" layoutX="93.0" layoutY="28.0" mnemonicParsing="false" onAction="#only1RB" text="Lose">
+               <font>
+                  <Font size="14.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="rbMain" layoutX="150.0" layoutY="28.0" mnemonicParsing="false" onAction="#only1RB" text="Maintain">
+               <font>
+                  <Font size="14.0" />
+               </font></RadioButton>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="sizeA" disable="true" layoutX="92.0" layoutY="108.0" prefHeight="368.0" prefWidth="288.0" visible="false">
@@ -135,7 +139,7 @@
          </children>
       </AnchorPane>
       <Button layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#goBack" prefHeight="34.0" prefWidth="81.0" text="Back" />
-      <DatePicker fx:id="targetDate" disable="true" layoutX="320.0" layoutY="387.0" prefHeight="27.0" prefWidth="174.0" visible="false" />
+      <DatePicker fx:id="targetDate" disable="true" layoutX="379.0" layoutY="397.0" prefHeight="27.0" prefWidth="174.0" visible="false" />
       <Label fx:id="tdLabel" layoutX="399.0" layoutY="370.0" text="Target Date" visible="false">
          <font>
             <Font name="System Bold Italic" size="12.0" />

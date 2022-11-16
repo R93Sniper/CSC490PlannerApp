@@ -6,11 +6,6 @@
 package capstone;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -49,11 +44,96 @@ public class goalCard {
 
     private LocalDate todayDate = LocalDate.now();
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    //User profile to preload certain things. 
+    private UserProfileModel usr = UserProfileModel.getInstance();
+
+    private String gender;
+    private double height;
+    private int age;
 
     @FXML
     private void goBack() throws IOException {
         App.setRoot("UserHome");
 
+    }
+
+    @FXML
+    public void initialize() {
+        //userDB = dataConnector.getInstance();
+        usr = UserProfileModel.getInstance();
+        if (!usr.getUserName().equals("")) {
+            loadGender(); //Need gender for calories
+            loadHeightData(); //Height to be computed
+            loadUserAge(); // Age for calories
+        }
+    }
+
+    @FXML
+    public void loadGender() {
+        if (usr.getGender() != null) {
+            if (usr.getGender().equals("Male")) {
+                gender = "Male";
+            }
+            if (usr.getGender().equals("Female")) {
+                gender = "Female";
+            }
+        }
+    }
+
+    @FXML
+    public void loadHeightData() {
+        if (usr.getHeight() != null) {
+            String[] hArr = usr.getHeight().split("-");
+            String ft = hArr[0];
+            String in = hArr[1];
+            convertToCM(ft, in);
+        }
+    }
+
+    private void convertToCM(String x, String y) {
+        double feet = Integer.parseInt(x);
+        double inches = Integer.parseInt(y);
+        feet = Math.round(feet * 30.48); // Converted to cm
+        inches = Math.round(inches * 2.54); // Converted to cm
+        height = feet + inches;
+    }
+
+    @FXML
+    public void loadUserAge() {
+        if (usr.getBirthDate() != null) {
+            if (getAge() > -1) {
+                age = getAge();
+            } else {
+                System.out.println("Birth Age is greater than Today's date so Can't calc");
+            }
+        }
+    }
+
+    private int getAge() {
+        int returnAge = -1;
+        LocalDate todayDate = LocalDate.now();
+        String[] bDate = usr.getBirthDate().split("-");
+        int bDay = Integer.valueOf(bDate[1]);
+        int bMonth = Integer.valueOf(bDate[0]);
+        int bYear = Integer.valueOf(bDate[2]);
+        int todayDay = todayDate.getDayOfMonth();
+        int todayMonth = todayDate.getMonthValue();
+        int todayYear = todayDate.getYear();
+        if (bYear <= todayYear) {
+            returnAge = todayYear - bYear;
+        }
+        System.out.println("bdate = " + usr.getBirthDate());
+        System.out.println("todaydate = " + todayDate.toString());
+        if (bMonth >= todayMonth) {
+            System.out.println("minus 1");
+            returnAge -= 1;
+            if (bMonth == todayMonth && bDay < todayDay) {
+                System.out.println("plus 1");
+                returnAge += 1;
+            }
+        }
+
+        return returnAge;
     }
 
     @FXML
@@ -65,7 +145,9 @@ public class goalCard {
         // now for weight anchorpane to be visible + not disabled
         weightA.setVisible(true);
         weightA.setDisable(false);
-
+        rbGain.setDisable(false);
+        rbLose.setDisable(false);
+        rbMain.setDisable(false);
         L2.setVisible(true);
         L2.setDisable(false);
         metricRB.setDisable(false);
@@ -151,8 +233,10 @@ public class goalCard {
     private void runWeight() {
         if (rbGain.isSelected()) {
             runGains();
+            
         } else if (rbLose.isSelected()) {
             runLoss();
+            
         } else if (rbMain.isSelected()) {
             maintain();
         } else {
@@ -170,34 +254,49 @@ public class goalCard {
         //Checked if it's empty, check
         // Checked if target is greater than current, check
         // save to DB
+        //Redo the saves
+        g1 = Integer.parseInt(currentTF.getText());
+        g2 = Integer.parseInt(targetTF.getText());
         LocalDate tDate = targetDate.getValue(); // This should get the date
         // how to save target date?
         saveWeightGoal(g1, g2, tDate); // SAVES TO DB
+        howMuchCalories(g2);
     }
 
     // Wishing to lose weight
     @FXML
     private void runLoss() {
+        notEmpty();
         int l1 = Integer.parseInt(currentTF.getText());
         int l2 = Integer.parseInt(targetTF.getText());
         compareValues(l1, l2); // Checked if empty
+
+        l1 = Integer.parseInt(currentTF.getText());
+        l2 = Integer.parseInt(targetTF.getText());
         LocalDate tDate = targetDate.getValue();
         saveWeightGoal(l1, l2, tDate); // SAVES TO DB
+        howMuchCalories(l2);
     }
 
     // Wishing to maintain weight
     @FXML
     private void maintain() {
         // current and target must be the same
+        notEmpty();
         int m1 = Integer.parseInt(currentTF.getText());
         int m2 = Integer.parseInt(targetTF.getText());
         compareValues(m1, m2); // Checks for empties
+
+        m1 = Integer.parseInt(currentTF.getText());
+        m2 = Integer.parseInt(targetTF.getText());
         LocalDate tDate = targetDate.getValue();
         saveWeightGoal(m1, m2, tDate); // SAVES TO DB
+        howMuchCalories(m2);
     }
 
     @FXML
     private void runSize() {
+        notEmpty();
         // Get my values, these are calculated regardless if all are picked but one must be
         int n1 = Integer.parseInt(neckTF.getText()); // Current neck
         int n2 = Integer.parseInt(neckg.getText()); // Target neck
@@ -223,6 +322,9 @@ public class goalCard {
 
     @FXML
     private void runStrength() {
+
+        notEmpty();
+
         int s1 = Integer.parseInt(benchTF.getText());
         int s2 = Integer.parseInt(benchg.getText());
 
@@ -238,12 +340,106 @@ public class goalCard {
         int s9 = Integer.parseInt(spressTF.getText());
         int s10 = Integer.parseInt(spressg.getText());
 
-        compareValues(s1, s2);
-        compareValues(s3, s4);
-        compareValues(s5, s6);
-        compareValues(s7, s8);
-        compareValues(s9, s10);
-       
+        if (s1 != 0 && s2 != 0) {
+            if (s1 < s2) {
+                System.out.println("Get Stronger..");
+            } else {
+                System.out.println("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s1);
+                d.setHeaderText("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s1 + "\n" + "Enter for TARGET MAX");
+                d.setContentText("TARGET MAX: ");
+                Optional<String> result = d.showAndWait();
+                if (result.isPresent()) {
+                    s2 = Integer.parseInt(result.get());
+                }
+
+            }
+        } else if (s1 == 0 && s2 != 0 || s1 != 0 && s2 == 0) {
+            System.out.println("Either of these fields cannot be empty.. ");
+            return;
+        } else if (s1 == 0 && s2 == 0) {
+            System.out.println("These were left on 0 on purpose..");
+        }
+
+        if (s3 != 0 && s4 != 0) {
+            if (s3 < s4) {
+                System.out.println("Get Stronger..");
+            } else {
+                System.out.println("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s3);
+                d.setHeaderText("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s3 + "\n" + "Enter for TARGET MAX");
+                d.setContentText("TARGET MAX: ");
+                Optional<String> result = d.showAndWait();
+                if (result.isPresent()) {
+                    s4 = Integer.parseInt(result.get());
+                }
+
+            }
+        } else if (s3 == 0 && s4 != 0 || s3 != 0 && s4 == 0) {
+            System.out.println("Either of these fields cannot be empty.. ");
+            return;
+        } else if (s3 == 0 && s4 == 0) {
+            System.out.println("These were left on 0 on purpose..");
+        }
+
+        if (s5 != 0 && s6 != 0) {
+            if (s5 < s6) {
+                System.out.println("Get Stronger..");
+            } else {
+                System.out.println("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s5);
+                d.setHeaderText("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s5 + "\n" + "Enter for TARGET MAX");
+                d.setContentText("TARGET MAX: ");
+                Optional<String> result = d.showAndWait();
+                if (result.isPresent()) {
+                    s6 = Integer.parseInt(result.get());
+                }
+
+            }
+        } else if (s5 == 0 && s6 != 0 || s5 != 0 && s6 == 0) {
+            System.out.println("Either of these fields cannot be empty.. ");
+            return;
+        } else if (s5 == 0 && s6 == 0) {
+            System.out.println("These were left on 0 on purpose..");
+        }
+
+        if (s7 != 0 && s8 != 0) {
+            if (s7 < s8) {
+                System.out.println("Get Stronger..");
+            } else {
+                System.out.println("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s7);
+                d.setHeaderText("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s7 + "\n" + "Enter for TARGET MAX");
+                d.setContentText("TARGET MAX: ");
+                Optional<String> result = d.showAndWait();
+                if (result.isPresent()) {
+                    s8 = Integer.parseInt(result.get());
+                }
+
+            }
+        } else if (s7 == 0 && s8 != 0 || s7 != 0 && s8 == 0) {
+            System.out.println("Either of these fields cannot be empty.. ");
+            return;
+        } else if (s7 == 0 && s8 == 0) {
+            System.out.println("These were left on 0 on purpose..");
+        }
+
+        if (s9 != 0 && s10 != 0) {
+            if (s9 < s10) {
+                System.out.println("Get Stronger..");
+            } else {
+                System.out.println("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s9);
+                d.setHeaderText("ERROR, TARGET MAX needs to be bigger than CURRENT MAX \n" + "CURRENT MAX value: " + s9 + "\n" + "Enter for TARGET MAX");
+                d.setContentText("TARGET MAX: ");
+                Optional<String> result = d.showAndWait();
+                if (result.isPresent()) {
+                    s10 = Integer.parseInt(result.get());
+                }
+
+            }
+        } else if (s9 == 0 && s10 != 0 || s9 != 0 && s10 == 0) {
+            System.out.println("Either of these fields cannot be empty.. ");
+            return;
+        } else if (s9 == 0 && s10 == 0) {
+            System.out.println("These were left on 0 on purpose..");
+        }
+
         LocalDate tDate = targetDate.getValue();
 
         saveStrengthGoal(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, tDate);
@@ -379,7 +575,8 @@ public class goalCard {
                 a.setContentText("CHANGE YOUR VALUES");
                 return;
                 /**
-                 * THIS IS SUPPOSE TO MAKE THE VALUE INTO X THEN PASSED, doesn't work..
+                 * THIS IS SUPPOSE TO MAKE THE VALUE INTO X THEN PASSED, doesn't
+                 * work..
                  *
                  * if (x == 0) { // Do this if x is 0 d.setHeaderText("ERROR:
                  * value 0"); d.setContentText("Current: "); Optional<String>
@@ -390,26 +587,9 @@ public class goalCard {
                  * d.setContentText("Target: "); Optional<String> result =
                  * d.showAndWait(); result.ifPresent(target -> { x =
                  * Integer.parseInt(target); System.out.println("target result
-                 * is saved to targetTF"); }); } 
-                *
+                 * is saved to targetTF"); }); }
+                 *
                  */
-            }
-
-        } else if (strengthRB.isSelected()) {
-            if (x != 0 && y != 0) {
-                if (x < y) {
-                    System.out.println("Get Stronger..");
-                } else {
-                    System.out.println("ERROR, current MAX can't be bigger than target MAX");
-                    //x = 0;
-                    //y = 0;
-                    return;
-                }
-            } else if (x == 0 && y != 0 || x != 0 && y == 0) {
-                System.out.println("Either of these fields cannot be empty.. ");
-                return; 
-            } else if (x == 0 && y == 0) {
-                System.out.println("These were left on 0 on purpose..");
             }
 
         }
@@ -432,7 +612,7 @@ public class goalCard {
         d.setTitle("Input required field/s..");
         // This methods checks the string to make sure it's not null... NULL ONLY, 0 is in later methods
         if (weightRB.isSelected()) {
-            if (rbGain.isSelected() || sizeRB.isSelected() || strengthRB.isSelected()) {
+            if (rbGain.isSelected() || rbLose.isSelected() || rbMain.isSelected()) {
                 if (currentTF.getText().isEmpty() && targetTF.getText().isEmpty()) {
                     System.out.println("Please enter both fields...");
                     d.setHeaderText("Enter for current weight");
@@ -478,6 +658,9 @@ public class goalCard {
             if (neckTF.getText().isEmpty() && neckg.getText().isEmpty()) {
                 // Both empty
                 System.out.println("neck was left empty.");
+                //set value to 0 since we need string
+                neckTF.setText("0");
+                neckg.setText("0");
             } else if (neckTF.getText().isEmpty() && !neckg.getText().isEmpty()) {
                 // Current is empty, target isn't
                 // Get c neck value
@@ -506,6 +689,8 @@ public class goalCard {
             if (armsTF.getText().isEmpty() && armsg.getText().isEmpty()) {
                 // Both arms are empty...
                 System.out.println("arms was left empty.");
+                armsTF.setText("0");
+                armsg.setText("0");
             } else if (!armsTF.getText().isEmpty() && !armsg.getText().isEmpty()) {
                 // Both arms are there...
                 System.out.println("arms wasn't left empty.");
@@ -534,25 +719,27 @@ public class goalCard {
             if (waistTF.getText().isEmpty() && waistg.getText().isEmpty()) {
                 //Both are left empty
                 System.out.println("Waist was left empty....");
+                waistTF.setText("0");
+                waistg.setText("0");
             } else if (!waistTF.getText().isEmpty() && !waistg.getText().isEmpty()) {
                 //Both are NOT empty
                 System.out.println("Waist is there..");
             } else if (waistTF.getText().isEmpty() && !waistg.getText().isEmpty()) {
-                //Current is there, target isn't
-                d.setHeaderText("Enter for target waist size");
+                //Current is empty, target isn't
+                d.setHeaderText("Enter for Current waist size");
                 d.setContentText("Waist: ");
                 Optional<String> result = d.showAndWait();
                 result.ifPresent(twaist -> {
-                    waistg.setText(twaist);
+                    waistTF.setText(twaist);
                 });
                 System.out.println("This should save target");
             } else if (!waistTF.getText().isEmpty() && waistg.getText().isEmpty()) {
                 //Current is empty, target is NOT
-                d.setHeaderText("Enter for current waist size");
+                d.setHeaderText("Enter for Target waist size");
                 d.setContentText("Waist: ");
                 Optional<String> result = d.showAndWait();
                 result.ifPresent(cwaist -> {
-                    waistTF.setText(cwaist);
+                    waistg.setText(cwaist);
                 });
                 System.out.println("This should save current");
             }
@@ -560,6 +747,8 @@ public class goalCard {
             if (hipsTF.getText().isEmpty() && hipsg.getText().isEmpty()) {
                 //HIPS LEFT EMPTY
                 System.out.println("hips was left empty.");
+                hipsTF.setText("0");
+                hipsg.setText("0");
             } else if (!hipsTF.getText().isEmpty() && !hipsg.getText().isEmpty()) {
                 //HIPS LEFT FILLED
                 System.out.println("hips was isn't empty.");
@@ -587,6 +776,8 @@ public class goalCard {
             //LEGS PART
             if (legsTF.getText().isEmpty() && legsg.getText().isEmpty()) {
                 System.out.println("legs was left empty.");
+                legsTF.setText("0");
+                legsg.setText("0");
             } else if (!legsTF.getText().isEmpty() && !legsg.getText().isEmpty()) {
                 System.out.println("legs wasn't left empty.");
             } else if (legsTF.getText().isEmpty() && !legsg.getText().isEmpty()) {
@@ -614,11 +805,13 @@ public class goalCard {
         } else if (strengthRB.isSelected()) {
             // Check empties for strength
             //BENCH
-            if(benchTF.getText().isEmpty() && benchg.getText().isEmpty()){
+            if (benchTF.getText().isEmpty() && benchg.getText().isEmpty()) {
                 System.out.println("Bench was left empty.");
-            } else if(!benchTF.getText().isEmpty() && !benchg.getText().isEmpty()){
+                benchTF.setText("0");
+                benchg.setText("0");
+            } else if (!benchTF.getText().isEmpty() && !benchg.getText().isEmpty()) {
                 System.out.println("Bench wasn't left empty.");
-            } else if(benchTF.getText().isEmpty() && !benchg.getText().isEmpty()){
+            } else if (benchTF.getText().isEmpty() && !benchg.getText().isEmpty()) {
                 System.out.println("Current bench was left empty.");
                 d.setHeaderText("Enter for current MAX bench");
                 d.setContentText("Bench: ");
@@ -627,7 +820,7 @@ public class goalCard {
                     benchTF.setText(cbench);
                 });
                 System.out.println("This should save current");
-            } else if(!benchTF.getText().isEmpty() && benchg.getText().isEmpty()){
+            } else if (!benchTF.getText().isEmpty() && benchg.getText().isEmpty()) {
                 System.out.println("Target bench was left empty.");
                 d.setHeaderText("Enter for target MAX bench");
                 d.setContentText("Bench: ");
@@ -637,13 +830,15 @@ public class goalCard {
                 });
                 System.out.println("This should save target");
             }
-            
+
             //SHOULDER PRESS
-            if(spressTF.getText().isEmpty() && spressg.getText().isEmpty()){
+            if (spressTF.getText().isEmpty() && spressg.getText().isEmpty()) {
                 System.out.println("Shoulder press was left empty.");
-            } else if(!spressTF.getText().isEmpty() && !spressg.getText().isEmpty()){
+                spressTF.setText("0");
+                spressg.setText("0");
+            } else if (!spressTF.getText().isEmpty() && !spressg.getText().isEmpty()) {
                 System.out.println("Shoulder press wasn't left empty.");
-            } else if(spressTF.getText().isEmpty() && !spressg.getText().isEmpty()){
+            } else if (spressTF.getText().isEmpty() && !spressg.getText().isEmpty()) {
                 System.out.println("Current shoulder press was left empty.");
                 d.setHeaderText("Enter for current MAX shoulder press");
                 d.setContentText("Shoulder Press: ");
@@ -652,7 +847,7 @@ public class goalCard {
                     spressTF.setText(cspress);
                 });
                 System.out.println("This should save current");
-            } else if(!spressTF.getText().isEmpty() && spressg.getText().isEmpty()){
+            } else if (!spressTF.getText().isEmpty() && spressg.getText().isEmpty()) {
                 System.out.println("Target shoulder press was left empty.");
                 d.setHeaderText("Enter for target MAX shoulder press");
                 d.setContentText("Shoulder Press: ");
@@ -662,13 +857,15 @@ public class goalCard {
                 });
                 System.out.println("This should save target");
             }
-            
+
             //DEADLIFT
-            if(deadliftTF.getText().isEmpty() && deadliftg.getText().isEmpty()){
+            if (deadliftTF.getText().isEmpty() && deadliftg.getText().isEmpty()) {
                 System.out.println("Deadlift was left empty.");
-            } else if(!deadliftTF.getText().isEmpty() && !deadliftg.getText().isEmpty()){
+                deadliftTF.setText("0");
+                deadliftg.setText("0");
+            } else if (!deadliftTF.getText().isEmpty() && !deadliftg.getText().isEmpty()) {
                 System.out.println("Deadlift wasn't left empty.");
-            } else if(deadliftTF.getText().isEmpty() && !deadliftg.getText().isEmpty()){
+            } else if (deadliftTF.getText().isEmpty() && !deadliftg.getText().isEmpty()) {
                 System.out.println("Current deadlift was left empty.");
                 d.setHeaderText("Enter for current MAX Deadlift");
                 d.setContentText("Deadlift: ");
@@ -677,7 +874,7 @@ public class goalCard {
                     deadliftTF.setText(cdeadlift);
                 });
                 System.out.println("This should save current");
-            } else if(!deadliftTF.getText().isEmpty() && deadliftg.getText().isEmpty()){
+            } else if (!deadliftTF.getText().isEmpty() && deadliftg.getText().isEmpty()) {
                 System.out.println("Target deadlift was left empty.");
                 d.setHeaderText("Enter for target MAX deadlift");
                 d.setContentText("Deadlift: ");
@@ -687,13 +884,15 @@ public class goalCard {
                 });
                 System.out.println("This should save target");
             }
-            
+
             //SQUATs
-            if(squatsTF.getText().isEmpty() && squatsg.getText().isEmpty()){
+            if (squatsTF.getText().isEmpty() && squatsg.getText().isEmpty()) {
                 System.out.println("Squats was left empty.");
-            } else if(!squatsTF.getText().isEmpty() && !squatsg.getText().isEmpty()){
+                squatsTF.setText("0");
+                squatsg.setText("0");
+            } else if (!squatsTF.getText().isEmpty() && !squatsg.getText().isEmpty()) {
                 System.out.println("Squats wasn't left empty.");
-            } else if(squatsTF.getText().isEmpty() && !squatsg.getText().isEmpty()){
+            } else if (squatsTF.getText().isEmpty() && !squatsg.getText().isEmpty()) {
                 System.out.println("Current squats was left empty.");
                 d.setHeaderText("Enter for current MAX Squats");
                 d.setContentText("Squats: ");
@@ -702,7 +901,7 @@ public class goalCard {
                     squatsTF.setText(csquats);
                 });
                 System.out.println("This should save current");
-            } else if(!squatsTF.getText().isEmpty() && squatsg.getText().isEmpty()){
+            } else if (!squatsTF.getText().isEmpty() && squatsg.getText().isEmpty()) {
                 System.out.println("Target squats was left empty.");
                 d.setHeaderText("Enter for target MAX Squats");
                 d.setContentText("Squats: ");
@@ -712,13 +911,15 @@ public class goalCard {
                 });
                 System.out.println("This should save target");
             }
-            
+
             // LEG PRESS
-            if(legpressTF.getText().isEmpty() && legpressg.getText().isEmpty()){
+            if (legpressTF.getText().isEmpty() && legpressg.getText().isEmpty()) {
                 System.out.println("Leg Press was left empty.");
-            } else if(!legpressTF.getText().isEmpty() && !legpressg.getText().isEmpty()){
+                legpressTF.setText("0");
+                legpressg.setText("0");
+            } else if (!legpressTF.getText().isEmpty() && !legpressg.getText().isEmpty()) {
                 System.out.println("Leg Press wasn't left empty.");
-            } else if(legpressTF.getText().isEmpty() && !legpressg.getText().isEmpty()){
+            } else if (legpressTF.getText().isEmpty() && !legpressg.getText().isEmpty()) {
                 System.out.println("Current leg Press was left empty.");
                 d.setHeaderText("Enter for current MAX Leg Press");
                 d.setContentText("Leg Press: ");
@@ -727,7 +928,7 @@ public class goalCard {
                     legpressTF.setText(clpress);
                 });
                 System.out.println("This should save current");
-            } else if(!legpressTF.getText().isEmpty() && legpressg.getText().isEmpty()){
+            } else if (!legpressTF.getText().isEmpty() && legpressg.getText().isEmpty()) {
                 System.out.println("Target leg Press was left empty.");
                 d.setHeaderText("Enter for target MAX Leg Press");
                 d.setContentText("Leg Press: ");
@@ -737,7 +938,7 @@ public class goalCard {
                 });
                 System.out.println("This should save target");
             }
-            
+
         }
     }
 
@@ -850,4 +1051,73 @@ public class goalCard {
         }
         System.out.println("cleaning up nodes from strengthA");
     }
+
+    private void howMuchCalories(int x) {
+        //We have our target weight x which will be converted to KG from LB.
+        if (gender.equals("Male")) {
+            if (metricRB.isSelected()) {
+                // KG. leave alone and calc MALE           
+                double res = (10 * x) + (6.25 * height) - (5 * age) + 5;
+                double DCI = Math.round(res) + 300; // THIS IS THE DAILY CALORIE INTAKE.
+                a.setTitle("Daily Calorie Intake (M)");
+                a.setHeaderText("Here are your results");
+                a.setContentText("Your daily calorie intake is.. " + DCI);
+                a.showAndWait();
+            } else if (usRB.isSelected()) {
+                // US Pounds.. convert. 
+                double w = x / 2.205;
+                double res = 10*w + 6.25*height - 5*age + 5;
+                double DCI = Math.round(res) + 300; // THIS IS THE DAILY CALORIE INTAKE.
+                a.setTitle("Daily Calorie Intake (M)");
+                a.setHeaderText("Here are your results");
+                a.setContentText("Your daily calorie intake is.. " + DCI);
+                a.showAndWait();
+            } else {
+                a.setTitle("CSC490 - Fitness Planner ");
+                a.setHeaderText("CAUTION");
+                a.setContentText("PLEASE SELECT A UNIT OF MEASURE");
+                a.showAndWait();
+            }
+        } else if (gender.equals("Female")) {
+            if (metricRB.isSelected()) {
+                // KG. leave alone and calc FEMALE           
+                double res = (10 * x) + (6.25 * height) - (5 * age) - 161;
+                double DCI = Math.round(res) + 300; // THIS IS THE DAILY CALORIE INTAKE.
+                a.setTitle("Daily Calorie Intake (F)");
+                a.setHeaderText("Here are your results");
+                a.setContentText("Your daily calorie intake is.. " + DCI);
+                a.showAndWait();
+            } else if (usRB.isSelected()) {
+                // US Pounds.. convert. 
+                double w = x / 2.205;
+                double res = (10 * w) + (6.25 * height) - (5 * age) - 161;
+                double DCI = Math.round(res) + 300; // THIS IS THE DAILY CALORIE INTAKE.
+                a.setTitle("Daily Calorie Intake (F) ");
+                a.setHeaderText("Here are your results");
+                a.setContentText("Your daily calorie intake is.. " + DCI);
+                a.showAndWait();
+            } else {
+                a.setTitle("CSC490 - Fitness Planner ");
+                a.setHeaderText("CAUTION");
+                a.setContentText("PLEASE SELECT A UNIT OF MEASURE");
+                a.showAndWait();
+            }
+        }
+    }
+    @FXML
+    private void only1RB(){
+        if(rbGain.isSelected()){
+            rbLose.setDisable(true);
+            rbMain.setDisable(true);
+        }
+        else if(rbLose.isSelected()) {
+            rbGain.setDisable(true);
+            rbMain.setDisable(true);
+        }
+        else if(rbMain.isSelected()){
+            rbGain.setDisable(true);
+            rbLose.setDisable(true);
+        }
+    }
 }
+
