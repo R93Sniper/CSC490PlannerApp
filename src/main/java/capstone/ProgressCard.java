@@ -6,21 +6,23 @@
 package capstone;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 
 /**
  *
- * @author Wahab Quazi
- * Jesus Alvarado
- * Nick
+ * @author Wahab Quazi Jesus Alvarado Nick
  */
 public class ProgressCard {
 
@@ -38,18 +40,29 @@ public class ProgressCard {
     I forgot what the method name was.
     Be sure that we grab the current system date
      */
-    private DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    private DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private LocalDateTime now = LocalDateTime.now();
     private ProgressCardConnector pcTable = new ProgressCardConnector();
     private UserProfileModel usr = UserProfileModel.getInstance();
     @FXML
     private Button measureMe;
+    @FXML
+    private ToggleGroup lbsOrKg;
+    @FXML
+    private ToggleGroup todayOrNot;
+    @FXML
+    private DatePicker datePick;
+    @FXML
+    private RadioButton todaysDate;
+    @FXML
+    private RadioButton PreviousDate;
+    @FXML
+    private Text dateText;
 
     /**
      * intialize method, calls upon opening this controller sets the date to the
      * current system date
      */
-    @FXML
     public void initialize() {
 
         currentDate.setText(dt.format(now));
@@ -144,7 +157,6 @@ public class ProgressCard {
 
     }
 
-    @FXML
     public void loadWeight() {
         int id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
         if (id != -1) {
@@ -172,5 +184,47 @@ public class ProgressCard {
     @FXML
     public void goToStrength() throws IOException {
         App.setRoot("StrengthCard");
+    }
+
+    @FXML
+    private void showTodaysDate(ActionEvent event) {
+
+        datePick.setOpacity(0);
+
+    }
+
+    @FXML
+    private void ShowDatePicker(ActionEvent event) {
+
+        datePick.setOpacity(1);
+
+    }
+
+    /**
+     * method to check the date selected for validity, if all is good then set the date text to the current date otherwise 
+     * do nothing
+     * @param event 
+     */
+    @FXML
+    private void checkAndDoDate(ActionEvent event) {
+
+        String d = datePick.getValue().toString();
+
+        String d2 = dt.format(now);
+
+        if (d.equals(d2)) {
+
+            makeAlert("Error, you selected todays date, please select a previous date");
+
+        } else if (d.compareTo(d2) > 0) {
+
+            makeAlert("Error, unless you can time travel you cannot enter data about a date that has not happened yet");
+
+        } else {
+
+            currentDate.setText(d);
+
+        }
+
     }
 }
