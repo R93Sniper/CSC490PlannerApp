@@ -43,4 +43,9 @@ public class SecondaryController {
     private void switchToBodyFat() throws IOException {
         App.setRoot("bodyfatCalc");
     }
+
+    @FXML
+    private void switchToPhysicalActivty() throws IOException {
+        App.setRoot("physicalActivityCalc");
+    }
 }

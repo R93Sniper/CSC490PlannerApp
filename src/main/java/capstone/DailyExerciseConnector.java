@@ -138,6 +138,27 @@ public class DailyExerciseConnector extends dataConnector {
 
     }
     
+    public double getMETValue(String activityName){
+    
+        ResultSet result = null;
+        String str = "";
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("SELECT * FROM PhysicalActivity"
+                    + " WHERE Activity_Name=\'"+activityName+"\';");
+            while(result.next()){
+                str = result.getString("MET_Value");
+                //System.out.println(i+": "+str);
+               return Double.valueOf(str);
+            }       
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        return -1;
+    }
+    
     
     public ResultSet getAllActivities(){
     
@@ -148,12 +169,13 @@ public class DailyExerciseConnector extends dataConnector {
             Statement stmt = conn.createStatement();
             result = stmt.executeQuery("SELECT * FROM PhysicalActivity"
                     + " ORDER BY Activity_Name ASC;");
-         
+            return result;
+            /*
             while(result.next()){
                 str = result.getString("Activity_Name");
                 System.out.println(i+": "+str);
                 i++;
-            }
+            }*/
             
         } catch (SQLException ex) {
             ex.printStackTrace();
