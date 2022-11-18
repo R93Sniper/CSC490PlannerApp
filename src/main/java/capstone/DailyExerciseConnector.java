@@ -148,6 +148,7 @@ public class DailyExerciseConnector extends dataConnector {
             Statement stmt = conn.createStatement();
             result = stmt.executeQuery("SELECT * FROM PhysicalActivity"
                     + " ORDER BY Activity_Name ASC;");
+         
             while(result.next()){
                 str = result.getString("Activity_Name");
                 System.out.println(i+": "+str);
