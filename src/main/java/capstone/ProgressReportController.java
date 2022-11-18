@@ -137,51 +137,51 @@ public class ProgressReportController {
         y.setLabel("Weight (lbs)");
         //Creating a chart
         lineChart = new LineChart<>(x, y);
-        
+
         //Preparing the data points for the series1
         Series<String, Number> series = new Series<>();
         Series<String, Number> seriesStart = new Series<>();
         ArrayList<Integer> pIds;
-        if(selectedMonth==0){
-             pIds = pc.getAllProgressIds(usr.getUserName());
-        }else{
-            String startDate = String.valueOf(selectedMonth)+"/01/"+LocalDate.now().getYear();
-            String endDate = String.valueOf(selectedMonth)+"/31/"+LocalDate.now().getYear();
-            System.out.println("startDate="+startDate +"  ,endDate="+endDate);
+        if (selectedMonth == 0) {
+            pIds = pc.getAllProgressIds(usr.getUserName());
+        } else {
+            String startDate = String.valueOf(selectedMonth) + "/01/" + LocalDate.now().getYear();
+            String endDate = String.valueOf(selectedMonth) + "/31/" + LocalDate.now().getYear();
+            System.out.println("startDate=" + startDate + "  ,endDate=" + endDate);
             pIds = pc.getAllProgressIds(usr.getUserName(), startDate, endDate);
         }
-         
+
         double upperBound = 0;
         double lowerBound = 999;
         double w = 0;
         Data<String, Number> data;
-        
+
         ResultSet result = goals.getLastGoal("Weight", usr.getUserName());
-        
+
         double startWeight = -1;
         double endWeight = -1;
-        if(result !=null){
+        if (result != null) {
             hasWeightGoal = true;
-        String initialWeight =  result.getString("Initial_Weight");
-        startWeight = Double.valueOf(initialWeight);
-        endWeight = Double.valueOf(result.getString("Target_Weight"));
-        String dateCreated =  result.getString("Date_Created");
-        data = new Data<>(dateCreated, Double.valueOf(initialWeight));
-        Button btn = new Button(String.valueOf(initialWeight));
-        //btn.setStyle("-fx-background-color: #00ff00");
-        data.setNode(btn);       
-        data.getNode().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            String initialWeight = result.getString("Initial_Weight");
+            startWeight = Double.valueOf(initialWeight);
+            endWeight = Double.valueOf(result.getString("Target_Weight"));
+            String dateCreated = result.getString("Date_Created");
+            data = new Data<>(dateCreated, Double.valueOf(initialWeight));
+            Button btn = new Button(String.valueOf(initialWeight));
+            //btn.setStyle("-fx-background-color: #00ff00");
+            data.setNode(btn);
+            data.getNode().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
                     System.out.println("Hello World, data node clicked");
                     //circle.setFill(Color.DARKSLATEBLUE);  
                 }
             });
-        seriesStart.getData().add(data);
-        //series.getData().add(data);
-        lineChart.getData().add(seriesStart);
+            seriesStart.getData().add(data);
+            //series.getData().add(data);
+            lineChart.getData().add(seriesStart);
         }
-        
+
         for (Integer i : pIds) {
             w = pc.getWeight(i);
             if (w > upperBound) {
@@ -193,7 +193,7 @@ public class ProgressReportController {
             String date = pc.getDateOfCard(i);
             data = new Data<>(date, w);
             data.setNode(new Button(String.valueOf(w)));
- 
+
             data.getNode().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
@@ -205,60 +205,58 @@ public class ProgressReportController {
             series.getData().add(data);
             //System.out.println("series node = "+series.getNode().toString());
         }
-       seriesStart.setName("Goal Created");
-       series.setName("Day of Progress Card");
-       
-       lineChart.getData().add(series);
-       if(hasWeightGoal)
+        seriesStart.setName("Goal Created");
+        series.setName("Day of Progress Card");
+
+        lineChart.getData().add(series);
+        if (hasWeightGoal) {
             addTargetDataPoint();
+        }
 
         if (pIds.size() > 0) {
             y.setAutoRanging(false);
             double lowestBound = lowerBound;
             double highestBound = upperBound;
-            if(startWeight < lowestBound){
+            if (startWeight < lowestBound) {
                 lowestBound = startWeight;
             }
-            if(endWeight < lowestBound){
+            if (endWeight < lowestBound) {
                 lowestBound = endWeight;
             }
-           if(startWeight > highestBound){
+            if (startWeight > highestBound) {
                 highestBound = startWeight;
             }
-            if(endWeight > highestBound){
+            if (endWeight > highestBound) {
                 highestBound = endWeight;
-            }        
+            }
             y.setLowerBound((lowestBound - 20.0));
             y.setUpperBound((highestBound + 20.0));
         } else {
-            if(hasWeightGoal){
-                if(endWeight > startWeight){
-                    y.setUpperBound(endWeight +20.0);
+            if (hasWeightGoal) {
+                if (endWeight > startWeight) {
+                    y.setUpperBound(endWeight + 20.0);
                     y.setLowerBound(startWeight - 20.0);
-                }else{
-                    y.setUpperBound(startWeight +20.0);
+                } else {
+                    y.setUpperBound(startWeight + 20.0);
                     y.setLowerBound(endWeight - 20.0);
                 }
-            
-            }else{      
-            y.setUpperBound(200.0);
-            y.setLowerBound(100.0);
+
+            } else {
+                y.setUpperBound(200.0);
+                y.setLowerBound(100.0);
             }
-                   
+
             y.setAutoRanging(true);
         }
 
         y.setTickUnit(10.0);
         y.setForceZeroInRange(false);
 
-       showNewScene();
+        showNewScene();
     }
-        
-        
-        
-        
-      public void showNewScene(){  
-          Stage stage = new Stage();
+
+    public void showNewScene() {
+        Stage stage = new Stage();
         //Creating a stack pane to hold the chart
         StackPane pane = new StackPane(lineChart);
         pane.setPadding(new Insets(15, 15, 15, 15));
@@ -270,38 +268,38 @@ public class ProgressReportController {
         stage.show();
 
     }
-    
-    private void addTargetDataPoint() throws SQLException{
-    
+
+    private void addTargetDataPoint() throws SQLException {
+
         Series<String, Number> series2 = new Series<>();
         series2.setName("Final Day to reach Goal");
         ResultSet result = goals.getLastGoal("Weight", usr.getUserName());
-        String str ="";
-        if(result !=null){
-        String targetWeight = result.getString("Target_Weight");
-        String targetDate = result.getString("Target_Date");
-         str = "**Goal= " + result.getString("Goal_Type")+": "+targetWeight+" lbs " + " By " + result.getString("Target_Date")+" **";
-        Data data = new Data<>(targetDate, Double.valueOf(targetWeight));
-        Button btn = new Button(targetWeight);
-        //btn.setStyle("-fx-background-color: #30D5C8");
-        data.setNode(btn);       
-        data.getNode().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+        String str = "";
+        if (result != null) {
+            String targetWeight = result.getString("Target_Weight");
+            String targetDate = result.getString("Target_Date");
+            str = "**Goal= " + result.getString("Goal_Type") + ": " + targetWeight + " lbs " + " By " + result.getString("Target_Date") + " **";
+            Data data = new Data<>(targetDate, Double.valueOf(targetWeight));
+            Button btn = new Button(targetWeight);
+            //btn.setStyle("-fx-background-color: #30D5C8");
+            data.setNode(btn);
+            data.getNode().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent e) {
                     System.out.println("Hello World, data node clicked");
                     //circle.setFill(Color.DARKSLATEBLUE);  
                 }
             });
-        series2.getData().add(data);
+            series2.getData().add(data);
         }
-        if(!series2.getData().isEmpty())
+        if (!series2.getData().isEmpty()) {
             lineChart.getData().add(series2);
-        
-        
+        }
+
         lineChart.setTitle(str);
 
     }
-    
+
     @FXML
     private void setupLineChart() {
         yAxis.setTickUnit(10.0);
@@ -348,8 +346,6 @@ public class ProgressReportController {
         xAxis.setLabel("Progress Dayzzz");
     }
 
-    
-    
     public static void main(String[] args) {
         ProgressReportController pc = new ProgressReportController();
 

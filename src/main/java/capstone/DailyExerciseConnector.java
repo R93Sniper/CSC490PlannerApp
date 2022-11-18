@@ -137,14 +137,38 @@ public class DailyExerciseConnector extends dataConnector {
         return item;
 
     }
+    
+    
+    public ResultSet getAllActivities(){
+    
+        ResultSet result = null;
+        String str = "";
+        int i =1;
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("SELECT * FROM PhysicalActivity"
+                    + " ORDER BY Activity_Name ASC;");
+            while(result.next()){
+                str = result.getString("Activity_Name");
+                System.out.println(i+": "+str);
+                i++;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+   
+        
+        
+        
+        return null;
+    }
+    
 
     public static void main(String[] args) {
         dataConnector d = dataConnector.getInstance();
         DailyExerciseConnector dc = new DailyExerciseConnector();
-
-        //dc.insertNewDailyExerciseCard("1-2");
-        //dc.insertNewExerciseLogCardio("running", "45 min", "3 mile");
-        dc.insertNewExerciseLogWeightLifting("bench press", "300 lbs", "3", "10");
+        dc.getAllActivities();
 
     }
 
