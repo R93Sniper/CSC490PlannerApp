@@ -26,31 +26,31 @@
             <ToolBar layoutX="5.0" layoutY="47.0" prefHeight="40.0" prefWidth="275.0">
                <items>
                   <TextField fx:id="text_Bench" prefHeight="35.0" promptText="Bench press" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds (Bench)" />
                </items>
             </ToolBar>
             <ToolBar layoutX="5.0" layoutY="91.0" prefHeight="40.0" prefWidth="275.0">
                <items>
                   <TextField fx:id="text_Shoulder" prefHeight="35.0" promptText="Shoulder press" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds (Shoulder)" />
                </items>
             </ToolBar>
             <ToolBar layoutX="5.0" layoutY="136.0" prefHeight="40.0" prefWidth="275.0">
                <items>
                   <TextField fx:id="text_Deadlift" prefHeight="35.0" promptText="Deadlift " />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds (Deadlift)" />
                </items>
             </ToolBar>
             <ToolBar layoutX="5.0" layoutY="180.0" prefHeight="40.0" prefWidth="275.0">
                <items>
                   <TextField fx:id="text_Squat" prefHeight="35.0" promptText="Squats" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reps (Squats)" />
                </items>
             </ToolBar>
             <ToolBar layoutX="5.0" layoutY="224.0" prefHeight="40.0" prefWidth="275.0">
                <items>
                   <TextField fx:id="text_Leg" prefHeight="35.0" promptText="Leg press" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pounds (Leg Press)" />
                </items>
             </ToolBar>
          </children>

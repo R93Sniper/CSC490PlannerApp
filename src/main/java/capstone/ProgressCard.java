@@ -166,8 +166,8 @@ public class ProgressCard {
 
     @FXML
     public void goToMeasure() throws IOException {
-        makeAlert("Error, feature not yet implemented");
-        //App.setRoot("MeasureCard");
+        //makeAlert("Error, feature not yet implemented");
+        App.setRoot("MeasurementsCard");
     }
 
     @FXML
