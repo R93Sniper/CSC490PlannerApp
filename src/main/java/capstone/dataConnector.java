@@ -231,7 +231,23 @@ public class dataConnector {
             ex.printStackTrace();
         }
         return result;
+    }
+    
+    public ResultSet getRow(int id, String tableName) {
 
+        ResultSet result = null;
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("select * from " + tableName
+                    + " where ID="+ id+ ";");
+            while(result.next()){
+                return result;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
     }
 
     public boolean updateColumn(String tableName, String userName, String newStr, String col) {

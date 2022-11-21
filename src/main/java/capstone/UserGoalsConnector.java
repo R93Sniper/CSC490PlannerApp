@@ -8,6 +8,9 @@ package capstone;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -220,7 +223,49 @@ public class UserGoalsConnector extends dataConnector {
     public void saveWeightGoal(GoalObject goal) {
         this.userGoals(goal.getGoalType(), goal.getDateTarget(), goal.getWeightTarget(), goal.getDateCreated(), "0", "0", goal.getWeightInitial());
     }
+    
+    private ResultSet getGoalResult(int id, String goalType) {
+       
+       
+        ResultSet result = null;
+        String type = "";
+        try {
+            Statement stmt = conn.createStatement();
+            result = stmt.executeQuery("SELECT * FROM User_Goals"
+                    + " WHERE ID=" + id + ";");
+            while(result.next()){
+                type = result.getString("Goal_Type");
+                String[] words = type.split("-");
+                if(goalType.equals(words[0]))
+                    return result;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
 
+    }
+
+    public ResultSet getLastGoal(String goalType, String userName){
+        
+        String goalIds = this.getUserGoals(userName);
+        if(goalIds==null)
+            return null;
+        String[] arr = goalIds.split("-");
+        int i = arr.length-1;
+        ResultSet res;
+        for( ;i>=0; i--)
+        {
+            res = getGoalResult(Integer.valueOf(arr[i]), goalType);
+            if(res != null){
+            System.out.println("goalId="+arr[i]);
+            return res;
+            }
+        }
+    return null;
+    }
+    
     public static void main(String[] args) {
         dataConnector d = dataConnector.getInstance();
         
@@ -228,15 +273,22 @@ public class UserGoalsConnector extends dataConnector {
        
         UserProfileModel usr = UserProfileModel.getInstance();
         usr.setUserName("johndoe");
-        GoalObject goal = new GoalObject();
+        //GoalObject goal = new GoalObject();
         //goal.setSizeGoal("10","11", "12", "13", "14", "20", "21", "22", "23", "24", "SizeGoal", "1/3/2023", "11/9/2022");
         //dc.saveSizeGoal(goal);
          //goal.setStrengthGoal("100","110", "120", "130", "140", "50", "51", "52", "53", "54", "StrengthGoal", "1/30/2023", "11/9/2022");
          //dc.saveStrengthGoal(goal);
-        goal.setWeightGoal("Weight-Gain", "160", "190", "5/8/2023", "11/9/2022");
+        //goal.setWeightGoal("Weight-Gain", "160", "190", "5/8/2023", "11/9/2022");
         //dc.saveWeightGoal(goal);
         //dc.saveWeightGoal("Weight-Gain", "1/20/2023", "175", "11/8/2022");
-        dc.saveWeightGoal(goal);
+        ///dc.saveWeightGoal(goal);
+        ResultSet res = dc.getLastGoal("Weight", "johnny");
+        try {
+            System.out.println("Target date = "+res.getString("Target_Date"));
+            System.out.println("Target Weight = "+res.getString("Target_Weight"));
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
 
     }
 ;

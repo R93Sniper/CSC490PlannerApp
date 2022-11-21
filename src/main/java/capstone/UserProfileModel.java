@@ -27,6 +27,9 @@ public class UserProfileModel {
     private int progressCardId = 0;
     private static int dailyIntakeId = 0;
     private static int dailyExerciseId = 0;
+    public String physicalActivity = "";
+    public String caloriesBurned = "";
+    public String duration = "";
 
 
     public static UserProfileModel getInstance() {
@@ -136,5 +139,10 @@ public class UserProfileModel {
         return returnAge;
     }
     
+    public void resetPhysicalActivity(){
+    physicalActivity = "";
+    caloriesBurned = "";
+    duration = "";
+    }
 
 }

@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -74,6 +75,7 @@ public class DailyIntakeController {
     private double total_Fats = 0;
     private double total_Protein = 0;
     private DecimalFormat df = new DecimalFormat("0.00");
+    private ProgressCardConnector pcTable = new ProgressCardConnector();
     
 
     /**
@@ -96,7 +98,7 @@ public class DailyIntakeController {
 
     //this method will save the DailyIntake data in the database and update the DailyIntake row
     @FXML
-    public void onSave() {
+    public void onSave() throws IOException {
         double totalCal = 0.0;
         double totalCarbs = 0.0;
         double totalProtein = 0.0;
@@ -115,6 +117,11 @@ public class DailyIntakeController {
             strFoodLogIds += "-" + foodLogIds.get(i).toString();
             }
         }
+        total_Cals = totalCal;
+        total_Carbs = totalCarbs;
+        total_Fats = totalFats;
+        total_Protein = totalProtein;
+        loadTotalValues();
         
         if (dailyIntakeID == 0) {
             intakeDC.userDailyIntake(strFoodLogIds, String.valueOf(df.format(totalCal)), String.valueOf(df.format(totalCarbs)),
@@ -128,11 +135,22 @@ public class DailyIntakeController {
             intakeDC.updateProteinTotal(dailyIntakeID, String.valueOf(df.format(totalProtein)));
             intakeDC.updateFoodLogIds(dailyIntakeID, strFoodLogIds);
         }
-        total_Cals = totalCal;
-        total_Carbs = totalCarbs;
-        total_Fats = totalFats;
-        total_Protein = totalProtein;
-        loadTotalValues();
+        
+        String msg ="";
+        if (usr.getProgressCardId() == 0 ||usr.getProgressCardId()==-1) {
+            msg = msg + "WARNING!: Need to Create and Save a Progress Card,"
+                    + "\nOtherwise this DailyIntakeCard will be lost and,"
+                    + "\nNot be saved to the Profile when User logs out.";
+            makeAlert(msg);
+            onGoBack();
+        }else{ 
+            msg = "This DailyIntakeCard Saved!! \n";
+            pcTable.updateDailyIntakeID(usr.getProgressCardId(), String.valueOf(dailyIntakeID));
+               
+            makeAlert(msg);
+        }  
+      
+       
     }
 
     // this method will add the food items to the list view and to the foodLog DB
@@ -259,6 +277,14 @@ public class DailyIntakeController {
         total_Protein = 0.0;
         loadTotalValues();
             
+    }
+   
+    public void makeAlert(String alertText) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("Daily Exercise Card");
+        a.setHeaderText(alertText);
+        a.show();
+
     }
     
     

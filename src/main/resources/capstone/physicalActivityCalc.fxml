@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="445.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.PhysicalActivityCalcController">
+   <children>
+      <Label layoutX="166.0" layoutY="49.0" text="Physical Activity Calculator">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <HBox layoutX="85.0" layoutY="131.0" prefHeight="44.0" prefWidth="442.0" spacing="20.0">
+         <children>
+            <ChoiceBox fx:id="cbActivity" prefHeight="49.0" prefWidth="142.0" />
+            <TextField fx:id="wTF" prefHeight="44.0" prefWidth="124.0" promptText="Enter Weight" />
+            <TextField fx:id="timeTF" prefHeight="62.0" prefWidth="135.0" promptText="Duration (min)" />
+         </children>
+      </HBox>
+      <Label layoutX="84.0" layoutY="246.0" text="Calories Burned :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Text fx:id="resultT" layoutX="233.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="115.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="402.0" layoutY="224.0" mnemonicParsing="false" onAction="#getResults" prefHeight="35.0" prefWidth="61.0" text="Go" />
+      <Button layoutX="90.0" layoutY="295.0" mnemonicParsing="false" onAction="#reset" prefHeight="35.0" prefWidth="61.0" text="Reset" />
+      <Button layoutX="90.0" layoutY="337.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="61.0" text="Back" />
+      <RadioButton fx:id="kgRB" layoutX="253.0" layoutY="184.0" mnemonicParsing="false" text="KG" />
+      <RadioButton fx:id="lbRB" layoutX="253.0" layoutY="207.0" mnemonicParsing="false" text="LB" />
+      <Button fx:id="btnAdd" layoutX="402.0" layoutY="302.0" mnemonicParsing="false" onAction="#onAddToExerciseCard" prefHeight="35.0" prefWidth="134.0" text="Add to Exercise Card" />
+   </children>
+</AnchorPane>

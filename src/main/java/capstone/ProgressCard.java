@@ -6,22 +6,26 @@
 package capstone;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 
 /**
  *
- * @author Wahab Quazi
+ * @author Wahab Quazi Jesus Alvarado Nick
  */
 public class ProgressCard {
-    
+
     @FXML
     private TextField currentWeight;
     @FXML
@@ -36,22 +40,43 @@ public class ProgressCard {
     I forgot what the method name was.
     Be sure that we grab the current system date
      */
-    private DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    private DateTimeFormatter dt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private LocalDateTime now = LocalDateTime.now();
     private ProgressCardConnector pcTable = new ProgressCardConnector();
     private UserProfileModel usr = UserProfileModel.getInstance();
     @FXML
     private Button measureMe;
+    @FXML
+    private ToggleGroup lbsOrKg;
+    @FXML
+    private ToggleGroup todayOrNot;
+    @FXML
+    private DatePicker datePick;
+    @FXML
+    private RadioButton todaysDate;
+    @FXML
+    private RadioButton PreviousDate;
+    @FXML
+    private Text dateText;
+    
+    private boolean prevSelected = false;
+    
+    private String prevDate = "";
 
     /**
      * intialize method, calls upon opening this controller sets the date to the
      * current system date
      */
-    @FXML
     public void initialize() {
         
-        currentDate.setText(dt.format(now));
-       
+        if(!prevSelected){
+            currentDate.setText(dt.format(now));
+        } else{
+            currentDate.setText(prevDate);
+        }
+        
+        
+
         loadWeight();
     }
 
@@ -88,7 +113,7 @@ public class ProgressCard {
                 makeAlert("Error, not sure how you got here but good job");
             }
         }
-        
+
         return false;
     }
 
@@ -98,69 +123,122 @@ public class ProgressCard {
      * @param alertText
      */
     public void makeAlert(String alertText) {
-        
+
         Alert a = new Alert(AlertType.ERROR);
         a.setTitle("Error");
         a.setHeaderText(alertText);
         a.showAndWait();
-        
+
     }
-    
+
     @FXML
     public void goBack() throws IOException {
         App.setRoot("UserHome");
     }
-    
+
     @FXML
     public void saveCard() throws IOException {
-        
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         //if valid entry then add row to Progress Table;
-        if (validateEntry()) {
+        if (validateEntry()) {          
             //check to see if progressID already exists for user 
-            int id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
+            int id = usr.getProgressCardId();
+            if (id == 0 || id == -1) {
+                id = pcTable.getProgressID(usr.getUserName(), df.format(now));
+                System.out.println("pId=" + id + "  ,date=" + df.format(now));
+            }
             //if id returned is -1, then it does not exist yet and need to add new row in table
-            if (id == -1) {
-                int intakeID = usr.getDailyIntakeId();
-                int exID = usr.getDailyExerciseId();
-                pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), intakeID, exID, "0", "0");
-
+            if (id == -1 || id == 0) {
+                String intakeID = String.valueOf(usr.getDailyIntakeId());
+                String exID = String.valueOf(usr.getDailyExerciseId());
+                pcTable.userProgressCard(usr.getUserName(), currentDate.getText(), currentWeight.getText(), intakeID, exID, "0", "0");
                 id = pcTable.getLastRow("Progress_Cards");
                 makeAlert("Succefuly created a new Progress Card"
                         + "\nAnd Saved it to the Database!");
+                usr.setProgressCardId(id);
             } else {// row exists in table, so just need to update fields
                 pcTable.updateWeight(id, currentWeight.getText());
-                pcTable.updateDailyIntakeID(id, usr.getDailyIntakeId());
-                pcTable.updateDailyExerciseID(id, usr.getDailyExerciseId());
+                pcTable.updateDailyIntakeID(id, String.valueOf(usr.getDailyIntakeId()));
+                pcTable.updateDailyExerciseID(id, String.valueOf(usr.getDailyExerciseId()));
                 makeAlert("Successfuly Updated Today's Progress Card");
             }
-            usr.setProgressCardId(id);
-            
+
         }
-        
+
     }
-    
-    @FXML
-    public void loadWeight() {
-        int id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
+
+    public void loadWeight() {     
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        int id = pcTable.getProgressID(usr.getUserName(), df.format(now));
         if (id != -1) {
             currentWeight.setText(String.valueOf(pcTable.getWeight(id)));
         }
     }
-    
+
     @FXML
     public void goToMeasure() throws IOException {
-        makeAlert("Error, feature not yet implemented");
-        //App.setRoot("MeasureCard");
+        //makeAlert("Error, feature not yet implemented");
+        App.setRoot("MeasurementsCard");
     }
-    
+
     @FXML
     public void goToIntake() throws IOException {
         App.setRoot("dailyIntake");
     }
-    
+
     @FXML
     public void goToExercise() throws IOException {
-       // makeAlert("Error feature not yet implemented");
+        // makeAlert("Error feature not yet implemented");
         App.setRoot("ExerciseCard");
+    }
+
+    @FXML
+    public void goToStrength() throws IOException {
+        App.setRoot("StrengthCard");
+    }
+
+    @FXML
+    private void showTodaysDate(ActionEvent event) {
+
+        datePick.setOpacity(0);
+        prevSelected = false;
+    }
+
+    @FXML
+    private void ShowDatePicker(ActionEvent event) {
+
+        datePick.setOpacity(1);
+        prevSelected = true;
+
+    }
+
+    /**
+     * method to check the date selected for validity, if all is good then set the date text to the current date otherwise 
+     * do nothing
+     * @param event 
+     */
+    @FXML
+    private void checkAndDoDate(ActionEvent event) {
+
+        String d = datePick.getValue().toString();
+        
+        prevDate = d;
+
+        String d2 = dt.format(now);
+
+        if (d.equals(d2)) {
+
+            makeAlert("Error, you selected todays date, please select a previous date");
+
+        } else if (d.compareTo(d2) > 0) {
+
+            makeAlert("Error, unless you can time travel you cannot enter data about a date that has not happened yet");
+
+        } else {
+
+            currentDate.setText(d);
+
+        }
+
     }
 }
