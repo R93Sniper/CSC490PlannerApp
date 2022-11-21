@@ -58,14 +58,24 @@ public class ProgressCard {
     private RadioButton PreviousDate;
     @FXML
     private Text dateText;
+    
+    private boolean prevSelected = false;
+    
+    private String prevDate = "";
 
     /**
      * intialize method, calls upon opening this controller sets the date to the
      * current system date
      */
     public void initialize() {
-
-        currentDate.setText(dt.format(now));
+        
+        if(!prevSelected){
+            currentDate.setText(dt.format(now));
+        } else{
+            currentDate.setText(prevDate);
+        }
+        
+        
 
         loadWeight();
     }
@@ -141,7 +151,7 @@ public class ProgressCard {
             if (id == -1 || id == 0) {
                 String intakeID = String.valueOf(usr.getDailyIntakeId());
                 String exID = String.valueOf(usr.getDailyExerciseId());
-                pcTable.userProgressCard(usr.getUserName(), df.format(now), currentWeight.getText(), intakeID, exID, "0", "0");
+                pcTable.userProgressCard(usr.getUserName(), currentDate.getText(), currentWeight.getText(), intakeID, exID, "0", "0");
                 id = pcTable.getLastRow("Progress_Cards");
                 makeAlert("Succefuly created a new Progress Card"
                         + "\nAnd Saved it to the Database!");
@@ -191,13 +201,14 @@ public class ProgressCard {
     private void showTodaysDate(ActionEvent event) {
 
         datePick.setOpacity(0);
-
+        prevSelected = false;
     }
 
     @FXML
     private void ShowDatePicker(ActionEvent event) {
 
         datePick.setOpacity(1);
+        prevSelected = true;
 
     }
 
@@ -210,6 +221,8 @@ public class ProgressCard {
     private void checkAndDoDate(ActionEvent event) {
 
         String d = datePick.getValue().toString();
+        
+        prevDate = d;
 
         String d2 = dt.format(now);
 
