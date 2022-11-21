@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -39,6 +40,8 @@ public class PhysicalActivityCalcController {
     private ArrayList<String> activityList;
     
     @FXML
+    private Button btnAdd;
+    @FXML
     private TextField wTF, timeTF;
     @FXML
     private Text resultT;
@@ -46,17 +49,22 @@ public class PhysicalActivityCalcController {
     private RadioButton kgRB, lbRB;
     
     public double metValue;
+    private String activity="";
     private TextInputDialog d = new TextInputDialog();
     private Alert a = new Alert(Alert.AlertType.INFORMATION);
     
     public int w;
     public double t;
-    
+    private UserProfileModel user = UserProfileModel.getInstance();
     /**
      * Initializes the controller class.
      */
     @FXML
     public void initialize() {
+        
+        if(user.getUserName().equals(""))
+            btnAdd.setVisible(false);
+        
         activityList = new ArrayList();
         dc = new DailyExerciseConnector();
         try {
@@ -84,7 +92,7 @@ public class PhysicalActivityCalcController {
                 .addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> ov, Number t, Number num) {
-                        String activity = activityList.get(num.intValue());
+                        activity = activityList.get(num.intValue());
                         metValue = dc.getMETValue(activity);
                         System.out.println("index = " +num.intValue()
                                             +"\n ActivityName= "+ activity
@@ -169,5 +177,14 @@ public class PhysicalActivityCalcController {
         resultT.setText("");
         
         
+    }
+    
+    @FXML
+    public void onAddToExerciseCard() throws IOException{
+        
+        user.caloriesBurned = resultT.getText();
+        user.physicalActivity = activity;
+        user.duration = timeTF.getText();
+        App.setRoot("ExerciseCard");
     }
 }

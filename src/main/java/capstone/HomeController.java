@@ -235,7 +235,7 @@ public class HomeController {
             System.out.println("intake Card ID =" + progressID);
             System.out.println("exercise Card ID =" + exerciseID);
         }
-
+        //System.out.println("Progess id of User now =" + progressID);
     }
 
     @FXML

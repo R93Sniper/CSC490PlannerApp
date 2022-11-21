@@ -74,7 +74,7 @@ public class ProgressCard {
      * method to validate data collected from the user
      */
     public boolean validateEntry() {
-
+        
         if (currentWeight.getText().equals("")) {//if the person enters nothing
             makeAlert("Error, you did not enter a weight");
             return false;
@@ -128,20 +128,20 @@ public class ProgressCard {
 
     @FXML
     public void saveCard() throws IOException {
-
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         //if valid entry then add row to Progress Table;
-        if (validateEntry()) {
+        if (validateEntry()) {          
             //check to see if progressID already exists for user 
             int id = usr.getProgressCardId();
             if (id == 0 || id == -1) {
-                id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
-                System.out.println("pId=" + id + "  ,date=" + dt.format(now));
+                id = pcTable.getProgressID(usr.getUserName(), df.format(now));
+                System.out.println("pId=" + id + "  ,date=" + df.format(now));
             }
             //if id returned is -1, then it does not exist yet and need to add new row in table
             if (id == -1 || id == 0) {
                 String intakeID = String.valueOf(usr.getDailyIntakeId());
                 String exID = String.valueOf(usr.getDailyExerciseId());
-                pcTable.userProgressCard(usr.getUserName(), dt.format(now), currentWeight.getText(), intakeID, exID, "0", "0");
+                pcTable.userProgressCard(usr.getUserName(), df.format(now), currentWeight.getText(), intakeID, exID, "0", "0");
                 id = pcTable.getLastRow("Progress_Cards");
                 makeAlert("Succefuly created a new Progress Card"
                         + "\nAnd Saved it to the Database!");
@@ -157,8 +157,9 @@ public class ProgressCard {
 
     }
 
-    public void loadWeight() {
-        int id = pcTable.getProgressID(usr.getUserName(), dt.format(now));
+    public void loadWeight() {     
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        int id = pcTable.getProgressID(usr.getUserName(), df.format(now));
         if (id != -1) {
             currentWeight.setText(String.valueOf(pcTable.getWeight(id)));
         }

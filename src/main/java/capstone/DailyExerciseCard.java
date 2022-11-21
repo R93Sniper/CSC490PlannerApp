@@ -57,6 +57,8 @@ public class DailyExerciseCard {
         
         this.loadExerciseListView();
        
+        if(checkPhysicalActivity()==false){
+        
         String modelName = exDetailModel.name;
         if (!modelName.equals("")) {
             tfName.setText(exDetailModel.name);
@@ -73,7 +75,22 @@ public class DailyExerciseCard {
             rbCardio.setSelected(true);
             onCardioSelected();
         }
+        }
 
+    }
+    
+    @FXML
+    private boolean checkPhysicalActivity(){
+        onCardioSelected();
+        String activity = user.physicalActivity;
+        if(!activity.equals("")){
+        tfName.setText(activity);
+        tfCaloriesOut.setText(user.caloriesBurned);
+        tfDuration.setText(user.duration);
+        user.resetPhysicalActivity();
+        return true;
+        }
+        return false;
     }
     
     @FXML
@@ -255,7 +272,7 @@ public class DailyExerciseCard {
     @FXML
     public void onExerciseLookup() throws IOException {
 
-        App.setRoot("ExerciseLookup");
+        App.setRoot("ExerciseLookUp");
     }
     
 }

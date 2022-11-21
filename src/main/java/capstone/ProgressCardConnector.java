@@ -193,6 +193,32 @@ public class ProgressCardConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
+        public void updateDailyStrengthID(int progressID, String sID) {
+        try {
+            String sql = "UPDATE Progress_cards SET Daily_Strength_Id=? WHERE ID=?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, sID);
+            preparedStatement.setInt(2, progressID);
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                System.out.println("Row updated for Daily_Strength_Id in Progress_Card Table");
+            }
+        } catch (SQLException e) {
+        }
+    }
+            public void updateDailyMeasurementsID(int progressID, String mID) {
+        try {
+            String sql = "UPDATE Progress_cards SET Daily_Measurements_Id=? WHERE ID=?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, mID);
+            preparedStatement.setInt(2, progressID);
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                System.out.println("Row updated for Daily_Measurements_Id in Progress_Card Table");
+            }
+        } catch (SQLException e) {
+        }
+    }
 
     /*
     * return an integer arraylist of a User's progress ids  in ascending order by dateOfCard 

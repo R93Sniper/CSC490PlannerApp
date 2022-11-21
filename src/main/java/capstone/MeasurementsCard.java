@@ -30,7 +30,7 @@ public class MeasurementsCard {
     @FXML
     private Text statusText;
 
-    
+    private UserProfileModel user = UserProfileModel.getInstance();
     
     
     /**
@@ -65,6 +65,12 @@ public class MeasurementsCard {
             //Shove the information into the strength card
             measConnect.dailyMeasurements(text_Neck.getText(), text_Arms.getText(), 
                     text_Waist.getText(), text_Hips.getText(), text_Leg.getText());
+            //update the measurements id in the Progress Card
+            int pId = user.getProgressCardId();
+            if(pId!= 0){ 
+            ProgressCardConnector pc = new ProgressCardConnector();
+            pc.updateDailyMeasurementsID(pId, String.valueOf(pc.getLastID("Daily_Measurements_Cards")) );
+            }
             
             statusText.setText("Save Successful");
         } catch (NumberFormatException exception) {

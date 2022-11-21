@@ -1,6 +1,7 @@
 package capstone;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -15,7 +16,7 @@ public class StrengthCard {
 
     //Member Variables
     DailyStrengthCardsConnector strConnect = new DailyStrengthCardsConnector();
-    
+    private UserProfileModel user = UserProfileModel.getInstance();
     //FXML Variables
     @FXML
     private TextField text_Bench;
@@ -65,6 +66,14 @@ public class StrengthCard {
             //Shove the information into the strength card
             strConnect.dailyStrengthCards(text_Bench.getText(),text_Deadlift.getText(), 
                     text_Squat.getText(), text_Leg.getText(), text_Shoulder.getText());
+            //update the strength id in the Progress Card
+            int pId = user.getProgressCardId();
+            if(pId!= 0){ 
+            ProgressCardConnector pc = new ProgressCardConnector();
+            pc.updateDailyStrengthID(pId, String.valueOf(pc.getLastID("Daily_Strength_Cards")) );
+            }
+            
+            
             statusText.setText("Save Successful");
         } catch (NumberFormatException exception) {
             statusText.setText("Your values are invalid!");
