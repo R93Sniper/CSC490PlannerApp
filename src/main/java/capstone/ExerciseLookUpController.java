@@ -306,5 +306,9 @@ public class ExerciseLookUpController {
         a.showAndWait();
 
     }
-
+    
+    @FXML
+    private void pac() throws IOException{
+        App.setRoot("physicalActivityCalc");
+    }
 }

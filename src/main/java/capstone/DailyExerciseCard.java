@@ -75,6 +75,11 @@ public class DailyExerciseCard {
         }
 
     }
+    
+    @FXML
+    private void pac() throws IOException{
+        App.setRoot("physicalActivityCalc");
+    }
 
     @FXML
     public void loadExerciseListView() {
@@ -252,5 +257,5 @@ public class DailyExerciseCard {
 
         App.setRoot("ExerciseLookup");
     }
-
+    
 }
