@@ -146,11 +146,15 @@ public class UserProfileController {
         labelBirthDate.setText(instanceUser.getBirthDate());
         
         String h = instanceUser.getHeight();
-        if(h != null)
+        if(h != null && h.length()>0)
         {
+        if(h.contains("-")){
         String[] height =  h.split("-");
-        textFeet.setText(height[0]);
-        textInches.setText(height[1]);
+        String h1 = height[0].length()>0? height[0]: "0" ;
+        String h2 = height[1].length()>0? height[1]: "0" ;
+        textFeet.setText(h1);
+        textInches.setText(h2);
+        }
         }
 
     }
