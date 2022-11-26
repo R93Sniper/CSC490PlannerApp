@@ -263,6 +263,45 @@ public class ProgressCardConnector extends dataConnector {
         return ids;
 
     }
+    
+    public String getNeckSize(int id) {
+
+        String tableName = "Daily_Measurements_Cards";
+        String neckSize = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                neckSize = result.getString("Neck_Size");
+                return neckSize;
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+    
+    public String getBenchPressMax(int id) {
+
+        String tableName = "Daily_Strength_Cards";
+        String benchPress = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                benchPress = result.getString("Benchpress_Max");
+                return benchPress;
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+    
+    
+    
 
     public static void main(String[] args) {
 
