@@ -5,7 +5,9 @@
  */
 package capstone;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -101,5 +103,91 @@ public class DailyStrengthCardsConnector extends dataConnector {
             }
         } catch (SQLException e) {
         }
+    }
+
+    //get methods
+    public Double getBenchpressMax(int id) {
+        String tableName = "Daily_Strength_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Benchpress_Max");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+
+    public Double getDeadliftMax(int id) {
+        String tableName = "Daily_Strength_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Deadlift_Max");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+
+    public Double getSquatsMax(int id) {
+        String tableName = "Daily_Strength_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Squats_Max");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+
+    public Double getLegpressMax(int id) {
+        String tableName = "Daily_Strength_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Legpress_Max");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+
+    public Double getShoulderpressMax(int id) {
+        String tableName = "Daily_Strength_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Shoulderpress_Max");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
     }
 }

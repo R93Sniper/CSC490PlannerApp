@@ -193,7 +193,8 @@ public class ProgressCardConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
-        public void updateDailyStrengthID(int progressID, String sID) {
+
+    public void updateDailyStrengthID(int progressID, String sID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Strength_Id=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -206,7 +207,8 @@ public class ProgressCardConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
-            public void updateDailyMeasurementsID(int progressID, String mID) {
+
+    public void updateDailyMeasurementsID(int progressID, String mID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Measurements_Id=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -263,7 +265,7 @@ public class ProgressCardConnector extends dataConnector {
         return ids;
 
     }
-    
+
     public String getNeckSize(int id) {
 
         String tableName = "Daily_Measurements_Cards";
@@ -281,7 +283,7 @@ public class ProgressCardConnector extends dataConnector {
         }
         return null;
     }
-    
+
     public String getBenchPressMax(int id) {
 
         String tableName = "Daily_Strength_Cards";
@@ -299,14 +301,11 @@ public class ProgressCardConnector extends dataConnector {
         }
         return null;
     }
-    
-    
-    
 
     public static void main(String[] args) {
 
         ProgressCardConnector pc = new ProgressCardConnector();
-        
+
         pc.userProgressCard("BillyBob", "1/01/2020", "120", "0", "0", "0", "0");
 
     }
