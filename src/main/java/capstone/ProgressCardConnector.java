@@ -149,10 +149,8 @@ public class ProgressCardConnector extends dataConnector {
     }
 
     public String getDateOfCard(int id) {
-
         String tableName = "Progress_Cards";
         String date = "";
-
         try {
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
@@ -164,6 +162,22 @@ public class ProgressCardConnector extends dataConnector {
             except.printStackTrace();
         }
         return date;
+    }
+
+    public String getLastDateOfCard(String userName) {
+        String tableName = "Progress_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\'");
+
+            while (result.next()) {
+                str = result.getString("Date_Of_Card");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return str;
     }
 
     public void updateDailyIntakeID(int progressID, String intakeID) {
@@ -285,7 +299,6 @@ public class ProgressCardConnector extends dataConnector {
     }
 
     public String getBenchPressMax(int id) {
-
         String tableName = "Daily_Strength_Cards";
         String benchPress = null;
         try {
@@ -301,13 +314,4 @@ public class ProgressCardConnector extends dataConnector {
         }
         return null;
     }
-
-    public static void main(String[] args) {
-
-        ProgressCardConnector pc = new ProgressCardConnector();
-
-        pc.userProgressCard("BillyBob", "1/01/2020", "120", "0", "0", "0", "0");
-
-    }
-
 }

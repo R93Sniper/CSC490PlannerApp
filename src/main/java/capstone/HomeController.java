@@ -9,9 +9,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +28,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
@@ -48,7 +54,7 @@ public class HomeController {
      * Initializes the controller class.
      */
     @FXML
-    public void initialize() {
+    public void initialize() throws ParseException {
         goalResults = new ArrayList();
         loadProfile();
         loadProgressCardData();
@@ -56,6 +62,7 @@ public class HomeController {
         if(goalResults.isEmpty())
             goalsLV.setVisible(false);
         // TODO
+        notificationProgressCard();
     }
 
     @FXML
@@ -254,7 +261,48 @@ public class HomeController {
         a.setTitle("Home Page");
         a.setHeaderText(alertText);
         a.show();
-
     }
 
+    @FXML
+    public void notificationProgressCard() throws ParseException{
+        ProgressCardConnector pc = new ProgressCardConnector();
+        LocalDate now = LocalDate.now();
+        
+        String userDateOfCard = pc.getLastDateOfCard(instanceUser.getUserName());
+        //code from stackoverflow
+        DateFormat dateFormat1,dateFormat2;
+        dateFormat1 = new SimpleDateFormat("dd/MM/yyyy"); 
+        Date date =  dateFormat1.parse(userDateOfCard);
+        dateFormat2 = new SimpleDateFormat("yyyy-MM-dd"); 
+        now = LocalDate.parse("2022-12-04");
+        String userDate = dateFormat2.format(date);
+    
+        
+        //parsing userDateOfCard
+        String temp[] = userDate.split("-");
+        int userYear = Integer.parseInt(temp[0]);
+        int userMonth = Integer.parseInt(temp[1]);
+        int userDay = Integer.parseInt(temp[2]);
+       
+        //getting localDate
+        int localDay = now.getDayOfMonth();
+        int localMonth = now.getMonthValue();
+        int localYear = now.getYear();
+      
+        //difference 
+        int diffDay = Math.abs(localDay - userDay);
+        int diffMonth = localMonth - userMonth;
+        int diffYear = localYear - userYear;
+                
+        if(diffDay >= 7){
+            makeAlert("Update your information. It's been " + diffDay + " days, " + diffMonth + " month and " + diffYear
+            + " year.");
+            
+        }
+        else{
+            ;
+        }
+       
+       
+    }
 }
