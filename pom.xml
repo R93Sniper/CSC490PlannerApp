@@ -28,6 +28,10 @@
             <artifactId>javafx-fxml</artifactId>
             <version>13</version>
         </dependency>
+                <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>17</version>
             <classifier>mac-aarch64</classifier>
         </dependency>
         <!-- /code needed to run on mac -->
