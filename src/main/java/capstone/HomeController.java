@@ -269,15 +269,14 @@ public class HomeController {
         LocalDate now = LocalDate.now();
         
         String userDateOfCard = pc.getLastDateOfCard(instanceUser.getUserName());
-        //code from stackoverflow
-        DateFormat dateFormat1,dateFormat2;
-        dateFormat1 = new SimpleDateFormat("dd/MM/yyyy"); 
-        Date date =  dateFormat1.parse(userDateOfCard);
-        dateFormat2 = new SimpleDateFormat("yyyy-MM-dd"); 
+        //stackoverflow code
+        DateFormat date1,date2;
+        date1 = new SimpleDateFormat("dd/MM/yyyy"); 
+        Date date =  date1.parse(userDateOfCard);
+        date2 = new SimpleDateFormat("yyyy-MM-dd"); 
         now = LocalDate.parse("2022-12-04");
-        String userDate = dateFormat2.format(date);
+        String userDate = date2.format(date);
     
-        
         //parsing userDateOfCard
         String temp[] = userDate.split("-");
         int userYear = Integer.parseInt(temp[0]);
