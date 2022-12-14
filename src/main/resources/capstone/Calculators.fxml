@@ -1,31 +1,257 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecondaryController">
+<AnchorPane id="AnchorPane" prefHeight="614.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.SecondaryController">
    <children>
-      <Text layoutX="155.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the calculator you'd like to use" wrappingWidth="314.439453125">
+      <Text layoutX="235.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the calculator you'd like to use" wrappingWidth="314.439453125">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <ButtonBar layoutX="119.0" layoutY="114.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="41.0" prefWidth="386.0">
+      <ButtonBar layoutX="59.0" layoutY="76.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="41.0" prefWidth="711.0" scaleShape="false">
         <buttons>
           <Button alignment="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#switchToCalorie" text="Calorie" />
             <Button mnemonicParsing="false" onAction="#switchToWater" text="Water" />
             <Button mnemonicParsing="false" onAction="#switchToBMI" text="BMI" />
             <Button mnemonicParsing="false" onAction="#switchToBodyFat" text="Body Fat %" />
+            <Button mnemonicParsing="false" onAction="#switchToPhysicalActivty" prefHeight="23.0" prefWidth="113.0" text="Physical Activity" />
         </buttons>
          <padding>
             <Insets right="25.0" />
          </padding>
       </ButtonBar>
-      <Button layoutX="38.0" layoutY="348.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
-      <Button layoutX="366.0" layoutY="169.0" mnemonicParsing="false" onAction="#switchToPhysicalActivty" prefHeight="31.0" prefWidth="113.0" text="Physical Activity" />
+      <AnchorPane fx:id="BMIA" disable="true" layoutX="4.0" layoutY="112.0" prefHeight="442.0" prefWidth="792.0" visible="false">
+         <children>
+            <Label layoutX="77.0" layoutY="1.0" text="Body Mass Index Calculator">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="77.0" layoutY="39.0" text="Choose your unit of measure:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button layoutX="271.0" layoutY="37.0" mnemonicParsing="false" onAction="#openBMIKG" text="KG" />
+            <Button layoutX="311.0" layoutY="37.0" mnemonicParsing="false" onAction="#openBMILB" text="LB" />
+            <AnchorPane fx:id="BMIKG" disable="true" layoutX="4.0" layoutY="62.0" prefHeight="382.0" prefWidth="785.0" visible="false">
+               <children>
+                  <Label layoutX="72.0" layoutY="4.0" text="Age">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="KGageTF" layoutX="72.0" layoutY="32.0" promptText="Enter your age" />
+                  <Label layoutX="71.0" layoutY="105.0" text="Height:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="71.0" layoutY="167.0" text="Weight">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="KGheightTF" layoutX="72.0" layoutY="135.0" promptText="height (cm)" />
+                  <TextField fx:id="KGweightTF" layoutX="72.0" layoutY="191.0" promptText="weight (kg)" />
+                  <Button layoutX="70.0" layoutY="271.0" mnemonicParsing="false" onAction="#misterRESET" text="Reset" />
+                  <Button layoutX="336.0" layoutY="271.0" mnemonicParsing="false" onAction="#calculateBMIKG" text="Calculate" />
+                  <Label fx:id="KGRL" layoutX="71.0" layoutY="236.0" prefHeight="24.0" prefWidth="92.0" />
+                  <ToggleButton fx:id="bmiMALE" layoutX="71.0" layoutY="70.0" mnemonicParsing="false" text="Male" />
+                  <ToggleButton fx:id="bmiFEMALE" layoutX="128.0" layoutY="70.0" mnemonicParsing="false" text="Female" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="BMILB" disable="true" layoutX="4.0" layoutY="62.0" prefHeight="382.0" prefWidth="785.0" visible="false">
+               <children>
+                  <Label layoutX="77.0" layoutY="4.0" text="Enter your age">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="72.0" layoutY="99.0" text="Enter your height">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="76.0" layoutY="165.0" text="Enter your weight">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="LBageTF" layoutX="75.0" layoutY="32.0" promptText="age" />
+                  <TextField fx:id="LBFEET" layoutX="72.0" layoutY="131.0" prefHeight="25.0" prefWidth="78.0" promptText="feet" />
+                  <TextField fx:id="LBINCH" layoutX="179.0" layoutY="131.0" prefHeight="25.0" prefWidth="78.0" promptText="inches" />
+                  <Label layoutX="154.0" layoutY="135.0" text="ft." />
+                  <Label layoutX="267.0" layoutY="135.0" text="in." />
+                  <TextField fx:id="LBweightBMI" layoutX="72.0" layoutY="191.0" promptText="weight" />
+                  <Label fx:id="LBRL" layoutX="72.0" layoutY="235.0" prefHeight="17.0" prefWidth="125.0" />
+                  <Button layoutX="77.0" layoutY="262.0" mnemonicParsing="false" onAction="#misterRESET" text="Reset" />
+                  <Button layoutX="393.0" layoutY="262.0" mnemonicParsing="false" onAction="#calculateBMILB" text="Calculate" />
+                  <ToggleButton fx:id="bmiMALE2" layoutX="72.0" layoutY="67.0" mnemonicParsing="false" text="Male" />
+                  <ToggleButton fx:id="bmiFEMALE2" layoutX="121.0" layoutY="67.0" mnemonicParsing="false" text="Female" />
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
+      <Button layoutX="32.0" layoutY="560.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="54.0" text="Back" />
+      <AnchorPane fx:id="bodyfatA" disable="true" layoutY="112.0" prefHeight="442.0" prefWidth="792.0" visible="false">
+         <children>
+            <Label layoutX="88.0" layoutY="4.0" text="Choose your unit of measure: ">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="BFKGA" disable="true" layoutX="7.0" layoutY="55.0" prefHeight="382.0" prefWidth="792.0" visible="false">
+               <children>
+                  <Label layoutX="80.0" layoutY="4.0" text="Age:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="77.0" layoutY="49.0" text="Weight:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="80.0" layoutY="94.0" text="Height">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="77.0" layoutY="139.0" text="Neck:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="76.0" layoutY="181.0" text="Waist:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="BFAGETF" layoutX="80.0" layoutY="24.0" promptText="Enter age" />
+                  <TextField fx:id="BFWEIGHTTF" layoutX="80.0" layoutY="69.0" promptText="Enter weight" />
+                  <TextField fx:id="BFHEIGHTTF" layoutX="79.0" layoutY="114.0" prefHeight="25.0" prefWidth="150.0" promptText="Enter height" />
+                  <TextField fx:id="BFNECKTF" layoutX="75.0" layoutY="159.0" promptText="Enter neck" />
+                  <TextField fx:id="BFWAISTTF" layoutX="75.0" layoutY="201.0" promptText="Enter waist" />
+                  <Button layoutX="78.0" layoutY="317.0" mnemonicParsing="false" onAction="#misterRESET" prefHeight="35.0" prefWidth="50.0" text="Reset" />
+                  <Button layoutX="402.0" layoutY="317.0" mnemonicParsing="false" onAction="#calculateBodyFat" prefHeight="35.0" prefWidth="72.0" text="Calculate" />
+                  <Label fx:id="femaleHL" layoutX="75.0" layoutY="226.0" text="Hips:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="BFHIPSTF" layoutX="75.0" layoutY="246.0" promptText="Enter hip measurement" />
+                  <TextField fx:id="BFinchesTF" layoutX="246.0" layoutY="114.0" prefHeight="25.0" prefWidth="78.0" promptText="Enter inches" />
+                  <Label fx:id="usL1" layoutX="230.0" layoutY="118.0" prefHeight="17.0" prefWidth="19.0" text="ft." />
+                  <Label fx:id="usL2" layoutX="324.0" layoutY="118.0" text="in." />
+               </children>
+            </AnchorPane>
+            <ToggleButton fx:id="BFmetric" layoutX="281.0" layoutY="2.0" mnemonicParsing="false" onAction="#openBodyFatKG" text="Metric" />
+            <ToggleButton fx:id="BFus" layoutX="340.0" layoutY="2.0" mnemonicParsing="false" onAction="#openBodyFatLB" text="US" />
+            <ToggleButton fx:id="BFMALETB" layoutX="88.0" layoutY="30.0" mnemonicParsing="false" onAction="#choiceMale" prefHeight="25.0" prefWidth="45.0" text="Male" />
+            <ToggleButton fx:id="BFFEMALETB" layoutX="137.0" layoutY="30.0" mnemonicParsing="false" onAction="#choiceFemale" text="Female" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="PACA" disable="true" layoutX="-3.0" layoutY="112.0" prefHeight="442.0" prefWidth="792.0" visible="false">
+         <children>
+            <ChoiceBox fx:id="cbActivity" layoutX="98.0" layoutY="66.0" prefHeight="41.0" prefWidth="177.0" />
+            <TextField fx:id="pacaWTF" layoutX="295.0" layoutY="66.0" prefHeight="41.0" prefWidth="139.0" promptText="Enter Weight" />
+            <RadioButton fx:id="pacakgRB" layoutX="295.0" layoutY="131.0" mnemonicParsing="false" text="KG">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="pacalbRB" layoutX="295.0" layoutY="164.0" mnemonicParsing="false" text="LB">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </RadioButton>
+            <Label layoutX="98.0" layoutY="213.0" text="Calories Burned: ">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Text fx:id="pacaRT" layoutX="269.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="139.0" />
+            <TextField fx:id="pacaMINTF" layoutX="454.0" layoutY="66.0" prefHeight="41.0" prefWidth="164.0" promptText="Duration (min)" />
+            <Button layoutX="454.0" layoutY="201.0" mnemonicParsing="false" onAction="#calculatePAC" prefHeight="41.0" prefWidth="78.0" text="Calculate" />
+            <Button fx:id="btnAdd" layoutX="454.0" layoutY="303.0" mnemonicParsing="false" onAction="#onAddToExerciseCard" prefHeight="41.0" prefWidth="177.0" text="Add to Exercise Card" />
+            <Button layoutX="98.0" layoutY="301.0" mnemonicParsing="false" onAction="#misterRESET" prefHeight="35.0" prefWidth="78.0" text="Reset" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="waterA" disable="true" layoutY="113.0" prefHeight="455.0" prefWidth="792.0" visible="false">
+         <children>
+            <TextField fx:id="waterTF" layoutX="89.0" layoutY="70.0" prefHeight="35.0" prefWidth="170.0" promptText="Enter your weight" />
+            <Label layoutX="89.0" layoutY="20.0" prefHeight="35.0" prefWidth="170.0" text="Water Calculator:">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <RadioButton fx:id="Wlbrb" layoutX="281.0" layoutY="76.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="54.0" text="lbs">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="Wkgrb" layoutX="335.0" layoutY="79.0" mnemonicParsing="false" text="kg">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </RadioButton>
+            <ChoiceBox fx:id="Wcb1" layoutX="89.0" layoutY="146.0" prefHeight="41.0" prefWidth="170.0" />
+            <Label layoutX="89.0" layoutY="114.0" text="Choose your daily exercise time:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Button layoutX="174.0" layoutY="325.0" mnemonicParsing="false" onAction="#waterButtonCalc" prefHeight="35.0" prefWidth="72.0" text="Calculate" />
+            <Button layoutX="89.0" layoutY="325.0" mnemonicParsing="false" onAction="#misterRESET" prefHeight="35.0" prefWidth="72.0" text="Reset" />
+            <Label fx:id="Wrl" layoutX="89.0" layoutY="219.0" prefHeight="26.0" prefWidth="177.0" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="calorieA" disable="true" layoutX="4.0" layoutY="112.0" prefHeight="442.0" prefWidth="792.0" visible="false">
+         <children>
+            <Label fx:id="calorieLABEL" layoutX="90.0" layoutY="15.0" text="Choose your unit of measure:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="calorieKG" disable="true" layoutX="31.0" layoutY="38.0" prefHeight="396.0" prefWidth="754.0" visible="false">
+               <children>
+                  <Label layoutX="69.0" layoutY="50.0" prefHeight="26.0" prefWidth="139.0" text="Enter your age: " />
+                  <TextField fx:id="cageTF1" layoutX="67.0" layoutY="83.0" promptText="age" />
+                  <TextField fx:id="cweightTF1" layoutX="67.0" layoutY="145.0" promptText="weight (kg)" />
+                  <Label layoutX="69.0" layoutY="116.0" prefHeight="17.0" prefWidth="113.0" text="Enter weight" />
+                  <Label layoutX="69.0" layoutY="181.0" text="Enter height" />
+                  <TextField fx:id="cheightTF1" layoutX="67.0" layoutY="208.0" promptText="height (cm)" />
+                  <Button layoutX="67.0" layoutY="291.0" mnemonicParsing="false" onAction="#misterRESET" text="Reset" />
+                  <Button layoutX="431.0" layoutY="291.0" mnemonicParsing="false" onAction="#calculateCalKG" text="Calculate" />
+                  <ToggleButton fx:id="calKGM" layoutX="68.0" layoutY="15.0" mnemonicParsing="false" text="Male" />
+                  <ToggleButton fx:id="calKGFM" layoutX="126.0" layoutY="15.0" mnemonicParsing="false" text="Female" />
+               </children>
+            </AnchorPane>
+            <Label fx:id="CTITLE" layoutX="456.0" layoutY="12.0" text="Calorie Calculator">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="calorieLB" disable="true" layoutX="14.0" layoutY="39.0" prefHeight="403.0" prefWidth="773.0" visible="false">
+               <children>
+                  <Button layoutX="72.0" layoutY="282.0" mnemonicParsing="false" onAction="#misterRESET" prefHeight="35.0" prefWidth="65.0" text="Reset" />
+                  <Button layoutX="414.0" layoutY="282.0" mnemonicParsing="false" onAction="#CalculateLBCalc" prefHeight="35.0" prefWidth="92.0" text="Calculate" />
+                  <Label layoutX="72.0" layoutY="54.0" prefHeight="17.0" prefWidth="125.0" text="Enter your age" />
+                  <Label layoutX="72.0" layoutY="110.0" prefHeight="17.0" prefWidth="113.0" text="Enter weight" />
+                  <Label layoutX="72.0" layoutY="169.0" text="Enter your height" />
+                  <TextField fx:id="cageTF2" layoutX="72.0" layoutY="79.0" promptText="age" />
+                  <TextField fx:id="cweightTF2" layoutX="72.0" layoutY="137.0" promptText="weight" />
+                  <TextField fx:id="cheightFEET" layoutX="72.0" layoutY="202.0" prefHeight="25.0" prefWidth="72.0" promptText="feet" />
+                  <Label layoutX="150.0" layoutY="206.0" text="ft." />
+                  <TextField fx:id="cheightIN" layoutX="169.0" layoutY="202.0" prefHeight="25.0" prefWidth="78.0" promptText="inches" />
+                  <Label layoutX="254.0" layoutY="206.0" text="in." />
+                  <ToggleButton fx:id="cMALELB" layoutX="72.0" layoutY="14.0" mnemonicParsing="false" text="Male" />
+                  <ToggleButton fx:id="cFEMALELB" layoutX="129.0" layoutY="14.0" mnemonicParsing="false" text="Female" />
+               </children>
+            </AnchorPane>
+            <ToggleButton fx:id="CKGB" layoutX="276.0" layoutY="12.0" mnemonicParsing="false" onAction="#calorieKGCalc" prefHeight="0.0" prefWidth="32.0" text="KG" />
+            <ToggleButton fx:id="CLB" layoutX="319.0" layoutY="12.0" mnemonicParsing="false" onAction="#calorieLBCalc" text="LB" />
+         </children></AnchorPane>
    </children>
 </AnchorPane>
