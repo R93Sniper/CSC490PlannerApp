@@ -813,6 +813,7 @@ public class SecondaryController implements Initializable {
             int dummyWeight = Integer.parseInt(LBweightBMI.getText());
             double convWeight = dummyWeight / 2.205; // LB TO KG
             weight = (int) convWeight;
+            convertToBMI(age, height, weight);
 
         } else if (LBageTF.getText().isEmpty()) {
             d.setTitle("BMI Calc");
