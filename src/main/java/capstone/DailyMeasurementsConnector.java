@@ -5,14 +5,16 @@
  */
 package capstone;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
  * @author Simranjit
  */
 public class DailyMeasurementsConnector extends dataConnector {
-    
+
     public void dailyMeasurements(String neckSize, String armsSize, String waistSize, String hipsSize, String legsSize) {
         try {
             String sql = "INSERT INTO Daily_Measurements_Cards(Neck_Size, Arms_Size, Waist_Size,"
@@ -101,6 +103,92 @@ public class DailyMeasurementsConnector extends dataConnector {
             }
         } catch (SQLException e) {
         }
+    }
+
+    //get methods
+    public Double getNeckSize(int id) {
+        String tableName = "Daily_Measurements_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Neck_Size");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+
+    public Double getArmsSize(int id) {
+        String tableName = "Daily_Measurements_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Arms_Size");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+
+    public Double getWaistSize(int id) {
+        String tableName = "Daily_Measurements_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Waist_Size");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+
+    public Double getHipsSize(int id) {
+        String tableName = "Daily_Measurements_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Hips_Size");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+
+    public Double getLegsSize(int id) {
+        String tableName = "Daily_Measurements_Cards";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Legs_Size");
+                return Double.valueOf(str);
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
     }
 
 }

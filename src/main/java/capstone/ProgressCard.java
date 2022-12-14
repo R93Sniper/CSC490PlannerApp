@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -34,6 +35,8 @@ public class ProgressCard {
     private RadioButton rb_kilo;
     @FXML
     private Text currentDate;
+    @FXML
+    private Label labelCalorieTarget;
 
     /*
     We need to set the currentDate on initialize of this controller
@@ -74,10 +77,8 @@ public class ProgressCard {
         } else{
             currentDate.setText(prevDate);
         }
-        
-        
-
         loadWeight();
+        //loadCalorieTarget();
     }
 
     /**
@@ -241,4 +242,51 @@ public class ProgressCard {
         }
 
     }
+    
+    @FXML
+    public void loadCalorieTarget(){
+    if(pcTable.getLastWeight(usr.getUserName()).equals("")){return;}
+    getCalorieTarget();
+    }
+    
+    private void getCalorieTarget() {
+     
+        String gender = usr.getGender();
+        if(gender==null || gender.equals("")){
+             makeAlert("Please update Gender in Profile to display Calorie Target");
+            return;
+        }
+        String height = usr.getHeightInCM();
+        if(height.equals("")){
+            makeAlert("Please update Height in Profile to display Calorie Target");
+            return;
+        }
+        //conver height to cm
+        int age = usr.getAge();   //could be -1, if not found in profile
+        if(age ==-1){
+            makeAlert("Please update Date of Birth in Profile to display Calorie Target");
+            return;
+        }
+        
+        String a = String.valueOf(age);
+        String weight = pcTable.getLastWeight(usr.getUserName());
+        if(weight.equals("")){
+            makeAlert("Please update Progress Card with Weight to display Calorie Target");
+            return;
+        }
+        
+        double kgW = ((Double.valueOf(weight))/2.2) ;
+        double result = 0;
+        if(gender.equals("Male")){ 
+        result = (10* kgW) + (6.25*Double.valueOf(height)) - (5* Double.valueOf(a)) + 5;
+        }
+        if(gender.equals("Female")){ 
+        result = (10* kgW) + (6.25*Double.valueOf(height)) - (5* Double.valueOf(a)) -161;
+        }
+        
+        result = Math.round(result) + 300;
+        labelCalorieTarget.setText("Daily Calorie Target = "+result);
+        
+    }
+    
 }

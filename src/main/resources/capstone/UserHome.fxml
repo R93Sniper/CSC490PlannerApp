@@ -51,6 +51,7 @@
             <AnchorPane prefHeight="248.0" prefWidth="354.0">
                <children>
                   <ListView fx:id="goalsLV" layoutX="18.0" layoutY="20.0" prefHeight="75.0" prefWidth="319.0" />
+                  <Label fx:id="labelCalorieTarget" layoutX="18.0" layoutY="103.0" prefHeight="42.0" prefWidth="319.0" />
                </children>
             </AnchorPane>
          </children>

@@ -23,6 +23,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 
@@ -146,11 +147,15 @@ public class UserProfileController {
         labelBirthDate.setText(instanceUser.getBirthDate());
         
         String h = instanceUser.getHeight();
-        if(h != null)
+        if(h != null && !h.equals(""))
         {
+        if(h.contains("-")){
         String[] height =  h.split("-");
-        textFeet.setText(height[0]);
-        textInches.setText(height[1]);
+        String h1 = height[0].length()>0? height[0]: "0" ;
+        String h2 = height[1].length()>0? height[1]: "0" ;
+        textFeet.setText(h1);
+        textInches.setText(h2);
+        }
         }
 
     }
@@ -164,41 +169,50 @@ public class UserProfileController {
     private void saveBtnPressed() {
         String tableName = "User_Profile";
         String usr = instanceUser.getUserName();
+        String msg = "";
 
         if (textEmail.getText() != null && !textEmail.getText().equals(instanceUser.getEmail())) {
             userDB.updateColumn(tableName, usr, textEmail.getText(), DB_Col.Email.toString());
             System.out.println("email updated in the DB");
+            msg += "\n email updated to Profile";
             instanceUser.setEmail(textEmail.getText());
         }
         if (textFirstName.getText() != null && !textFirstName.getText().equals(instanceUser.getFirstName())) {
             userDB.updateColumn(tableName, usr, textFirstName.getText(), DB_Col.First_Name.toString());
             System.out.println("FirstName updated in the DB");
+            msg += "\n First Name updated to Profile";
             instanceUser.setFullName(textFirstName.getText());
         }
 
         if (textLastName.getText() != null && !textLastName.getText().equals(instanceUser.getLastName())) {
             userDB.updateColumn(tableName, usr, textLastName.getText(), DB_Col.Last_Name.toString());
             System.out.println("last name updated in the DB");
+            msg += "\n Last Name updated to Profile";
             instanceUser.setLastName(textLastName.getText());
         }
 
-        if (textFeet.getText() != null && textInches.getText() != null) {
+        if (!textFeet.getText().equals("") && !textInches.getText().equals("")) {
             String h = textFeet.getText() +"-" + textInches.getText();
-            userDB.updateColumn(tableName, usr, h, DB_Col.Height.toString());
-            System.out.println("height updated in the DB");
+            if(!h.equals(instanceUser.getHeight())){
+             userDB.updateColumn(tableName, usr, h, DB_Col.Height.toString());
+            //System.out.println("height updated in the DB");
+            msg += "\n height updated to Profile";
             instanceUser.setHeight(h);
+            }
+           
         }
 
         if (genderSelected) {
             userDB.updateColumn(tableName, usr, labelGender.getText(), DB_Col.Gender.toString());
             System.out.println("gender choice updated in the DB");
+            msg += "\n Gender updated to Profile";
             genderSelected = false;
             instanceUser.setGender(labelGender.getText());
         }
 
         if (bodyTypeSelected) {
             userDB.updateColumn(tableName, usr, instanceUser.getBodyType(), DB_Col.Body_Type.toString());
-            System.out.println("gender choice updated in the DB");
+            msg += "\n Body Type updated to Profile";
             bodyTypeSelected = false;
             instanceUser.setBodyType(labelBodyType.getText());
         }
@@ -212,8 +226,11 @@ public class UserProfileController {
             labelBirthDate.setText(bDate);
             if (dataConnector.getInstance().updateColumn(tableName, usr, bDate, "Date_Of_Birth")) {
                instanceUser.setBirthDate(bDate);
+               msg += "BirthDate update in Profile";
             }
         }
+        
+        makeAlert(msg);
 
     }
 
@@ -232,4 +249,12 @@ public class UserProfileController {
         App.setRoot("MedicalConditions");
     }
 
+        public void makeAlert(String alertText) {
+
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("User Profile");
+        a.setHeaderText(alertText);
+        a.show();
+    }
+    
 }

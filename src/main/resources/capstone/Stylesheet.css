@@ -1,0 +1,38 @@
+
+
+.root{
+    
+   /* -fx-font-size: 16pt; 
+    -fx-font-family: "Courier New"; */
+    -fx-base: rgb(0,83,159);
+    -fx-background: rgb(238, 164, 127);
+}
+
+.default-color0.chart-series-line { -fx-stroke: #7adee9 }
+.default-color1.chart-series-line { -fx-stroke: #f0e68c; }
+.default-color2.chart-series-line { -fx-stroke: #dda0dd; }
+
+.button{
+    -fx-text-fill:white;
+    /*
+    -fx-text-fill: rgb(49, 89, 23);
+    -fx-border-color: rgb(49, 89, 23);
+    */
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+}
+
+/*
+
+.button { 
+   
+   /*-fx-background-color: darkslateblue; 
+   
+   -fx-text-fill: white; 
+   /*
+   -fx-background-insets: 0,1,2;
+    -fx-background-radius: 3,2,1;
+    -fx-padding: 3 30 3 30;
+   
+}*/
+

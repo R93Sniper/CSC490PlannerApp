@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.UserProfileController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.UserProfileController">
    <center>
       <HBox prefHeight="349.0" prefWidth="746.0" BorderPane.alignment="CENTER">
          <children>
@@ -156,7 +156,7 @@
    <top>
       <HBox prefHeight="47.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="93.0" prefWidth="100.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#switchToHome" prefHeight="27.0" prefWidth="75.0" text="Home">
                      <VBox.margin>

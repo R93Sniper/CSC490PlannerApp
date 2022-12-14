@@ -5,7 +5,9 @@
  */
 package capstone;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -180,4 +182,28 @@ public class SizeGoalsConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
+        
+     public ResultSet getRow (int id) {
+        String tableName = "SizeGoals";
+        String str = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+
+            while (result.next()) {
+                str = result.getString("Neck_Initial");
+                return result;
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return null;
+    }
+     
+     
+     
+     
+    
+    
+    
 }

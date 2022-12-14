@@ -9,9 +9,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +28,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
@@ -36,19 +43,22 @@ public class HomeController {
 
     @FXML
     private ListView goalsLV;
+    @FXML
+    private Label labelCalorieTarget;
     private DateTimeFormatter dt = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private UserProfileModel instanceUser = UserProfileModel.getInstance();
     private dataConnector userDB = dataConnector.getInstance();
     private ResultSet result;
     private ObservableList<String> obsList = FXCollections.observableArrayList();
     private ArrayList<ResultSet> goalResults;
-    UserGoalsConnector goalsDC = new UserGoalsConnector();
+    private UserGoalsConnector goalsDC = new UserGoalsConnector();
+    private ProgressCardConnector pc = new ProgressCardConnector();
 
     /**
      * Initializes the controller class.
      */
     @FXML
-    public void initialize() {
+    public void initialize() throws ParseException {
         goalResults = new ArrayList();
         loadProfile();
         loadProgressCardData();
@@ -56,11 +66,12 @@ public class HomeController {
         if(goalResults.isEmpty())
             goalsLV.setVisible(false);
         // TODO
+        notificationProgressCard();
     }
 
     @FXML
     private void loadGoalsList() {
-
+        boolean hasWgoal = false;
         String str = "";
         obsList.add("My Goals: ");
         String[] goalTypes = new String[]{"","Weight", "Size", "Strength"};
@@ -69,6 +80,7 @@ public class HomeController {
             if (result != null) {
                 try {
                     str = str + "Goal: " + result.getString("Goal_Type") + " By " + result.getString("Target_Date");
+                    if(result.getString("Goal_Type").contains("Weight")){ hasWgoal = true;}
                     obsList.add(str);          
                     str = "";
                     goalResults.add(result);
@@ -94,7 +106,7 @@ public class HomeController {
                         }
                     }
                 });
-
+        if(hasWgoal) { getCalorieTarget();}
         //goalsLV.getSelectionModel().select(-1);
     }
 
@@ -216,7 +228,7 @@ public class HomeController {
     }
 
     private void loadProgressCardData() {
-        ProgressCardConnector pc = new ProgressCardConnector();
+
         LocalDate now = LocalDate.now();
         int progressID = pc.getProgressID(instanceUser.getUserName(), dt.format(now));
         System.out.println("Progess Card ID =" + progressID);
@@ -254,7 +266,119 @@ public class HomeController {
         a.setTitle("Home Page");
         a.setHeaderText(alertText);
         a.show();
-
     }
 
+    @FXML
+    public void notificationProgressCard() throws ParseException{
+        ProgressCardConnector pc = new ProgressCardConnector();
+        LocalDate now = LocalDate.now();
+        if(instanceUser.counter>0) return;
+        boolean notify = false;
+        String userDate = pc.getLastDateOfCard(instanceUser.getUserName());
+        if(userDate.equals("")){
+            instanceUser.counter = 1;
+            makeAlert("No Progress Card found.\n "
+                    + "Create a Progres Card now and"
+                    + "Start tracking your Progress Today!");
+            return;
+        }
+        
+        int userYear =0;
+                int userMonth=0;
+                int userDay = 0;
+        if(userDate.contains("/")){
+        String temp[] = userDate.split("/");
+        userYear = Integer.parseInt(temp[2]);
+        userMonth = Integer.parseInt(temp[0]);
+        userDay = Integer.parseInt(temp[1]);
+        System.out.println(""+userYear+" ,"+userMonth+" ,"+userDay+" ,");    
+        }else{
+        String temp[] = userDate.split("-");
+       userYear = Integer.parseInt(temp[0]);
+        userMonth = Integer.parseInt(temp[1]);
+        userDay = Integer.parseInt(temp[2]);
+        System.out.println(""+userYear+" ,"+userMonth+" ,"+userDay+" ,");
+        
+        }    
+       
+      
+           
+        //getting localDate
+        int localDay = now.getDayOfMonth();
+        int localMonth = now.getMonthValue();
+        int localYear = now.getYear();
+      
+        //difference 
+        int diffDay = Math.abs(localDay - userDay);
+        int diffMonth =  Math.abs(localMonth - userMonth);
+        int diffYear =  Math.abs(localYear - userYear);
+        if(diffDay > 7 || diffMonth>0 || diffYear>0){
+            notify = true;
+        }
+        
+        // will notify if been longer than a week        
+        if(notify){
+            if(instanceUser.counter==0){
+            makeAlert("Update your Progress Card.\n It's been " + diffDay + " days, " + diffMonth + " month and " + diffYear
+            + " year, Since Last Progress Card!");
+            instanceUser.counter = 1;
+            }
+            
+        }
+        else{
+            ;
+        }
+       
+       
+    }
+    
+    private void getCalorieTarget() {
+        //formula = male : (10 * x) + (6.25 * height) - (5 * age) + 5;   //male 
+        //female: double res = (10 * x) + (6.25 * height) - (5 * age) - 161;  //female
+        // double res = (10 * x) + (6.25 * height) - (5 * age) - 161;
+        //  double DCI = Math.round(res) + 300; // THIS IS THE DAILY CALORIE INTAKE.
+
+        String gender = instanceUser.getGender();
+        String height = instanceUser.getHeightInCM();
+        int age = instanceUser.getAge();   //could be -1, if not found in profile
+        
+        if(gender==null || gender.equals("")){
+             makeAlert("Please update Gender in Profile to display Calorie Target");
+            return;
+        }
+        
+        if(height.equals("")){
+            makeAlert("Please update Height in Profile to display Calorie Target");
+            return;
+        }
+        //conver height to cm
+       
+        if(age ==-1){
+            makeAlert("Please update Date of Birth in Profile to display Calorie Target");
+            return;
+        }
+        
+        String a = String.valueOf(age);
+        String weight = pc.getLastWeight(instanceUser.getUserName());
+        if(weight.equals("")){
+            makeAlert("Please update Progress Card with Weight to display Calorie Target");
+            return;
+        }
+        
+        double kgW = ((Double.valueOf(weight))/2.2) ;
+        double result = 0;
+        if(gender.equals("Male")){ 
+        result = (10* kgW) + (6.25*Double.valueOf(height)) - (5* Double.valueOf(a)) + 5;
+        }
+        if(gender.equals("Female")){ 
+        result = (10* kgW) + (6.25*Double.valueOf(height)) - (5* Double.valueOf(a)) -161;
+        }
+        
+        result = Math.round(result) + 300;
+        labelCalorieTarget.setText("Daily Calorie Target = "+result);
+        
+        
+    }
+    
+    
 }

@@ -14,16 +14,22 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private static Stage mainStage;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Landing"), 640, 480);
+        mainStage = stage;
+        scene = new Scene(loadFXML("Landing"));
+        
         stage.setScene(scene);
+        stage.centerOnScreen();
+        //stage.setResizable(false);
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+        ///scene.setRoot(loadFXML(fxml));
+      setNewScene(fxml);
     }
     
     private static Parent loadFXML(String fxml) throws IOException {
@@ -34,5 +40,20 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
+    
+    public static void setNewScene(String fxml) throws IOException{
+    
+        scene = new Scene(loadFXML(fxml));
+        scene.getStylesheets().add(App.class.getResource("Stylesheet.css").toExternalForm());
+        mainStage.setScene(scene);
+       
+        mainStage.centerOnScreen();
+        
+        mainStage.show();
+        //stage.setScene(scene);
+    
+    
+    }
+    
 
 }

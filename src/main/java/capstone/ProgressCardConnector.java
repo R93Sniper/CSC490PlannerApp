@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -149,10 +149,8 @@ public class ProgressCardConnector extends dataConnector {
     }
 
     public String getDateOfCard(int id) {
-
         String tableName = "Progress_Cards";
         String date = "";
-
         try {
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
@@ -165,6 +163,39 @@ public class ProgressCardConnector extends dataConnector {
         }
         return date;
     }
+
+    public String getLastDateOfCard(String userName) {
+        String tableName = "Progress_Cards";
+        String str = "";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\' ;");
+
+            while (result.next()) {
+                str = result.getString("Date_Of_Card");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return str;
+    }
+    
+        public String getLastWeight(String userName) {
+        String tableName = "Progress_Cards";
+        String str= "";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\'");
+
+            while (result.next()) {
+                str = result.getString("Weight");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return str;
+    }
+    
 
     public void updateDailyIntakeID(int progressID, String intakeID) {
         try {
@@ -193,7 +224,8 @@ public class ProgressCardConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
-        public void updateDailyStrengthID(int progressID, String sID) {
+
+    public void updateDailyStrengthID(int progressID, String sID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Strength_Id=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -206,7 +238,8 @@ public class ProgressCardConnector extends dataConnector {
         } catch (SQLException e) {
         }
     }
-            public void updateDailyMeasurementsID(int progressID, String mID) {
+
+    public void updateDailyMeasurementsID(int progressID, String mID) {
         try {
             String sql = "UPDATE Progress_cards SET Daily_Measurements_Id=? WHERE ID=?";
             preparedStatement = conn.prepareStatement(sql);
@@ -264,12 +297,35 @@ public class ProgressCardConnector extends dataConnector {
 
     }
 
-    public static void main(String[] args) {
+    public String getSizeID(int pId) {
+        String tableName = "Progress_Cards";
+        String id = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + pId + " ;");
 
-        ProgressCardConnector pc = new ProgressCardConnector();
-        
-        pc.userProgressCard("BillyBob", "1/01/2020", "120", "0", "0", "0", "0");
-
+            while (result.next()) {
+                id = result.getString("Daily_Measurements_Id");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return id;
     }
 
+    public String getStrengthID(int pId) {
+        String tableName = "Progress_Cards";
+        String id = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + pId + " ;");
+
+            while (result.next()) {
+                id = result.getString("Daily_Strength_Id");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return id;
+    }
 }

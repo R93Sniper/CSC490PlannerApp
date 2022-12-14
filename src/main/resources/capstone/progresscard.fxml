@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -10,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.ProgressCard">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="capstone.ProgressCard">
    <children>
-      <Text layoutX="263.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progress Card" />
+      <Text layoutX="254.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progress Card" />
       <Text fx:id="dateText" layoutX="201.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
       <Text fx:id="currentDate" layoutX="331.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[DATE]" />
       <Text layoutX="167.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Weight:" textAlignment="CENTER" />
@@ -55,5 +56,6 @@
       </RadioButton>
       <RadioButton fx:id="PreviousDate" layoutX="320.0" layoutY="69.0" mnemonicParsing="false" onAction="#ShowDatePicker" text="Previous Date" toggleGroup="$todayOrNot" />
       <DatePicker fx:id="datePick" layoutX="433.0" layoutY="115.0" onAction="#checkAndDoDate" opacity="0.0" prefHeight="25.0" prefWidth="149.0" promptText="Select Previous Date" />
+      <Label fx:id="labelCalorieTarget" layoutX="185.0" layoutY="32.0" prefHeight="25.0" prefWidth="229.0" textAlignment="CENTER" />
       </children>
 </AnchorPane>
