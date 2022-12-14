@@ -187,6 +187,23 @@ public class DailyExerciseConnector extends dataConnector {
         return null;
     }
     
+        public String getCaloriesOut(int id){
+        String tableName = "Daily_Exercise_Cards";
+        String outake = "";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + ";");
+            while (result.next()) {
+                outake = result.getString("Calories_Out");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return outake;
+    
+    }
+    
+    
 
     public static void main(String[] args) {
         dataConnector d = dataConnector.getInstance();

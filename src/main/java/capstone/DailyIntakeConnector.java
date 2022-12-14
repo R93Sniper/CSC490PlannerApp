@@ -128,5 +128,22 @@ public class DailyIntakeConnector extends dataConnector {
         return foodLogIds;
     }
     
+    public String getTotalCalories(int id) {
+
+        String tableName = "Daily_Intake_Cards";
+        String total = "";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + ";");
+
+            while (result.next()) {
+                total = result.getString("Calories_Total");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return total;
+    }
+    
     
 }

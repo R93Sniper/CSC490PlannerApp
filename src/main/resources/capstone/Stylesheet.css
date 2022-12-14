@@ -8,6 +8,9 @@
     -fx-background: rgb(238, 164, 127);
 }
 
+.default-color0.chart-series-line { -fx-stroke: #7adee9 }
+.default-color1.chart-series-line { -fx-stroke: #f0e68c; }
+.default-color2.chart-series-line { -fx-stroke: #dda0dd; }
 
 .button{
     -fx-text-fill:white;

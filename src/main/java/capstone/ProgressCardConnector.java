@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -166,10 +166,10 @@ public class ProgressCardConnector extends dataConnector {
 
     public String getLastDateOfCard(String userName) {
         String tableName = "Progress_Cards";
-        String str = null;
+        String str = "";
         try {
             Statement stmt = conn.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\'");
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\' ;");
 
             while (result.next()) {
                 str = result.getString("Date_Of_Card");
@@ -179,6 +179,23 @@ public class ProgressCardConnector extends dataConnector {
         }
         return str;
     }
+    
+        public String getLastWeight(String userName) {
+        String tableName = "Progress_Cards";
+        String str= "";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE User_Name = \'" + userName + "\'");
+
+            while (result.next()) {
+                str = result.getString("Weight");
+            }
+        } catch (SQLException except) {
+            except.printStackTrace();
+        }
+        return str;
+    }
+    
 
     public void updateDailyIntakeID(int progressID, String intakeID) {
         try {
@@ -280,38 +297,35 @@ public class ProgressCardConnector extends dataConnector {
 
     }
 
-    public String getNeckSize(int id) {
-
-        String tableName = "Daily_Measurements_Cards";
-        String neckSize = null;
+    public String getSizeID(int pId) {
+        String tableName = "Progress_Cards";
+        String id = null;
         try {
             Statement stmt = conn.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + pId + " ;");
 
             while (result.next()) {
-                neckSize = result.getString("Neck_Size");
-                return neckSize;
+                id = result.getString("Daily_Measurements_Id");
             }
         } catch (SQLException except) {
             except.printStackTrace();
         }
-        return null;
+        return id;
     }
 
-    public String getBenchPressMax(int id) {
-        String tableName = "Daily_Strength_Cards";
-        String benchPress = null;
+    public String getStrengthID(int pId) {
+        String tableName = "Progress_Cards";
+        String id = null;
         try {
             Statement stmt = conn.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + id + " ;");
+            ResultSet result = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + pId + " ;");
 
             while (result.next()) {
-                benchPress = result.getString("Benchpress_Max");
-                return benchPress;
+                id = result.getString("Daily_Strength_Id");
             }
         } catch (SQLException except) {
             except.printStackTrace();
         }
-        return null;
+        return id;
     }
 }
